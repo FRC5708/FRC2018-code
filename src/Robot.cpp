@@ -12,8 +12,11 @@
 #include <SmartDashboard/SmartDashboard.h>
 #include <TimedRobot.h>
 
+
 #include "Commands/ExampleCommand.h"
 #include "Commands/MyAutoCommand.h"
+
+#include <DriverStation.h>
 
 class Robot : public frc::TimedRobot {
 public:
@@ -50,6 +53,8 @@ public:
 	 * comparisons
 	 * to the if-else structure below with additional strings & commands.
 	 */
+	
+	std::string gameData;
 	void AutonomousInit() override {
 		std::string autoSelected = frc::SmartDashboard::GetString(
 				"Auto Selector", "Default");
@@ -64,6 +69,10 @@ public:
 		if (m_autonomousCommand != nullptr) {
 			m_autonomousCommand->Start();
 		}
+		
+		// switch and scale location
+		// https://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details 
+		gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 	}
 
 	void AutonomousPeriodic() override {
