@@ -8,7 +8,7 @@
 #include "MyAutoCommand.h"
 #include <Commands/CommandGroup.h>
 
-#include <Commands/DriveDistance.h>
+#include <Commands/DriveForTime.h>
 
 
 
@@ -24,7 +24,7 @@ void MyAutoCommand::Initialize() {
 	
 	switch (mode) {
 	case AutonMode::crossLine:
-		AddSequential(new DriveDistance(11*12));
+		AddSequential(new DriveForTime(1000));
 		
 		break;
 	default: break;
