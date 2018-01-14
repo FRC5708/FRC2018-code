@@ -6,8 +6,14 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
+#include "WPILib.h"
+#include <Joystick.h>
 
 class OI {
 public:
 	OI();
+	frc::Joystick& GetJoystick();
+
+private:
+	frc::Joystick joy{0};
 };
