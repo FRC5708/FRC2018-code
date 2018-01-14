@@ -9,6 +9,7 @@
 
 #include <Commands/Command.h>
 #include <OI.h>
+#include <Joystick.h>
 
 #include "../Robot.h"
 
