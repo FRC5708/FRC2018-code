@@ -72,6 +72,7 @@ public:
 		
 		m_autonomousCommand = std::unique_ptr<MyAutoCommand>(new MyAutoCommand(
 				'L', gameData, m_chooser.GetSelected()));
+		m_autonomousCommand->Run();
 	}
 
 	void AutonomousPeriodic() override {

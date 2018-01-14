@@ -10,27 +10,27 @@
 
 
 // Called just before this Command runs the first time
-void DriveStraight::Initialize() {
+void DriveDistance::Initialize() {
 	
 }
 
 // Called repeatedly when this Command is scheduled to run
-void DriveStraight::Execute() {
+void DriveDistance::Execute() {
 	// drive forward
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool DriveStraight::IsFinished() {
+bool DriveDistance::IsFinished() {
 	// check encoders
 	
 	
 }
 
 // Called once after isFinished returns true
-void DriveStraight::End() {}
+void DriveDistance::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void DriveStraight::Interrupted() {
+void DriveDistance::Interrupted() {
 	// stop
 }

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <Commands/Command.h>
+#include <Commands/CommandGroup.h>
 #include <string>
 #include <vector>
 
@@ -26,7 +26,7 @@
 		eitherScale
 	};
 
-class MyAutoCommand : public frc::Command {
+class MyAutoCommand : public frc::CommandGroup {
 public:
 	
 
@@ -41,7 +41,7 @@ public:
 		robotPosition(robotPosition), scorePositions(scorePositions), modeList(modes) {};
 	
 	void Initialize() override;
-	void Execute() override;
+	//void Execute() override;
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;

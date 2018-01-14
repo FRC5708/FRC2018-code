@@ -9,11 +9,11 @@
 
 #include <Commands/Command.h>
 
-class DriveStraight : public frc::Command {
+class DriveDistance : public frc::Command {
 public:
 	double inchesToDrive;
 	
-	DriveStraight(double inchesToDrive): inchesToDrive(inchesToDrive) {};
+	DriveDistance(double inchesToDrive): inchesToDrive(inchesToDrive) {};
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
