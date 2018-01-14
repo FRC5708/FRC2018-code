@@ -29,7 +29,7 @@ constexpr int BLMotorChannel = 1;
 constexpr int FRMotorChannel = 2;
 constexpr int BRMotorChannel = 3;
 
-constexpr int FLEncoderChannel[2] = {5,6};
-constexpr int BLEncoderChannel[2] = {6,7};
-constexpr int FREncoderChannel[2] = {8,9};
-constexpr int BREncoderChannel[2] = {10,11};
+constexpr int FLEncoderChannel[2] = {0,1};
+constexpr int BLEncoderChannel[2] = {2,3};
+constexpr int FREncoderChannel[2] = {4,5};
+constexpr int BREncoderChannel[2] = {6,7};
