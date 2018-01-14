@@ -24,7 +24,7 @@ void MyAutoCommand::Initialize() {
 	
 	switch (mode) {
 	case AutonMode::crossLine:
-		AddSequential(new DriveForTime(1000));
+		AddSequential(new DriveForTime(0));
 		
 		break;
 	default: break;

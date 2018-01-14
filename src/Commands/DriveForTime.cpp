@@ -8,7 +8,7 @@ DriveForTime::DriveForTime(int _t) {
 
 // Called just before this Command runs the first time
 void DriveForTime::Initialize() {
-	Robot::drivetrain.Drive(0.75,0.75);
+	Robot::drivetrain.Drive(-0.75,-0.75);
 }
 
 // Called repeatedly when this Command is scheduled to run

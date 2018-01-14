@@ -1,4 +1,4 @@
-#include "Drivetrain.h"
+  #include "Drivetrain.h"
 #include "../RobotMap.h"
 
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
@@ -17,8 +17,8 @@ Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
 }
 
 void Drivetrain::SetMotors(double FL, double BL, double FR, double BR){
-	FLMotor->Set(FL);
-	BLMotor->Set(BL);
+	FLMotor->Set(-FL);
+	BLMotor->Set(-BL);
 	FRMotor->Set(FR);
 	BRMotor->Set(BR);
 }
