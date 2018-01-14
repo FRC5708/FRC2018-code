@@ -5,56 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "MyAutoCommand.h"
-
+#include "Commands/DriveStraight.h"
+#include "RobotMap.h"
 
 
 // Called just before this Command runs the first time
-void MyAutoCommand::Initialize() {
-	for (auto i = modeList.begin(); i != modeList.end(); ++i) {
-		
-		if (modePossible(*i)) {
-			mode = *i;
-			break;
-		}
-	}
-}
-
-bool MyAutoCommand::modePossible(AutonMode mode) {
-	switch (mode) {
-	case AutonMode::leftSwitch:
-		return scorePositions[0] == 'L';
-	case AutonMode::rightSwitch:
-		return scorePositions[0] == 'R';
-		
-	case AutonMode::leftScale:
-		return scorePositions[1] == 'L';
-	case AutonMode::rightScale:
-		return scorePositions[1] == 'R';
-			
-	case AutonMode::eitherScale:
-	case AutonMode::eitherSwitch:
-	case AutonMode::crossLine:
-	case AutonMode::nothing:
-		 return true;
-		 
-	default:
-		return false;
-	}
+void DriveStraight::Initialize() {
 	
 }
 
 // Called repeatedly when this Command is scheduled to run
-void MyAutoCommand::Execute() {}
+void DriveStraight::Execute() {
+	// drive forward
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool MyAutoCommand::IsFinished() {
-	return false;
+bool DriveStraight::IsFinished() {
+	// check encoders
+	
+	
 }
 
 // Called once after isFinished returns true
-void MyAutoCommand::End() {}
+void DriveStraight::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void MyAutoCommand::Interrupted() {}
+void DriveStraight::Interrupted() {
+	// stop
+}
