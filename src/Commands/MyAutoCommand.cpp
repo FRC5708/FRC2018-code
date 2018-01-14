@@ -6,17 +6,57 @@
 /*----------------------------------------------------------------------------*/
 
 #include "MyAutoCommand.h"
+#include <Commands/CommandGroup.h>
 
-MyAutoCommand::MyAutoCommand() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(&Robot::chassis);
-}
+#include <Commands/DriveDistance.h>
+
+
 
 // Called just before this Command runs the first time
-void MyAutoCommand::Initialize() {}
+void MyAutoCommand::Initialize() {
+	for (auto i = modeList.begin(); i != modeList.end(); ++i) {
+		
+		if (modePossible(*i)) {
+			mode = *i;
+			break;
+		}
+	}
+	
+	switch (mode) {
+	case AutonMode::crossLine:
+		AddSequential(new DriveDistance(11*12));
+		
+		break;
+	default: break;
+	}
+}
+
+bool MyAutoCommand::modePossible(AutonMode mode) {
+	switch (mode) {
+	case AutonMode::leftSwitch:
+		return scorePositions[0] == 'L';
+	case AutonMode::rightSwitch:
+		return scorePositions[0] == 'R';
+		
+	case AutonMode::leftScale:
+		return scorePositions[1] == 'L';
+	case AutonMode::rightScale:
+		return scorePositions[1] == 'R';
+			
+	case AutonMode::eitherScale:
+	case AutonMode::eitherSwitch:
+	case AutonMode::crossLine:
+	case AutonMode::nothing:
+		 return true;
+		 
+	default:
+		return false;
+	}
+	
+}
 
 // Called repeatedly when this Command is scheduled to run
-void MyAutoCommand::Execute() {}
+//void MyAutoCommand::Execute() {}
 
 // Make this return true when this Command no longer needs to run execute()
 bool MyAutoCommand::IsFinished() {
