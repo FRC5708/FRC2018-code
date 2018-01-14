@@ -4,22 +4,12 @@
 #include <Commands/Subsystem.h>
 #include "WPILib.h"
 #include <vector>
+#include "RobotMap.h"
 
 class Drivetrain : public frc::Subsystem {
 private:
 
 	double encoderOffset;
-	double wheelCircumference;
-
-	int FLMotorChannel;
-	int BLMotorChannel;
-	int FRMotorChannel;
-    int BRMotorChannel;
-
-    int FLEncoderChannel[2] = {0};
-    int BLEncoderChannel[2] = {0};
-    int FREncoderChannel[2] = {0};
-    int BREncoderChannel[2] = {0};
 
 	SpeedController *FLMotor;
 	SpeedController *BLMotor;

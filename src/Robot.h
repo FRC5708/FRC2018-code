@@ -9,6 +9,7 @@
 #include <TimedRobot.h>
 #include <DriverStation.h>
 #include <OI.h>
+#include <Joystick.h>
 #include "WPILib.h"
 
 
@@ -21,6 +22,7 @@ class Robot : public frc::TimedRobot {
 public:
 	static Drivetrain drivetrain;
 	static OI oi;
+	static Joystick* joystick;
 
 	std::string gameData;
 

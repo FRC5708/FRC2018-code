@@ -4,27 +4,16 @@
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
 
 	encoderOffset = 0;
-	wheelCircumference = 10;
-
-	FLMotorChannel = 0;
-	BLMotorChannel = 1;
-	FRMotorChannel = 2;
-	BRMotorChannel = 3;
-
-//	FLEncoderChannel = {5,6};
-//	BLEncoderChannel = {6,7};
-//	FREncoderChannel = {8,9};
-//	BREncoderChannel = {10,11};
 
 	FLMotor = new frc::Victor(FLMotorChannel);
 	BLMotor = new frc::Victor(BLMotorChannel);
 	FRMotor = new frc::Victor(FRMotorChannel);
 	BRMotor = new frc::Victor(BRMotorChannel);
 
-//	FLEncoder = new frc::Encoder(FLEncoderChannel[0],FLEncoderChannel[1]);
-//	BLEncoder = new frc::Encoder(BLEncoderChannel[0],BLEncoderChannel[1]);
-//	FREncoder = new frc::Encoder(FREncoderChannel[0],FREncoderChannel[1]);
-//	BREncoder = new frc::Encoder(BREncoderChannel[0],BREncoderChannel[1]);
+	FLEncoder = new frc::Encoder(FLEncoderChannel[0],FLEncoderChannel[1]);
+	BLEncoder = new frc::Encoder(BLEncoderChannel[0],BLEncoderChannel[1]);
+	FREncoder = new frc::Encoder(FREncoderChannel[0],FREncoderChannel[1]);
+	BREncoder = new frc::Encoder(BREncoderChannel[0],BREncoderChannel[1]);
 }
 
 void Drivetrain::SetMotors(double FL, double BL, double FR, double BR){

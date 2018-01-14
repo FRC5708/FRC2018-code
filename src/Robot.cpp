@@ -9,9 +9,11 @@
 
 Drivetrain Robot::drivetrain;
 OI Robot::oi;
+Joystick* Robot::joystick;
 
 void Robot::RobotInit() {
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+	Robot::joystick = new frc::Joystick(0);
 }
 
 
