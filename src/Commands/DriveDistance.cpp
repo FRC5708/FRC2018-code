@@ -24,7 +24,7 @@ void DriveDistance::Execute() {
 bool DriveDistance::IsFinished() {
 	// check encoders
 	
-	
+	return false;
 }
 
 // Called once after isFinished returns true
