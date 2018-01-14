@@ -13,8 +13,8 @@
 
 
 #include <Subsystems/Drivetrain.h>
-
 #include <Commands/DriveWithJoystick.h>
+#include "Commands/MyAutoCommand.h"
 
 
 class Robot : public frc::TimedRobot {
@@ -61,9 +61,8 @@ public:
 private:
 	// Have it null by default so that if testing teleop it
 	// doesn't have undefined behavior and potentially crash.
-	frc::Command* m_autonomousCommand = nullptr;
-	//DriveWithJoystick driveCommand;
-	frc::SendableChooser<frc::Command*> m_chooser;
+	std::unique_ptr<MyAutoCommand> m_autonomousCommand = nullptr;
+		frc::SendableChooser<std::vector<AutonMode>> m_chooser;
 };
 
 #endif

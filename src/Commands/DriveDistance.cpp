@@ -5,7 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "Commands/DriveStraight.h"
+#include <Commands/DriveDistance.h>
+#include "Robot.h"
 #include "RobotMap.h"
 
 
@@ -16,7 +17,7 @@ void DriveDistance::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveDistance::Execute() {
-	// drive forward
+	Robot::drivetrain.Drive(1, 1);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -27,10 +28,10 @@ bool DriveDistance::IsFinished() {
 }
 
 // Called once after isFinished returns true
-void DriveDistance::End() {}
+void DriveDistance::End() {
+	Robot::drivetrain.Drive(0, 0);
+}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void DriveDistance::Interrupted() {
-	// stop
-}
+void DriveDistance::Interrupted() { End(); }

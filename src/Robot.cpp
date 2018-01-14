@@ -27,7 +27,8 @@ void Robot::AutonomousInit(){
 	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
     
     m_autonomousCommand = std::unique_ptr<MyAutoCommand>(new MyAutoCommand(
-                                                                           'L', gameData, m_chooser.GetSelected()));
+    		'L', gameData, m_chooser.GetSelected()));
+    
     m_autonomousCommand->Run();
 }
 
