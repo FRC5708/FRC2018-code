@@ -9,7 +9,7 @@ private:
 	int count;
 	int time;
 public:
-	explicit DriveForTime(int _t);
+	DriveForTime(int _t);
 	void Initialize();
 	void Execute();
 	bool IsFinished();

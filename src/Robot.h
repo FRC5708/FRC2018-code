@@ -64,7 +64,8 @@ private:
 	// Have it null by default so that if testing teleop it
 	// doesn't have undefined behavior and potentially crash.
 	std::unique_ptr<MyAutoCommand> m_autonomousCommand = nullptr;
-		frc::SendableChooser<std::vector<AutonMode>> m_chooser;
+	frc::SendableChooser<std::vector<AutonMode>> m_chooser;
+	frc::Command* driveCommand;
 };
 
 #endif

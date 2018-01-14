@@ -50,11 +50,12 @@ void Robot::TeleopInit(){
         m_autonomousCommand->Cancel();
         m_autonomousCommand = nullptr;
     }
+    driveCommand = new DriveWithJoystick();
 }
 
 void Robot::TeleopPeriodic() {
     frc::Scheduler::GetInstance()->Run();
-    //driveCommand.Start();
+    driveCommand->Start();
 }
 
 START_ROBOT_CLASS(Robot);
