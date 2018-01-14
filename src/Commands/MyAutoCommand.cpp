@@ -6,6 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 #include "MyAutoCommand.h"
+#include <Commands/CommandGroup.h>
+
+#include "DriveStraight.h"
 
 
 
@@ -17,6 +20,14 @@ void MyAutoCommand::Initialize() {
 			mode = *i;
 			break;
 		}
+	}
+	
+	switch (mode) {
+	case AutonMode::crossLine:
+		AddSequential(new DriveStraight(11*12));
+		
+		break;
+	default: break;
 	}
 }
 
@@ -45,7 +56,7 @@ bool MyAutoCommand::modePossible(AutonMode mode) {
 }
 
 // Called repeatedly when this Command is scheduled to run
-void MyAutoCommand::Execute() {}
+//void MyAutoCommand::Execute() {}
 
 // Make this return true when this Command no longer needs to run execute()
 bool MyAutoCommand::IsFinished() {
