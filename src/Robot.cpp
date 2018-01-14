@@ -11,39 +11,45 @@ Drivetrain Robot::drivetrain;
 OI Robot::oi;
 
 void Robot::RobotInit() {
-	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+    m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
+    frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 
 
 void Robot::DisabledPeriodic(){
-	frc::Scheduler::GetInstance()->Run();
+    frc::Scheduler::GetInstance()->Run();
 }
 
 void Robot::AutonomousInit(){
-	
-	// switch and scale location
-	// https://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
-	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+    
+    // switch and scale location
+    // https://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
+    gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+    
+    m_autonomousCommand = std::unique_ptr<MyAutoCommand>(new MyAutoCommand(
+                                                                           'L', gameData, m_chooser.GetSelected()));
+    
+    m_autonomousCommand->Run();
 }
 
 void Robot::AutonomousPeriodic(){
-	frc::Scheduler::GetInstance()->Run();
+    frc::Scheduler::GetInstance()->Run();
 }
 
 void Robot::TeleopInit(){
-	// This makes sure that the autonomous stops running when
-	// teleop starts running. If you want the autonomous to
-	// continue until interrupted by another command, remove
-	// this line or comment it out.
-	if (m_autonomousCommand != nullptr) {
-		m_autonomousCommand->Cancel();
-		m_autonomousCommand = nullptr;
-	}
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // this line or comment it out.
+    if (m_autonomousCommand != nullptr) {
+        m_autonomousCommand->Cancel();
+        m_autonomousCommand = nullptr;
+    }
 }
 
 void Robot::TeleopPeriodic() {
-	frc::Scheduler::GetInstance()->Run();
-	//driveCommand.Start();
+    frc::Scheduler::GetInstance()->Run();
+    //driveCommand.Start();
 }
 
 START_ROBOT_CLASS(Robot);
