@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Robot.h"
+#include "Commands/DriveWithXbox.h"
 
 Drivetrain Robot::drivetrain;
 OI Robot::oi;
@@ -50,7 +51,7 @@ void Robot::TeleopInit(){
         m_autonomousCommand->Cancel();
         m_autonomousCommand = nullptr;
     }
-    driveCommand = new DriveWithJoystick();
+    driveCommand = new DriveWithXbox();
 }
 
 void Robot::TeleopPeriodic() {
