@@ -4,16 +4,8 @@
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
 
 	encoderOffset = 0;
-
-	FLMotor = new frc::Victor(FLMotorChannel);
-	BLMotor = new frc::Victor(BLMotorChannel);
-	FRMotor = new frc::Victor(FRMotorChannel);
-	BRMotor = new frc::Victor(BRMotorChannel);
-
-	FLEncoder = new frc::Encoder(FLEncoderChannel[0],FLEncoderChannel[1]);
-	BLEncoder = new frc::Encoder(BLEncoderChannel[0],BLEncoderChannel[1]);
-	FREncoder = new frc::Encoder(FREncoderChannel[0],FREncoderChannel[1]);
-	BREncoder = new frc::Encoder(BREncoderChannel[0],BREncoderChannel[1]);
+	LeftControl = new PIDController(0.1, 0.001, 0, LeftEncoder, &LeftMotors);
+	RightControl = new PIDController(0.1, 0.001, 0, RightEncoder, &RightMotors);
 }
 
 void Drivetrain::SetMotors(double FL, double BL, double FR, double BR){
@@ -36,5 +28,21 @@ void Drivetrain::InitDefaultCommand() {
 }
 
 void Drivetrain::Drive(double left, double right){
-	SetMotors(left,left,right,right);
+	LeftMotors.outputMultiplier = left;
+	RightMotors.outputMultiplier = right;
+	
+	double leftRate = LeftEncoder->GetRate();
+	double rightRate = RightEncoder->GetRate();
+	double meanRate = (leftRate + rightRate)/2;
+	
+	LeftControl->SetSetpoint(meanRate * (left/right));
+	RightControl->SetSetpoint(meanRate * (right/left));
 }
+
+void DoubleMotor::PIDWrite(double output) {
+	motor1->Set(output*outputMultiplier);
+	motor2->Set(output*outputMultiplier);
+}
+
+
+
