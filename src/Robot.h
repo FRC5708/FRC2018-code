@@ -10,6 +10,8 @@
 #include <DriverStation.h>
 #include <OI.h>
 #include <Joystick.h>
+#include <RobotMap.h>
+#include <Joystick.h>
 #include "WPILib.h"
 
 

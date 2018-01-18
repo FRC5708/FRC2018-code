@@ -8,10 +8,23 @@ DriveWithJoystick::DriveWithJoystick()
 
 // Called repeatedly when this Command is scheduled to run
 void DriveWithJoystick::Execute() {
-	double x = Robot::joystick->GetX();
-	double y = Robot::joystick->GetY();
-	double v = (1-abs(x)) * (y) + y;
-	double w = (1-abs(y)) * (x) + x;
+	double turn = 0;
+	double power = 0;
+
+	switch (joyMode){
+		case SINGLE_JOY: {
+			turn = Robot::joystick->GetX();
+			power = Robot::joystick->GetY();
+			break;
+		}
+		case XBOX: {
+			turn = Robot::joystick->GetX();
+			power = Robot::joystick->GetRawAxis(3)-Robot::joystick->GetRawAxis(2);
+			break;
+		}
+	}
+	double v = (1-abs(turn)) * (power) + power;
+	double w = (1-abs(power)) * (turn) + turn;
 	double r = (v+w) /2;
 	double l = (v-w)/2;
 	Robot::drivetrain.Drive(l, r);

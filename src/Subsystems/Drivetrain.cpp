@@ -38,11 +38,3 @@ void Drivetrain::InitDefaultCommand() {
 void Drivetrain::Drive(double left, double right){
 	SetMotors(left,left,right,right);
 }
-
-void Drivetrain::DriveWithDirection(double power, double turn) {
-	double v = (1-abs(turn)) * (power) + power;
-		double w = (1-abs(power)) * (turn) + turn;
-		double r = (v+w) /2;
-		double l = (v-w)/2;
-		Drive(l, r);
-}

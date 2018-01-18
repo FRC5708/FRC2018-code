@@ -33,3 +33,5 @@ constexpr int FLEncoderChannel[2] = {0,1};
 constexpr int BLEncoderChannel[2] = {2,3};
 constexpr int FREncoderChannel[2] = {4,5};
 constexpr int BREncoderChannel[2] = {6,7};
+
+enum joystickMode {SINGLE_JOY, XBOX};

@@ -6,19 +6,18 @@
 /*----------------------------------------------------------------------------*/
 
 #include "Robot.h"
-#include "Commands/DriveWithXbox.h"
+#include "WPILib.h"
 
 Drivetrain Robot::drivetrain;
 OI Robot::oi;
-Joystick* Robot::joystick;
+frc::Joystick* Robot::joystick;
 
 void Robot::RobotInit() {
 
 	Robot::joystick = new frc::Joystick(0);
 
-  m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
-  frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
-
+	m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
+	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 }
 
 
@@ -51,7 +50,7 @@ void Robot::TeleopInit(){
         m_autonomousCommand->Cancel();
         m_autonomousCommand = nullptr;
     }
-    driveCommand = new DriveWithXbox();
+    driveCommand = new DriveWithJoystick();
 }
 
 void Robot::TeleopPeriodic() {

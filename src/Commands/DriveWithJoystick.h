@@ -10,11 +10,14 @@
 #include <Commands/Command.h>
 #include <OI.h>
 #include <Joystick.h>
+#include <RobotMap.h>
 
 #include "../Robot.h"
 
 class DriveWithJoystick : public frc::Command {
 public:
+	joystickMode joyMode = XBOX;
+
 	DriveWithJoystick();
 	void Execute() override;
 	bool IsFinished() override;

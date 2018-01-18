@@ -28,7 +28,6 @@ public:
 	Drivetrain();
 	void InitDefaultCommand();
 	void Drive(double left, double right);			//Drives left and right wheels accordingly
-	void DriveWithDirection(double power, double turn);
 };
 
 #endif  // Drivetrain_H
