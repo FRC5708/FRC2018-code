@@ -12,6 +12,7 @@
 #include <Joystick.h>
 #include <RobotMap.h>
 #include <Joystick.h>
+#include <AnalogGyro.h>
 #include "WPILib.h"
 
 
@@ -25,6 +26,7 @@ public:
 	static Drivetrain drivetrain;
 	static OI oi;
 	static Joystick* joystick;
+	static Gyro* gyro;
 
 	std::string gameData;
 

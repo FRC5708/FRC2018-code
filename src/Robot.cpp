@@ -10,11 +10,13 @@
 
 Drivetrain Robot::drivetrain;
 OI Robot::oi;
-frc::Joystick* Robot::joystick;
+Joystick* Robot::joystick;
+Gyro* Robot::gyro;
 
 void Robot::RobotInit() {
 
-	Robot::joystick = new frc::Joystick(0);
+	Robot::joystick = new Joystick(0);
+	Robot::gyro = new AnalogGyro(1);
 
 	m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
