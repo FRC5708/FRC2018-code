@@ -13,6 +13,7 @@
 // Called just before this Command runs the first time
 void DriveDistance::Initialize() {
 	Robot::gyro->Reset();
+	Robot::drivetrain.ResetDistance();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -24,8 +25,7 @@ void DriveDistance::Execute() {
 // Make this return true when this Command no longer needs to run execute()
 bool DriveDistance::IsFinished() {
 	// check encoders
-	
-	return false;
+	return Robot::drivetrain.GetDistance() > inchesToDrive;
 }
 
 // Called once after isFinished returns true

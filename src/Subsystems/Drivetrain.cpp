@@ -79,11 +79,12 @@ void Drivetrain::DrivePolar(double moveValue, double rotateValue) {
 }
 
 void Drivetrain::ResetDistance(){
-
+	LeftEncoder->Reset();
+	RightEncoder->Reset();
 }
 
 double Drivetrain::GetDistance(){
-
+	return ((LeftEncoder->Get()+RightEncoder->Get())/2)*WheelCircumference;
 }
 
 void DoubleMotor::PIDWrite(double output) {
