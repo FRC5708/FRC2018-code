@@ -12,8 +12,12 @@
 class Drivetrain : public frc::Subsystem {
 public:
 	Drivetrain();
-	void InitDefaultCommand();
-	void Drive(double left, double right);			//Drives left and right wheels accordingly
+	void InitDefaultCommand() {};
+	double Limit(double number);
+	void Drive(double left, double right);				//Drives left and right wheels accordingly
+	void DrivePolar(double moveValue, double rotateValue);	//Drives at moveValue and rotateValue
+	void ResetDistance();
+	double GetDistance();
 
 	class LeftSidePIDSource : public frc::PIDSource {
 	public:
@@ -57,18 +61,6 @@ private:
 	RightSidePIDSource rightSource;
 	RightSidePIDOutput rightOutput;
 	frc::PIDController rightControl{4, 0, 0, rightSource, rightOutput};
-
-	void SetMotors(double FL, double BL, double FR, double BR);
-	void StopMotors();
-
-public:
-	Drivetrain();
-	void InitDefaultCommand();
-	double Limit(double number);
-	void Drive(double left, double right);				//Drives left and right wheels accordingly
-	void DrivePolar(double moveValue, double rotateValue);	//Drives at moveValue and rotateValue
-	void ResetDistance();
-	double GetDistance();
 
 };
 

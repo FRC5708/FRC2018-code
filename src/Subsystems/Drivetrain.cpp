@@ -1,25 +1,10 @@
 #include "Drivetrain.h"
-#include "../RobotMap.h"
 #include "../Robot.h"
 
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
 	encoderOffset = 0;
 	leftControl.Enable();
 	rightControl.Enable();
-}
-
-void Drivetrain::SetMotors(double FL, double BL, double FR, double BR){
-	FLMotor->Set(-FL);
-	BLMotor->Set(-BL);
-	FRMotor->Set(FR);
-	BRMotor->Set(BR);
-}
-
-void Drivetrain::StopMotors(){
-	FLMotor->Set(0);
-	BLMotor->Set(0);
-	FRMotor->Set(0);
-	BRMotor->Set(0);
 }
 
 double Drivetrain::Limit(double number) {
@@ -32,7 +17,7 @@ double Drivetrain::Limit(double number) {
   return number;
 }
 
-void Drivetrain::Drive(double left, double right)
+void Drivetrain::Drive(double left, double right){
 	leftControl.SetSetpoint(11*left);
 	rightControl.SetSetpoint(11*right);
 }
@@ -67,12 +52,12 @@ void Drivetrain::DrivePolar(double moveValue, double rotateValue) {
 }
 
 void Drivetrain::ResetDistance(){
-	LeftEncoder->Reset();
-	RightEncoder->Reset();
+	leftEncoder->Reset();
+	rightEncoder->Reset();
 }
 
 double Drivetrain::GetDistance(){
-	return ((LeftEncoder->Get()+RightEncoder->Get())/2)*WheelCircumference;
+	return ((leftEncoder->Get()+rightEncoder->Get())/2)*WheelCircumference;
 }
 
 double Drivetrain::LeftSidePIDSource::PIDGet() {

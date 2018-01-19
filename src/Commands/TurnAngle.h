@@ -17,11 +17,11 @@ public:
 			double PIDGet() override;
 		};
 
-		class TurnAnglePIDOutput : public frc::PIDOutput {
+	class TurnAnglePIDOutput : public frc::PIDOutput {
 		public:
 			virtual ~TurnAnglePIDOutput() = default;
 			void PIDWrite(double d) override;
-		};
+	};
 
 	private:
 		TurnAnglePIDSource source;
