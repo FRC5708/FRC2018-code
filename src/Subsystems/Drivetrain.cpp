@@ -1,11 +1,11 @@
- #include "Drivetrain.h"
+#include "Drivetrain.h"
 #include "../RobotMap.h"
+#include "../Robot.h"
 
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
-
 	encoderOffset = 0;
-	LeftControl = new frc::PIDController(0.1, 0.001, 0, LeftEncoder, &LeftMotors);
-	RightControl = new frc::PIDController(0.1, 0.001, 0, RightEncoder, &RightMotors);
+	leftControl.Enable();
+	rightControl.Enable();
 }
 
 void Drivetrain::SetMotors(double FL, double BL, double FR, double BR){
@@ -32,21 +32,9 @@ double Drivetrain::Limit(double number) {
   return number;
 }
 
-void Drivetrain::InitDefaultCommand() {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
-}
-
-void Drivetrain::Drive(double left, double right){
-	LeftMotors.outputMultiplier = left;
-	RightMotors.outputMultiplier = right;
-	
-	double leftRate = LeftEncoder->GetRate();
-	double rightRate = RightEncoder->GetRate();
-	double meanRate = (leftRate + rightRate)/2;
-	
-	LeftControl->SetSetpoint(meanRate * (left/right));
-	RightControl->SetSetpoint(meanRate * (right/left));
+void Drivetrain::Drive(double left, double right)
+	leftControl.SetSetpoint(11*left);
+	rightControl.SetSetpoint(11*right);
 }
 
 void Drivetrain::DrivePolar(double moveValue, double rotateValue) {
@@ -87,9 +75,22 @@ double Drivetrain::GetDistance(){
 	return ((LeftEncoder->Get()+RightEncoder->Get())/2)*WheelCircumference;
 }
 
-void DoubleMotor::PIDWrite(double output) {
-	motor1->Set(output*outputMultiplier);
-	motor2->Set(output*outputMultiplier);
+double Drivetrain::LeftSidePIDSource::PIDGet() {
+	return Robot::drivetrain.leftEncoder->GetRate();
+}
+
+double Drivetrain::RightSidePIDSource::PIDGet() {
+	return Robot::drivetrain.rightEncoder->GetRate();
+}
+
+void Drivetrain::LeftSidePIDOutput::PIDWrite(double d) {
+	Robot::drivetrain.FLMotor->Set(d);
+	Robot::drivetrain.BLMotor->Set(d);
+}
+
+void Drivetrain::RightSidePIDOutput::PIDWrite(double d) {
+	Robot::drivetrain.FRMotor->Set(d);
+	Robot::drivetrain.BRMotor->Set(d);
 }
 
 
