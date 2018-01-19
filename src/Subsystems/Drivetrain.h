@@ -7,19 +7,35 @@
 #include "RobotMap.h"
 
 
-struct DoubleMotor : PIDOutput {
-	virtual ~DoubleMotor() {};
-	SpeedController* motor1;
-	SpeedController* motor2;
-	
-	double outputMultiplier = 0;
-	
-	
-	void PIDWrite(double output) override;
-	DoubleMotor(SpeedController* motor1, SpeedController* motor2): motor1(motor1), motor2(motor2) {};
-};
-
 class Drivetrain : public frc::Subsystem {
+public:
+	Drivetrain();
+	void InitDefaultCommand();
+	void Drive(double left, double right);			//Drives left and right wheels accordingly
+
+	class LeftSidePIDSource : public frc::PIDSource {
+	public:
+		virtual ~LeftSidePIDSource() = default;
+		double PIDGet() override;
+	};
+
+	class LeftSidePIDOutput : public frc::PIDOutput {
+	public:
+		virtual ~LeftSidePIDOutput() = default;
+		void PIDWrite(double d) override;
+	};
+
+	class RightSidePIDSource : public frc::PIDSource {
+	public:
+		virtual ~RightSidePIDSource() = default;
+		double PIDGet() override;
+	};
+
+	class RightSidePIDOutput : public frc::PIDOutput {
+	public:
+		virtual ~RightSidePIDOutput() = default;
+		void PIDWrite(double d) override;
+	};
 private:
 
 	double encoderOffset;
@@ -28,23 +44,20 @@ private:
 	SpeedController* BLMotor = new frc::Victor(BLMotorChannel);
 	SpeedController* FRMotor = new frc::Victor(FRMotorChannel);
 	SpeedController* BRMotor = new frc::Victor(BRMotorChannel);
-	
-	DoubleMotor LeftMotors = DoubleMotor(FLMotor, BLMotor);
-	DoubleMotor RightMotors = DoubleMotor(FRMotor, BRMotor);
 
-	Encoder *LeftEncoder= new frc::Encoder(LeftEncoderChannel[0],LeftEncoderChannel[1]);
-	Encoder *RightEncoder = new frc::Encoder(RightEncoderChannel[0],RightEncoderChannel[1]);
-	
-	PIDController* LeftControl;
-	PIDController* RightControl;
+	Encoder* leftEncoder= new frc::Encoder(LeftEncoderChannel[0],LeftEncoderChannel[1]);
+	Encoder* rightEncoder = new frc::Encoder(RightEncoderChannel[0],RightEncoderChannel[1]);
+
+	LeftSidePIDSource leftSource;
+	LeftSidePIDOutput leftOutput;
+	frc::PIDController leftControl{4, 0, 0, leftSource, leftOutput};
+
+	RightSidePIDSource rightSource;
+	RightSidePIDOutput rightOutput;
+	frc::PIDController rightControl{4, 0, 0, rightSource, rightOutput};
 
 	void SetMotors(double FL, double BL, double FR, double BR);
 	void StopMotors();
-
-public:
-	Drivetrain();
-	void InitDefaultCommand();
-	void Drive(double left, double right);			//Drives left and right wheels accordingly
 };
 
 

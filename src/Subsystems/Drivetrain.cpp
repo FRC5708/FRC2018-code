@@ -1,11 +1,10 @@
-  #include "Drivetrain.h"
-#include "../RobotMap.h"
+#include "Drivetrain.h"
+#include "../Robot.h"
 
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
-
 	encoderOffset = 0;
-	LeftControl = new PIDController(0.1, 0.001, 0, LeftEncoder, &LeftMotors);
-	RightControl = new PIDController(0.1, 0.001, 0, RightEncoder, &RightMotors);
+	leftControl.Enable();
+	rightControl.Enable();
 }
 
 void Drivetrain::SetMotors(double FL, double BL, double FR, double BR){
@@ -28,20 +27,26 @@ void Drivetrain::InitDefaultCommand() {
 }
 
 void Drivetrain::Drive(double left, double right){
-	LeftMotors.outputMultiplier = left;
-	RightMotors.outputMultiplier = right;
-	
-	double leftRate = LeftEncoder->GetRate();
-	double rightRate = RightEncoder->GetRate();
-	double meanRate = (leftRate + rightRate)/2;
-	
-	LeftControl->SetSetpoint(meanRate * (left/right));
-	RightControl->SetSetpoint(meanRate * (right/left));
+	leftControl.SetSetpoint(11*left);
+	rightControl.SetSetpoint(11*right);
 }
 
-void DoubleMotor::PIDWrite(double output) {
-	motor1->Set(output*outputMultiplier);
-	motor2->Set(output*outputMultiplier);
+double Drivetrain::LeftSidePIDSource::PIDGet() {
+	return Robot::drivetrain.leftEncoder->GetRate();
+}
+
+double Drivetrain::RightSidePIDSource::PIDGet() {
+	return Robot::drivetrain.rightEncoder->GetRate();
+}
+
+void Drivetrain::LeftSidePIDOutput::PIDWrite(double d) {
+	Robot::drivetrain.FLMotor->Set(d);
+	Robot::drivetrain.BLMotor->Set(d);
+}
+
+void Drivetrain::RightSidePIDOutput::PIDWrite(double d) {
+	Robot::drivetrain.FRMotor->Set(d);
+	Robot::drivetrain.BRMotor->Set(d);
 }
 
 
