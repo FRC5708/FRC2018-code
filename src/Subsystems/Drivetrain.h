@@ -5,6 +5,8 @@
 #include "WPILib.h"
 #include <vector>
 #include "RobotMap.h"
+#include <cmath>
+
 
 
 class Drivetrain : public frc::Subsystem {
@@ -58,6 +60,16 @@ private:
 
 	void SetMotors(double FL, double BL, double FR, double BR);
 	void StopMotors();
+
+public:
+	Drivetrain();
+	void InitDefaultCommand();
+	double Limit(double number);
+	void Drive(double left, double right);				//Drives left and right wheels accordingly
+	void DrivePolar(double moveValue, double rotateValue);	//Drives at moveValue and rotateValue
+	void ResetDistance();
+	double GetDistance();
+
 };
 
 

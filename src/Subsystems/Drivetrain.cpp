@@ -1,4 +1,5 @@
 #include "Drivetrain.h"
+#include "../RobotMap.h"
 #include "../Robot.h"
 
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
@@ -21,14 +22,57 @@ void Drivetrain::StopMotors(){
 	BRMotor->Set(0);
 }
 
-void Drivetrain::InitDefaultCommand() {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
+double Drivetrain::Limit(double number) {
+  if (number > 1.0) {
+    return 1.0;
+  }
+  if (number < -1.0) {
+    return -1.0;
+  }
+  return number;
 }
 
-void Drivetrain::Drive(double left, double right){
+void Drivetrain::Drive(double left, double right)
 	leftControl.SetSetpoint(11*left);
 	rightControl.SetSetpoint(11*right);
+}
+
+void Drivetrain::DrivePolar(double moveValue, double rotateValue) {
+
+  double leftMotorOutput;
+  double rightMotorOutput;
+
+  moveValue = Limit(moveValue);
+  rotateValue = Limit(rotateValue);
+
+
+  if (moveValue > 0.0) {
+    if (rotateValue > 0.0) {
+      leftMotorOutput = moveValue - rotateValue;
+      rightMotorOutput = std::max(moveValue, rotateValue);
+    } else {
+      leftMotorOutput = std::max(moveValue, -rotateValue);
+      rightMotorOutput = moveValue + rotateValue;
+    }
+  } else {
+    if (rotateValue > 0.0) {
+      leftMotorOutput = -std::max(-moveValue, rotateValue);
+      rightMotorOutput = moveValue + rotateValue;
+    } else {
+      leftMotorOutput = moveValue - rotateValue;
+      rightMotorOutput = -std::max(-moveValue, -rotateValue);
+    }
+  }
+  Drive(leftMotorOutput,rightMotorOutput);
+}
+
+void Drivetrain::ResetDistance(){
+	LeftEncoder->Reset();
+	RightEncoder->Reset();
+}
+
+double Drivetrain::GetDistance(){
+	return ((LeftEncoder->Get()+RightEncoder->Get())/2)*WheelCircumference;
 }
 
 double Drivetrain::LeftSidePIDSource::PIDGet() {
@@ -48,6 +92,7 @@ void Drivetrain::RightSidePIDOutput::PIDWrite(double d) {
 	Robot::drivetrain.FRMotor->Set(d);
 	Robot::drivetrain.BRMotor->Set(d);
 }
+
 
 
 
