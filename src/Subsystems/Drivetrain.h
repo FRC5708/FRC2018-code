@@ -5,6 +5,8 @@
 #include "WPILib.h"
 #include <vector>
 #include "RobotMap.h"
+#include <cmath>
+
 
 
 struct DoubleMotor : PIDOutput {
@@ -44,7 +46,11 @@ private:
 public:
 	Drivetrain();
 	void InitDefaultCommand();
-	void Drive(double left, double right);			//Drives left and right wheels accordingly
+	double Limit(double number);
+	void Drive(double left, double right);				//Drives left and right wheels accordingly
+	void DrivePolar(double moveValue, double rotateValue);	//Drives at moveValue and rotateValue
+	void ResetDistance();
+	double GetDistance();
 };
 
 

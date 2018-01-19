@@ -12,12 +12,13 @@
 
 // Called just before this Command runs the first time
 void DriveDistance::Initialize() {
-	
+	Robot::gyro->Reset();
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveDistance::Execute() {
-	Robot::drivetrain.Drive(1, 1);
+	double turningValue = (0 - Robot::gyro->GetAngle()) * 0.005;
+	Robot::drivetrain.DrivePolar(0.5, turningValue);
 }
 
 // Make this return true when this Command no longer needs to run execute()
