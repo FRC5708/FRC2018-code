@@ -5,6 +5,13 @@
 #include <iostream>
 #include <math.h>
 
+void initPIDController(PIDController* controller) {
+	controller->SetOutputRange(-0.2, 0.2);
+	controller->SetInputRange(-20, 20);
+	
+	controller->Enable();
+}
+
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain"), 
 leftSource(leftEncoder), 
 rightSource(rightEncoder),
@@ -12,8 +19,9 @@ leftOutput(FLMotor, BLMotor),
 rightOutput(FRMotor, BRMotor) {
 	
 	encoderOffset = 0.0;
-	leftControl.Enable();
-	rightControl.Enable();
+	
+	initPIDController(&rightControl);
+	initPIDController(&leftControl);
 	
 	leftEncoder->SetDistancePerPulse(1.0/360.0);
 	rightEncoder->SetDistancePerPulse(1.0/360.0);
@@ -29,14 +37,21 @@ double Drivetrain::Limit(double number) {
   return number;
 }
 
-void Drivetrain::Drive(double left, double right){
-	//leftControl.SetSetpoint(left);
-	//rightControl.SetSetpoint(right);
+void Drivetrain::Drive(double left, double right) {
+	double leftRate = leftEncoder->GetRate();
+	double rightRate = leftEncoder->GetRate();
+	double meanRate = (leftRate + rightRate) /2;
+	
+	leftControl.SetSetpoint(meanRate * left/right);
+	rightControl.SetSetpoint(meanRate * right/left);
 
-	FLMotor->Set(left);
+	leftOutput.basePower = left;
+	rightOutput.basePower = right;
+	
+	/*FLMotor->Set(left);
 	BLMotor->Set(left);
 	FRMotor->Set(right);
-	BRMotor->Set(right);
+	BRMotor->Set(right);*/
 }
 
 void Drivetrain::DrivePolar(double moveValue, double rotateValue) {
@@ -91,14 +106,22 @@ double Drivetrain::RatePIDSource::PIDGet() {
 	if (abs(toReturn > abs(maxEncoderRate))) maxEncoderRate = toReturn;
 	if (abs(distance > abs(maxEncoderDistance))) maxEncoderDistance = distance;
 
-	std::cout << "encoder: rate: " << toReturn << ", distance: " << distance << ", max rate: " << maxEncoderRate << ", max distance" << maxEncoderDistance << std::endl;
+	std::cout << "encoder: rate: " << toReturn << 
+			", distance: " << distance <<
+			", max rate: " << maxEncoderRate << 
+			", max distance " << maxEncoderDistance 
+			<< std::endl;
 	return toReturn;
 }
 
 
-void Drivetrain::DoubleMotorPIDOutput::PIDWrite(double d) {
-	//motor1->Set(d);
-	//motor2->Set(d);
+void Drivetrain::DoubleMotorPIDOutput::PIDWrite(double correction) {
+	double power;
+	if (basePower > 0.05) power = basePower + correction;
+	else power = 0;
+	
+	motor1->Set(power);
+	motor2->Set(power);
 }
 
 
