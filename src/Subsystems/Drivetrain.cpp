@@ -40,10 +40,19 @@ double Drivetrain::Limit(double number) {
 void Drivetrain::Drive(double left, double right) {
 	double leftRate = leftEncoder->GetRate();
 	double rightRate = leftEncoder->GetRate();
-	double meanRate = (leftRate + rightRate) /2;
+	//double meanRate = (leftRate + rightRate) / 2;
 	
-	leftControl.SetSetpoint(meanRate * left/right);
-	rightControl.SetSetpoint(meanRate * right/left);
+	double nancheck = left/right + right/left;
+	if (!std::isnan(nancheck) && std::isfinite(nancheck)) {
+	
+		leftControl.SetSetpoint((left/right * leftRate + rightRate) / (left/right + 1));
+		rightControl.SetSetpoint((right/left * rightRate + leftRate) / (right/left + 1));
+	}
+	else {
+		// we're turning
+		leftControl.SetSetpoint(leftRate);
+		rightControl.SetSetpoint(rightRate);
+	}
 
 	leftOutput.basePower = left;
 	rightOutput.basePower = right;
@@ -99,8 +108,8 @@ double Drivetrain::RatePIDSource::PIDGet() {
 	double toReturn = encoder->GetRate();
 	double distance = encoder->GetDistance();
 	//SmartDashboard::PutNumber("Encoder", toReturn);
-	NetworkTable::GetTable("datatable")->PutNumber("encoder", toReturn);
-	NetworkTable::GetTable("datatable")->PutNumber("encoder", distance);
+	//NetworkTable::GetTable("datatable")->PutNumber("encoder", toReturn);
+	//NetworkTable::GetTable("datatable")->PutNumber("encoder", distance);
 
 
 	if (abs(toReturn > abs(maxEncoderRate))) maxEncoderRate = toReturn;
