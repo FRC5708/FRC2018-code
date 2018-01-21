@@ -25,6 +25,9 @@ rightOutput(FRMotor, BRMotor) {
 	
 	leftEncoder->SetDistancePerPulse(1.0/360.0);
 	rightEncoder->SetDistancePerPulse(1.0/360.0);
+
+	FLMotor->SetInverted(true);
+	BLMotor->SetInverted(true);
 }
 
 double Drivetrain::Limit(double number) {

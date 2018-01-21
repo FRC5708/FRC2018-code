@@ -51,11 +51,11 @@ private:
 
 	RatePIDSource leftSource;
 	DoubleMotorPIDOutput leftOutput;
-	frc::PIDController leftControl{0.01, 0, 0, leftSource, leftOutput};
+	frc::PIDController leftControl{0.04, 0, 0, leftSource, leftOutput};
 
 	RatePIDSource rightSource;
 	DoubleMotorPIDOutput rightOutput;
-	frc::PIDController rightControl{0.01, 0, 0, rightSource, rightOutput};
+	frc::PIDController rightControl{0.04, 0, 0, rightSource, rightOutput};
 
 };
 
