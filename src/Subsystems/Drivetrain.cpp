@@ -1,7 +1,13 @@
 #include "Drivetrain.h"
 #include "../Robot.h"
+#include <SmartDashboard/SmartDashboard.h>
 
-Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
+Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain"), 
+leftSource(leftEncoder), 
+rightSource(rightEncoder),
+leftOutput(FLMotor, BLMotor),
+rightOutput(FRMotor, BRMotor) {
+	
 	encoderOffset = 0;
 	leftControl.Enable();
 	rightControl.Enable();
@@ -63,23 +69,18 @@ double Drivetrain::GetDistance(){
 	return ((leftEncoder->Get()+rightEncoder->Get())/2)*WheelCircumference;
 }
 
-double Drivetrain::LeftSidePIDSource::PIDGet() {
-	return Robot::drivetrain.leftEncoder->GetRate();
+double Drivetrain::RatePIDSource::PIDGet() {
+	double toReturn = encoder->GetRate();
+	SmartDashboard::PutNumber("Encoder", toReturn);
+	return toReturn;
 }
 
-double Drivetrain::RightSidePIDSource::PIDGet() {
-	return Robot::drivetrain.rightEncoder->GetRate();
+
+void Drivetrain::DoubleMotorPIDOutput::PIDWrite(double d) {
+	motor1->Set(d);
+	motor2->Set(d);
 }
 
-void Drivetrain::LeftSidePIDOutput::PIDWrite(double d) {
-	Robot::drivetrain.FLMotor->Set(d);
-	Robot::drivetrain.BLMotor->Set(d);
-}
-
-void Drivetrain::RightSidePIDOutput::PIDWrite(double d) {
-	Robot::drivetrain.FRMotor->Set(d);
-	Robot::drivetrain.BRMotor->Set(d);
-}
 
 
 

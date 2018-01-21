@@ -19,29 +19,23 @@ public:
 	void ResetDistance();
 	double GetDistance();
 
-	class LeftSidePIDSource : public frc::PIDSource {
+	class RatePIDSource : public frc::PIDSource {
 	public:
-		virtual ~LeftSidePIDSource() = default;
+		virtual ~RatePIDSource() = default;
 		double PIDGet() override;
+		Encoder* encoder;
+		RatePIDSource(Encoder* encoder): encoder(encoder) {}; 
 	};
 
-	class LeftSidePIDOutput : public frc::PIDOutput {
+	class DoubleMotorPIDOutput : public frc::PIDOutput {
 	public:
-		virtual ~LeftSidePIDOutput() = default;
+		virtual ~DoubleMotorPIDOutput() = default;
 		void PIDWrite(double d) override;
+		SpeedController* motor1;
+		SpeedController* motor2;
+		DoubleMotorPIDOutput(SpeedController* motor1, SpeedController* motor2): motor1(motor1), motor2(motor2) {};
 	};
 
-	class RightSidePIDSource : public frc::PIDSource {
-	public:
-		virtual ~RightSidePIDSource() = default;
-		double PIDGet() override;
-	};
-
-	class RightSidePIDOutput : public frc::PIDOutput {
-	public:
-		virtual ~RightSidePIDOutput() = default;
-		void PIDWrite(double d) override;
-	};
 private:
 
 	double encoderOffset;
@@ -54,12 +48,12 @@ private:
 	Encoder* leftEncoder= new frc::Encoder(LeftEncoderChannel[0],LeftEncoderChannel[1]);
 	Encoder* rightEncoder = new frc::Encoder(RightEncoderChannel[0],RightEncoderChannel[1]);
 
-	LeftSidePIDSource leftSource;
-	LeftSidePIDOutput leftOutput;
+	RatePIDSource leftSource;
+	DoubleMotorPIDOutput leftOutput;
 	frc::PIDController leftControl{4, 0, 0, leftSource, leftOutput};
 
-	RightSidePIDSource rightSource;
-	RightSidePIDOutput rightOutput;
+	RatePIDSource rightSource;
+	DoubleMotorPIDOutput rightOutput;
 	frc::PIDController rightControl{4, 0, 0, rightSource, rightOutput};
 
 };
