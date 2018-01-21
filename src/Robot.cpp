@@ -20,6 +20,20 @@ void Robot::RobotInit() {
 
 	m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+
+	location.AddDefault("Left", 0);
+	location.AddObject("Middle", 1);
+	location.AddObject("Right", 2);
+
+
+	primary_objective.AddDefault("Switch", 0);
+	primary_objective.AddObject("Scale", 1);
+	primary_objective.AddObject("Cross the line", 2);
+
+	secondary_objective.AddDefault("Switch", 0);
+	secondary_objective.AddObject("Scale", 1);
+	secondary_objective.AddObject("Cross the line", 2);
+
 }
 
 
