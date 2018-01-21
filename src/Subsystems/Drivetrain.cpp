@@ -5,6 +5,9 @@ Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
 	encoderOffset = 0;
 	leftControl.Enable();
 	rightControl.Enable();
+	
+	leftEncoder->SetDistancePerPulse(1/360);
+	rightEncoder->SetDistancePerPulse(1/360);
 }
 
 double Drivetrain::Limit(double number) {
@@ -18,8 +21,8 @@ double Drivetrain::Limit(double number) {
 }
 
 void Drivetrain::Drive(double left, double right){
-	leftControl.SetSetpoint(11*left);
-	rightControl.SetSetpoint(11*right);
+	leftControl.SetSetpoint(left);
+	rightControl.SetSetpoint(right);
 }
 
 void Drivetrain::DrivePolar(double moveValue, double rotateValue) {
