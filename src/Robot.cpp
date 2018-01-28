@@ -13,13 +13,17 @@ OI Robot::oi;
 Joystick* Robot::joystick;
 Gyro* Robot::gyro;
 DoubleSolenoid* testSolenoid;
+Compressor* compressor;
 
 void Robot::RobotInit() {
 
 	Robot::joystick = new Joystick(0);
 	Robot::gyro = new AnalogGyro(1);
 
+	compressor = new Compressor(0);
 	testSolenoid = new DoubleSolenoid(1,2);
+
+	compressor->SetClosedLoopControl(true);
 
 	m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
