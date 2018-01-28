@@ -46,8 +46,26 @@ public:
 	void End() override;
 	void Interrupted() override;
 	
+	struct Point {
+			double x;
+			double y;
+			
+			Point(double x, double y): x(x), y(y) {};
+		};
+	
 private:
 	
 	bool modePossible(AutonMode mode);
 	AutonMode mode = AutonMode::nothing;
+	
+
+	// In inches. Position of center of robot from bottom-left of field. Bottom = alliance wall side. 
+	// Only used in beginning for route calculation.
+	Point location = {0, 0};
+	
+	void MoveToPoint(Point to);
 };
+
+
+
+

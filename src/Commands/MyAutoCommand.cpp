@@ -7,13 +7,38 @@
 
 #include "MyAutoCommand.h"
 #include <Commands/CommandGroup.h>
+#include <math.h>
 
-#include <Commands/DriveForTime.h>
+#include "Commands/DriveDistance.h"
+#include "Commands/TurnAngle.h"
+#include "RobotMap.h"
 
 
+
+
+void MyAutoCommand::MoveToPoint(Point to) {
+	double x = to.x - location.x;
+	double y = to.y - location.y;
+	AddSequential(new TurnAngle(tan(x / y)));
+	AddSequential(new DriveDistance(sqrt(x*x + y*y)));
+	
+	location = to;
+}
 
 // Called just before this Command runs the first time
 void MyAutoCommand::Initialize() {
+	Point location(0, 0);
+	
+	// 48 in == width of portal, which robot will sit up against
+	switch (robotPosition) {
+	case 'L': location = { 48 + robotWidth/2, robotLength/2 }; break;
+	case 'R': location = { fieldWidth - 48 - robotWidth/2, robotLength/2 }; break;
+
+	case 'C': 
+	default:
+		location = { fieldWidth/2, robotLength/2 }; 
+	}
+	
 	for (auto i = modeList.begin(); i != modeList.end(); ++i) {
 		
 		if (modePossible(*i)) {
@@ -24,9 +49,13 @@ void MyAutoCommand::Initialize() {
 	
 	switch (mode) {
 	case AutonMode::crossLine:
-		AddSequential(new DriveForTime(0));
-		
+		AddSequential(new DriveDistance(11*12));
 		break;
+	case AutonMode::leftSwitch: 
+		//MoveToPoint({ , 140 - robotLength/2 })
+		
+		// et cetera.
+		
 	default: break;
 	}
 }
