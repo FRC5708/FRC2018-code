@@ -11,7 +11,7 @@ void DriveWithJoystick::Execute() {
 	double turn = 0;
 	double power = 0;
 
-	switch (joyMode){
+	switch (currentJoyMode){
 		case SINGLE_JOY: {
 			turn = Robot::joystick->GetX();
 			power = Robot::joystick->GetY();

@@ -43,3 +43,5 @@ constexpr double robotLength = 60, robotWidth = 40;
 
 
 enum joystickMode {SINGLE_JOY, XBOX};
+
+joystickMode currentJoyMode = XBOX;
