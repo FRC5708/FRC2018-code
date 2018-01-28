@@ -18,8 +18,8 @@ void Robot::RobotInit() {
 	Robot::joystick = new Joystick(0);
 	Robot::gyro = new AnalogGyro(1);
 
-	m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
-	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+	//m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
+	//frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
 	location_select.AddDefault("Left", 0);
 	location_select.AddObject("Middle", 1);
@@ -61,7 +61,8 @@ void Robot::AutonomousInit(){
     int location = (int) location_select.GetSelected();
     int primary_objective = (int) primary_objective_select.GetSelected();
     int secondary_objective = (int) secondary_objective_select.GetSelected();
-    int control_scheme = (int) control_scheme_select.GetSelected();
+    control_scheme = (int) control_scheme_select.GetSelected();
+
     //Do autonomous logic here
 
 }
@@ -80,6 +81,7 @@ void Robot::TeleopInit(){
         m_autonomousCommand = nullptr;
     }
     driveCommand = new DriveWithJoystick();
+    ((DriveWithJoystick*) driveCommand)->SetControlScheme(((joystickMode) control_scheme));
 }
 
 void Robot::TeleopPeriodic() {

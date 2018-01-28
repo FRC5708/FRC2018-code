@@ -16,8 +16,9 @@
 
 class DriveWithJoystick : public frc::Command {
 public:
-	joystickMode joyMode = XBOX;
 
+	joystickMode joyMode = XBOX;
+	void SetControlScheme(joystickMode);
 	DriveWithJoystick();
 	void Execute() override;
 	bool IsFinished() override;

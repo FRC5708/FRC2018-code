@@ -74,6 +74,7 @@ private:
 	frc::SendableChooser<int> secondary_objective_select;
 	frc::SendableChooser<int> control_scheme_select;
 	frc::Command* driveCommand;
+	int control_scheme;
 };
 
 #endif

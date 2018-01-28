@@ -1,7 +1,7 @@
 #include <AccelReckoner.h>
 
 constexpr double gInInches = 386.08858268;
-
+/*
 AccelReckoner::AccelReckoner() {
 	Calibrate();
 }
@@ -20,3 +20,4 @@ void AccelReckoner::Calibrate() {
 	gravZ = accelerometer->GetZ();
 }
 
+*/
