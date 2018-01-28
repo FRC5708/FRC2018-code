@@ -12,11 +12,14 @@ Drivetrain Robot::drivetrain;
 OI Robot::oi;
 Joystick* Robot::joystick;
 Gyro* Robot::gyro;
+DoubleSolenoid* testSolenoid;
 
 void Robot::RobotInit() {
 
 	Robot::joystick = new Joystick(0);
 	Robot::gyro = new AnalogGyro(1);
+
+	testSolenoid = new DoubleSolenoid(1,2);
 
 	m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
@@ -53,6 +56,7 @@ void Robot::TeleopInit(){
         m_autonomousCommand = nullptr;
     }
     driveCommand = new DriveWithJoystick();
+    testSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
 }
 
 void Robot::TeleopPeriodic() {
