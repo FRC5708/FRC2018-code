@@ -32,6 +32,14 @@ constexpr int BRMotorChannel = 3;
 constexpr int LeftEncoderChannel[2] = {0,1};
 constexpr int RightEncoderChannel[2] = {2,3};
 
+constexpr int gyroChannel = 1;
+
 constexpr double WheelCircumference = 10;
+
+// in inches. 
+constexpr double fieldWidth = 360;
+//change these
+constexpr double robotLength = 60, robotWidth = 40;
+
 
 enum joystickMode {SINGLE_JOY, XBOX};
