@@ -24,15 +24,18 @@ void Robot::RobotInit() {
 	location.AddDefault("Left", 0);
 	location.AddObject("Middle", 1);
 	location.AddObject("Right", 2);
+	frc::SmartDashboard::PutData("Location", &location);
 
 
 	primary_objective.AddDefault("Switch", 0);
 	primary_objective.AddObject("Scale", 1);
 	primary_objective.AddObject("Cross the line", 2);
+	frc::SmartDashboard::PutData("Primary Objective", &primary_objective);
 
 	secondary_objective.AddDefault("Switch", 0);
 	secondary_objective.AddObject("Scale", 1);
 	secondary_objective.AddObject("Cross the line", 2);
+	frc::SmartDashboard::PutData("Secondary Objective", &secondary_objective);
 
 }
 
