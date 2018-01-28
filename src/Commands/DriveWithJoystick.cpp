@@ -23,7 +23,12 @@ void DriveWithJoystick::Execute() {
 			break;
 		}
 	}
-	Robot::drivetrain.DrivePolar(power, turn);
+	//Robot::drivetrain.DrivePolar(power, turn);
+	double v = (1-abs(turn)) * (power) + power;
+	double w = (1-abs(power)) * (turn) + turn;
+	double r = (v+w) /2;
+	double l = (v-w)/2;
+	Robot::drivetrain.Drive(l, r);
 }
 
 // Make this return true when this Command no longer needs to run execute()
