@@ -46,8 +46,8 @@ private:
 	SpeedController* FRMotor = new frc::Victor(FRMotorChannel);
 	SpeedController* BRMotor = new frc::Victor(BRMotorChannel);
 
-	Encoder* leftEncoder= new frc::Encoder(LeftEncoderChannel[0],LeftEncoderChannel[1]);
-	Encoder* rightEncoder = new frc::Encoder(RightEncoderChannel[0],RightEncoderChannel[1]);
+	Encoder* leftEncoder = new frc::Encoder(LeftEncoderChannel[0],LeftEncoderChannel[1], true);
+	Encoder* rightEncoder = new frc::Encoder(RightEncoderChannel[0],RightEncoderChannel[1], false);
 
 	RatePIDSource leftSource;
 	DoubleMotorPIDOutput leftOutput;

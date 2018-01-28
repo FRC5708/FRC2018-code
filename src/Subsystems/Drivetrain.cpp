@@ -28,8 +28,8 @@ rightControl(0.07, 0, 0, rightSource, rightOutput) {
 	leftEncoder->SetDistancePerPulse(1.0/360.0);
 	rightEncoder->SetDistancePerPulse(1.0/360.0);
 
-	FLMotor->SetInverted(true);
-	BLMotor->SetInverted(true);
+	FRMotor->SetInverted(true);
+	BRMotor->SetInverted(true);
 }
 
 double Drivetrain::Limit(double number) {
@@ -120,18 +120,18 @@ double Drivetrain::RatePIDSource::PIDGet() {
 	if (abs(toReturn > abs(maxEncoderRate))) maxEncoderRate = toReturn;
 	if (abs(distance > abs(maxEncoderDistance))) maxEncoderDistance = distance;
 
-	std::cout << "encoder: rate: " << toReturn << 
+	/*std::cout << "encoder: rate: " << toReturn << 
 			", distance: " << distance <<
 			", max rate: " << maxEncoderRate << 
 			", max distance " << maxEncoderDistance 
-			<< std::endl;
+			<< std::endl;*/
 	return toReturn;
 }
 
 
 void Drivetrain::DoubleMotorPIDOutput::PIDWrite(double correction) {
 	double power;
-	if (basePower > 0.05) power = basePower + correction;
+	if (fabs(basePower) > 0.05) power = basePower + correction;
 	else power = 0;
 	
 	motor1->Set(power);
