@@ -16,7 +16,7 @@ Gyro* Robot::gyro;
 void Robot::RobotInit() {
 
 	Robot::joystick = new Joystick(0);
-	Robot::gyro = new AnalogGyro(1);
+	Robot::gyro = new ADXRS450_Gyro();
 
 	m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
