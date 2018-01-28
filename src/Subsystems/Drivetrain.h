@@ -33,7 +33,7 @@ public:
 		void PIDWrite(double d) override;
 		SpeedController* motor1;
 		SpeedController* motor2;
-		double basePower;
+		double basePower = 0;
 		DoubleMotorPIDOutput(SpeedController* motor1, SpeedController* motor2): motor1(motor1), motor2(motor2) {};
 	};
 
@@ -50,11 +50,12 @@ private:
 	Encoder* rightEncoder = new frc::Encoder(RightEncoderChannel[0],RightEncoderChannel[1], false);
 
 	RatePIDSource leftSource;
-	DoubleMotorPIDOutput leftOutput;
-	frc::PIDController leftControl;
-
 	RatePIDSource rightSource;
+	
+	DoubleMotorPIDOutput leftOutput;
 	DoubleMotorPIDOutput rightOutput;
+	
+	frc::PIDController leftControl;
 	frc::PIDController rightControl;
 
 };

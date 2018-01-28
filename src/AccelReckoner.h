@@ -22,7 +22,7 @@ private:
 	AnalogGyro* gyro = new AnalogGyro(gyroChannel);
 	
 	double gravX, gravY, gravZ;
-	std::chrono::time_point prevTime;
+	//std::chrono::time_point prevTime;
 	
 };
 
