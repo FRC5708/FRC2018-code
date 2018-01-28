@@ -16,7 +16,9 @@ Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain"),
 leftSource(leftEncoder), 
 rightSource(rightEncoder),
 leftOutput(FLMotor, BLMotor),
-rightOutput(FRMotor, BRMotor) {
+rightOutput(FRMotor, BRMotor),
+leftControl(0.07, 0, 0, leftSource, leftOutput),
+rightControl(0.07, 0, 0, rightSource, rightOutput) {
 	
 	encoderOffset = 0.0;
 	
