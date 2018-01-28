@@ -21,22 +21,25 @@ void Robot::RobotInit() {
 	m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-	location.AddDefault("Left", 0);
-	location.AddObject("Middle", 1);
-	location.AddObject("Right", 2);
-	frc::SmartDashboard::PutData("Location", &location);
+	location_select.AddDefault("Left", 0);
+	location_select.AddObject("Middle", 1);
+	location_select.AddObject("Right", 2);
+	frc::SmartDashboard::PutData("Location", &location_select);
 
 
-	primary_objective.AddDefault("Switch", 0);
-	primary_objective.AddObject("Scale", 1);
-	primary_objective.AddObject("Cross the line", 2);
-	frc::SmartDashboard::PutData("Primary Objective", &primary_objective);
+	primary_objective_select.AddDefault("Switch", 0);
+	primary_objective_select.AddObject("Scale", 1);
+	primary_objective_select.AddObject("Cross the line", 2);
+	frc::SmartDashboard::PutData("Primary Objective", &primary_objective_select);
 
-	secondary_objective.AddDefault("Switch", 0);
-	secondary_objective.AddObject("Scale", 1);
-	secondary_objective.AddObject("Cross the line", 2);
-	frc::SmartDashboard::PutData("Secondary Objective", &secondary_objective);
+	secondary_objective_select.AddDefault("Switch", 0);
+	secondary_objective_select.AddObject("Scale", 1);
+	secondary_objective_select.AddObject("Cross the line", 2);
+	frc::SmartDashboard::PutData("Secondary Objective", &secondary_objective_select);
 
+	control_scheme_select.AddDefault("Xbox", 0);
+	control_scheme_select.AddObject("Joystick", 1);
+	frc::SmartDashboard::PutData("Control Scheme", &control_scheme_select);
 }
 
 
@@ -54,6 +57,13 @@ void Robot::AutonomousInit(){
                                                                            'L', gameData, m_chooser.GetSelected()));
     
     m_autonomousCommand->Run();
+
+    int location = (int) location_select.GetSelected();
+    int primary_objective = (int) primary_objective_select.GetSelected();
+    int secondary_objective = (int) secondary_objective_select.GetSelected();
+    int control_scheme = (int) control_scheme_select.GetSelected();
+    //Do autonomous logic here
+
 }
 
 void Robot::AutonomousPeriodic(){

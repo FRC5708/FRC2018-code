@@ -69,9 +69,10 @@ private:
 	// doesn't have undefined behavior and potentially crash.
 	std::unique_ptr<MyAutoCommand> m_autonomousCommand = nullptr;
 	frc::SendableChooser<std::vector<AutonMode>> m_chooser;
-	frc::SendableChooser<int> location;
-	frc::SendableChooser<int> primary_objective;
-	frc::SendableChooser<int> secondary_objective;
+	frc::SendableChooser<int> location_select;
+	frc::SendableChooser<int> primary_objective_select;
+	frc::SendableChooser<int> secondary_objective_select;
+	frc::SendableChooser<int> control_scheme_select;
 	frc::Command* driveCommand;
 };
 
