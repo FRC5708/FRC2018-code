@@ -21,7 +21,7 @@ void DriveDistance::Initialize() {
 void DriveDistance::Execute() {
 	double turningValue = (0 - Robot::gyro->GetAngle()) * 0.05;
 	std::cout << turningValue << std::endl;
-	Robot::drivetrain.DrivePolar(0.5, turningValue);
+	Robot::drivetrain.DrivePolar(0.5, -turningValue);
 }
 
 // Make this return true when this Command no longer needs to run execute()

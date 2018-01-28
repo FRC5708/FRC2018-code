@@ -36,7 +36,8 @@ void Robot::AutonomousInit(){
     m_autonomousCommand = std::unique_ptr<MyAutoCommand>(new MyAutoCommand(
                                                                            'L', gameData, m_chooser.GetSelected()));
     
-    m_autonomousCommand->Run();
+    m_autonomousCommand->Start();
+    //frc::Scheduler::GetInstance()->AddCommand(&*m_autonomousCommand);
 }
 
 void Robot::AutonomousPeriodic(){
