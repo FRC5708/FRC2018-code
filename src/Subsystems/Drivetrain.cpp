@@ -67,7 +67,7 @@ void Drivetrain::ResetDistance(){
 }
 
 double Drivetrain::GetDistance(){
-	return ((leftEncoder->Get()+rightEncoder->Get())/2)*WheelCircumference;
+	return ((leftEncoder->GetDistance()+rightEncoder->GetDistance())/2)*WheelCircumference;
 }
 
 
