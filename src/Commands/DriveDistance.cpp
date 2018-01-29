@@ -8,6 +8,7 @@
 #include <Commands/DriveDistance.h>
 #include "Robot.h"
 #include "RobotMap.h"
+#include <iostream>
 
 
 // Called just before this Command runs the first time
@@ -18,8 +19,9 @@ void DriveDistance::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveDistance::Execute() {
-	double turningValue = (0 - Robot::gyro->GetAngle()) * 0.005;
-	Robot::drivetrain.DrivePolar(0.5, turningValue);
+	double turningValue = (0 - Robot::gyro->GetAngle()) * 0.05;
+	std::cout << turningValue << std::endl;
+	Robot::drivetrain.DrivePolar(0.5, -turningValue);
 }
 
 // Make this return true when this Command no longer needs to run execute()

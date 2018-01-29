@@ -5,25 +5,8 @@
 #include <iostream>
 #include <math.h>
 
-void initPIDController(PIDController* controller) {
-	controller->SetOutputRange(-0.2, 0.2);
-	controller->SetInputRange(-20, 20);
-	
-	controller->Enable();
-}
 
-Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain"), 
-leftSource(leftEncoder), 
-rightSource(rightEncoder),
-leftOutput(FLMotor, BLMotor),
-rightOutput(FRMotor, BRMotor),
-leftControl(0.07, 0, 0, leftSource, leftOutput),
-rightControl(0.07, 0, 0, rightSource, rightOutput) {
-	
-	encoderOffset = 0.0;
-	
-	initPIDController(&rightControl);
-	initPIDController(&leftControl);
+Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
 	
 	leftEncoder->SetDistancePerPulse(1.0/360.0);
 	rightEncoder->SetDistancePerPulse(1.0/360.0);
@@ -43,29 +26,10 @@ double Drivetrain::Limit(double number) {
 }
 
 void Drivetrain::Drive(double left, double right) {
-	double leftRate = leftEncoder->GetRate();
-	double rightRate = leftEncoder->GetRate();
-	//double meanRate = (leftRate + rightRate) / 2;
-	
-	double nancheck = left/right + right/left;
-	if (!std::isnan(nancheck) && std::isfinite(nancheck)) {
-	
-		leftControl.SetSetpoint((left/right * leftRate + rightRate) / (left/right + 1));
-		rightControl.SetSetpoint((right/left * rightRate + leftRate) / (right/left + 1));
-	}
-	else {
-		// we're turning
-		leftControl.SetSetpoint(leftRate);
-		rightControl.SetSetpoint(rightRate);
-	}
-
-	leftOutput.basePower = left;
-	rightOutput.basePower = right;
-	
-	/*FLMotor->Set(left);
+	FLMotor->Set(left);
 	BLMotor->Set(left);
 	FRMotor->Set(right);
-	BRMotor->Set(right);*/
+	BRMotor->Set(right);
 }
 
 void Drivetrain::DrivePolar(double moveValue, double rotateValue) {
@@ -103,41 +67,8 @@ void Drivetrain::ResetDistance(){
 }
 
 double Drivetrain::GetDistance(){
-	return ((leftEncoder->Get()+rightEncoder->Get())/2)*WheelCircumference;
+	return ((leftEncoder->GetDistance()+rightEncoder->GetDistance())/2)*WheelCircumference;
 }
-
-double maxEncoderDistance = 0;
-double maxEncoderRate = 0;
-
-double Drivetrain::RatePIDSource::PIDGet() {
-	double toReturn = encoder->GetRate();
-	double distance = encoder->GetDistance();
-	//SmartDashboard::PutNumber("Encoder", toReturn);
-	//NetworkTable::GetTable("datatable")->PutNumber("encoder", toReturn);
-	//NetworkTable::GetTable("datatable")->PutNumber("encoder", distance);
-
-
-	if (abs(toReturn > abs(maxEncoderRate))) maxEncoderRate = toReturn;
-	if (abs(distance > abs(maxEncoderDistance))) maxEncoderDistance = distance;
-
-	/*std::cout << "encoder: rate: " << toReturn << 
-			", distance: " << distance <<
-			", max rate: " << maxEncoderRate << 
-			", max distance " << maxEncoderDistance 
-			<< std::endl;*/
-	return toReturn;
-}
-
-
-void Drivetrain::DoubleMotorPIDOutput::PIDWrite(double correction) {
-	double power;
-	if (fabs(basePower) > 0.05) power = basePower + correction;
-	else power = 0;
-	
-	motor1->Set(power);
-	motor2->Set(power);
-}
-
 
 
 

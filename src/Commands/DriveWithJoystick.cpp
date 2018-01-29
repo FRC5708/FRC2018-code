@@ -13,8 +13,8 @@ void DriveWithJoystick::Execute() {
 
 	switch (joyMode){
 		case SINGLE_JOY: {
-			turn = Robot::joystick->GetX();
-			power = Robot::joystick->GetY();
+			turn = -Robot::joystick->GetZ();
+			power = -Robot::joystick->GetY();
 			break;
 		}
 		case XBOX: {
