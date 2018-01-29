@@ -60,12 +60,14 @@ void Robot::TeleopInit(){
         m_autonomousCommand = nullptr;
     }
     driveCommand = new DriveWithJoystick();
-    testSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
 }
 
 void Robot::TeleopPeriodic() {
     frc::Scheduler::GetInstance()->Run();
     driveCommand->Start();
+    
+    if (joystick->GetRawButton(3)) testSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+    else testSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 START_ROBOT_CLASS(Robot);
