@@ -16,7 +16,7 @@ Gyro* Robot::gyro;
 void Robot::RobotInit() {
 
 	Robot::joystick = new Joystick(0);
-	Robot::gyro = new AnalogGyro(1);
+	Robot::gyro = new ADXRS450_Gyro();
 
 	m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
@@ -36,7 +36,8 @@ void Robot::AutonomousInit(){
     m_autonomousCommand = std::unique_ptr<MyAutoCommand>(new MyAutoCommand(
                                                                            'L', gameData, m_chooser.GetSelected()));
     
-    m_autonomousCommand->Run();
+    m_autonomousCommand->Start();
+    //frc::Scheduler::GetInstance()->AddCommand(&*m_autonomousCommand);
 }
 
 void Robot::AutonomousPeriodic(){
