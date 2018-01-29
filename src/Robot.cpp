@@ -13,6 +13,16 @@ OI Robot::oi;
 Joystick* Robot::joystick;
 Gyro* Robot::gyro;
 
+
+void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser) {
+
+	chooser->AddDefault("Cross the line", AutonMode::crossLine);
+	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
+	chooser->AddObject("Switch (left)", AutonMode::leftSwitch);
+	chooser->AddObject("Switch (right)", AutonMode::rightSwitch);
+	chooser->AddObject("Scale", AutonMode::eitherScale);
+	frc::SmartDashboard::PutData("Primary Objective", chooser);
+}
 void Robot::RobotInit() {
 
 	Robot::joystick = new Joystick(0);
@@ -21,24 +31,16 @@ void Robot::RobotInit() {
 	//m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	//frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-	location_select.AddDefault("Left", 0);
-	location_select.AddObject("Middle", 1);
-	location_select.AddObject("Right", 2);
+	location_select.AddDefault("Left", 'L');
+	location_select.AddObject("Center", 'C');
+	location_select.AddObject("Right", 'R');
 	frc::SmartDashboard::PutData("Location", &location_select);
 
+	setupObjectiveChooser(&primary_objective_select);
+	setupObjectiveChooser(&secondary_objective_select);
 
-	primary_objective_select.AddDefault("Switch", 0);
-	primary_objective_select.AddObject("Scale", 1);
-	primary_objective_select.AddObject("Cross the line", 2);
-	frc::SmartDashboard::PutData("Primary Objective", &primary_objective_select);
-
-	secondary_objective_select.AddDefault("Switch", 0);
-	secondary_objective_select.AddObject("Scale", 1);
-	secondary_objective_select.AddObject("Cross the line", 2);
-	frc::SmartDashboard::PutData("Secondary Objective", &secondary_objective_select);
-
-	control_scheme_select.AddDefault("Xbox", 0);
-	control_scheme_select.AddObject("Joystick", 1);
+	control_scheme_select.AddDefault("Xbox", XBOX);
+	control_scheme_select.AddObject("Joystick", SINGLE_JOY);
 	frc::SmartDashboard::PutData("Control Scheme", &control_scheme_select);
 }
 
@@ -53,18 +55,16 @@ void Robot::AutonomousInit(){
     // https://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
     
+
+    char location = (char) location_select.GetSelected();
+    AutonMode primary_objective = (AutonMode) primary_objective_select.GetSelected();
+    AutonMode secondary_objective = (AutonMode) secondary_objective_select.GetSelected();
+    control_scheme = (joystickMode) control_scheme_select.GetSelected();
+    
     m_autonomousCommand = std::unique_ptr<MyAutoCommand>(new MyAutoCommand(
-                                                                           'L', gameData, m_chooser.GetSelected()));
+                          location, gameData, { primary_objective, secondary_objective }));
     
     m_autonomousCommand->Run();
-
-    int location = (int) location_select.GetSelected();
-    int primary_objective = (int) primary_objective_select.GetSelected();
-    int secondary_objective = (int) secondary_objective_select.GetSelected();
-    control_scheme = (int) control_scheme_select.GetSelected();
-
-    //Do autonomous logic here
-
 }
 
 void Robot::AutonomousPeriodic(){
@@ -81,7 +81,7 @@ void Robot::TeleopInit(){
         m_autonomousCommand = nullptr;
     }
     driveCommand = new DriveWithJoystick();
-    ((DriveWithJoystick*) driveCommand)->SetControlScheme(((joystickMode) control_scheme));
+    ((DriveWithJoystick*) driveCommand)->SetControlScheme((control_scheme));
 }
 
 void Robot::TeleopPeriodic() {
