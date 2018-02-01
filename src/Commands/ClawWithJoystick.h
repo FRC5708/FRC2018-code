@@ -9,6 +9,7 @@
 
 class ClawWithJoystick : public frc::Command {
 public:
+	void SetControlScheme(joystickMode);
 	ClawWithJoystick();
 	void Initialize(){};
 	void Execute();

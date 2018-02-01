@@ -7,7 +7,7 @@ DriveWithJoystick::DriveWithJoystick()
 }
 
 void DriveWithJoystick::SetControlScheme(joystickMode control_scheme){
-	joyMode=control_scheme;
+	Robot::joyMode=control_scheme;
 }
 // Called repeatedly when this Command is scheduled to run
 void DriveWithJoystick::Execute() {
