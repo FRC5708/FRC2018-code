@@ -67,6 +67,8 @@ void Robot::TeleopInit(){
 
 void Robot::TeleopPeriodic() {
     frc::Scheduler::GetInstance()->Run();
+    driveCommand->Start();
+    clawCommand->Start();
 }
 
 START_ROBOT_CLASS(Robot);

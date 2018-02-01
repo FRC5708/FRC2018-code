@@ -16,7 +16,6 @@ private:
 public:
 	ClawWithJoystick();
 	void Initialize(){};
-	bool WasButtonJustPressed(int button);
 	void Execute();
 	bool IsFinished();
 	void End();
