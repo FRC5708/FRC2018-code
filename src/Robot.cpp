@@ -8,9 +8,12 @@
 #include "Robot.h"
 #include "WPILib.h"
 Drivetrain Robot::drivetrain;
+Claw Robot::claw;
 OI Robot::oi;
 Joystick* Robot::joystick;
 Gyro* Robot::gyro;
+joystickMode Robot::joyMode = SINGLE_JOY;
+Compressor* compressor;
 
 
 void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string name) {
@@ -35,6 +38,9 @@ void Robot::RobotInit() {
 	location_select.AddObject("Right", 'R');
 	frc::SmartDashboard::PutData("Location", &location_select);
 
+	compressor = new Compressor(0);
+	compressor->SetClosedLoopControl(true);
+  
 	setupObjectiveChooser(&primary_objective_select, "Primary Objective");
 	setupObjectiveChooser(&secondary_objective_select, "Secondary Objective");
 
@@ -84,12 +90,16 @@ void Robot::TeleopInit(){
         m_autonomousCommand = nullptr;
     }
     driveCommand = new DriveWithJoystick();
+    clawCommand = new ClawWithJoystick();
+
     ((DriveWithJoystick*) driveCommand)->SetControlScheme((control_scheme));
+  
+    driveCommand->Start();
+    clawCommand->Start();
 }
 
 void Robot::TeleopPeriodic() {
     frc::Scheduler::GetInstance()->Run();
-    driveCommand->Start();
 }
 
 START_ROBOT_CLASS(Robot);

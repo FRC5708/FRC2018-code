@@ -17,16 +17,20 @@
 
 
 #include <Subsystems/Drivetrain.h>
+#include <Subsystems/Claw.h>
 #include <Commands/DriveWithJoystick.h>
+#include <Commands/ClawWithJoystick.h>
 #include "Commands/MyAutoCommand.h"
 
 
 class Robot : public frc::TimedRobot {
 public:
 	static Drivetrain drivetrain;
+	static Claw claw;
 	static OI oi;
 	static Joystick* joystick;
 	static Gyro* gyro;
+	static joystickMode joyMode;
 
 	std::string gameData;
 
@@ -72,7 +76,10 @@ private:
 	frc::SendableChooser<AutonMode> primary_objective_select;
 	frc::SendableChooser<AutonMode> secondary_objective_select;
 	frc::SendableChooser<joystickMode> control_scheme_select;
-	frc::Command* driveCommand;
+  
+	frc::Command* driveCommand;g
+	frc::Command* clawCommand;
+  
 	joystickMode control_scheme;
 };
 
