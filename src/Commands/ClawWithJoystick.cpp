@@ -10,7 +10,7 @@ ClawWithJoystick::ClawWithJoystick()
 void ClawWithJoystick::Execute() {
 	switch (joyMode){
 		case SINGLE_JOY: {
-			if (Robot::joystick->GetRawButton(2)){
+			if (Robot::joystick->GetRawButton(4)){
 				Robot::claw.Open();
 			}else if (Robot::joystick->GetRawButton(3)){
 				Robot::claw.Close();
@@ -20,7 +20,7 @@ void ClawWithJoystick::Execute() {
 			break;
 		}
 		case XBOX: {
-			if (Robot::joystick->GetRawButton(2)){
+			if (Robot::joystick->GetRawButton(4)){
 				Robot::claw.Open();
 			}else if (Robot::joystick->GetRawButton(3)){
 				Robot::claw.Close();
