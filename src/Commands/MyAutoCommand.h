@@ -38,9 +38,10 @@ public:
 	
 	
 	MyAutoCommand(char robotPosition, std::string scorePositions, std::vector<AutonMode> modes): 
-		robotPosition(robotPosition), scorePositions(scorePositions), modeList(modes) {};
+		robotPosition(robotPosition), scorePositions(scorePositions), modeList(modes) { EarlyInitialize(); };
 	
 	void Initialize() override;
+	void EarlyInitialize();
 	//void Execute() override;
 	bool IsFinished() override;
 	void End() override;

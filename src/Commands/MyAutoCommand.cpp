@@ -27,6 +27,10 @@ void MyAutoCommand::MoveToPoint(Point to) {
 
 // Called just before this Command runs the first time
 void MyAutoCommand::Initialize() {
+
+}
+
+void MyAutoCommand::EarlyInitialize() {
 	Point location(0, 0);
 	
 	// 48 in == width of portal, which robot will sit up against
