@@ -8,11 +8,6 @@
 #include <vector>
 
 class ClawWithJoystick : public frc::Command {
-private:
-	enum clawMode {OPEN,CLOSE,STOP};
-	clawMode mode = STOP;
-	std::vector<bool> buttons = std::vector<bool>(12);
-	joystickMode joyMode = XBOX;
 public:
 	ClawWithJoystick();
 	void Initialize(){};

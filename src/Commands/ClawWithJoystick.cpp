@@ -8,7 +8,7 @@ ClawWithJoystick::ClawWithJoystick()
 
 // Called repeatedly when this Command is scheduled to run
 void ClawWithJoystick::Execute() {
-	switch (joyMode){
+	switch (Robot::joyMode){
 		case SINGLE_JOY: {
 			if (Robot::joystick->GetRawButton(4)){
 				Robot::claw.Open();

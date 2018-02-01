@@ -30,6 +30,7 @@ public:
 	static OI oi;
 	static Joystick* joystick;
 	static Gyro* gyro;
+	static joystickMode joyMode;
 
 	std::string gameData;
 

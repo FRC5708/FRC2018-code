@@ -13,6 +13,7 @@ Claw Robot::claw;
 OI Robot::oi;
 Joystick* Robot::joystick;
 Gyro* Robot::gyro;
+joystickMode Robot::joyMode = SINGLE_JOY;
 Compressor* compressor;
 
 void Robot::RobotInit() {
