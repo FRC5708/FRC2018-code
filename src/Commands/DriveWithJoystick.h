@@ -15,9 +15,9 @@
 #include "../Robot.h"
 
 class DriveWithJoystick : public frc::Command {
-public:
+private:
 	joystickMode joyMode = XBOX;
-
+public:
 	DriveWithJoystick();
 	void Execute() override;
 	bool IsFinished() override;

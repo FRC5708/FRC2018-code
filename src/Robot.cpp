@@ -9,10 +9,10 @@
 #include "WPILib.h"
 
 Drivetrain Robot::drivetrain;
+Claw Robot::claw;
 OI Robot::oi;
 Joystick* Robot::joystick;
 Gyro* Robot::gyro;
-DoubleSolenoid* testSolenoid;
 Compressor* compressor;
 
 void Robot::RobotInit() {
@@ -21,7 +21,6 @@ void Robot::RobotInit() {
 	Robot::gyro = new AnalogGyro(1);
 
 	compressor = new Compressor(0);
-	testSolenoid = new DoubleSolenoid(1,2);
 
 	compressor->SetClosedLoopControl(true);
 
@@ -60,12 +59,14 @@ void Robot::TeleopInit(){
         m_autonomousCommand = nullptr;
     }
     driveCommand = new DriveWithJoystick();
-    testSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+    clawCommand = new ClawWithJoystick();
+
+    driveCommand->Start();
+    clawCommand->Start();
 }
 
 void Robot::TeleopPeriodic() {
     frc::Scheduler::GetInstance()->Run();
-    driveCommand->Start();
 }
 
 START_ROBOT_CLASS(Robot);

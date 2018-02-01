@@ -17,13 +17,16 @@
 
 
 #include <Subsystems/Drivetrain.h>
+#include <Subsystems/Claw.h>
 #include <Commands/DriveWithJoystick.h>
+#include <Commands/ClawWithJoystick.h>
 #include "Commands/MyAutoCommand.h"
 
 
 class Robot : public frc::TimedRobot {
 public:
 	static Drivetrain drivetrain;
+	static Claw claw;
 	static OI oi;
 	static Joystick* joystick;
 	static Gyro* gyro;
@@ -70,6 +73,7 @@ private:
 	std::unique_ptr<MyAutoCommand> m_autonomousCommand = nullptr;
 	frc::SendableChooser<std::vector<AutonMode>> m_chooser;
 	frc::Command* driveCommand;
+	frc::Command* clawCommand;
 };
 
 #endif
