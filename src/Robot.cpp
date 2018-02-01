@@ -13,7 +13,7 @@ Joystick* Robot::joystick;
 Gyro* Robot::gyro;
 
 
-void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, char* name) {
+void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string name) {
 
 	chooser->AddDefault("Cross the line", AutonMode::crossLine);
 	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
