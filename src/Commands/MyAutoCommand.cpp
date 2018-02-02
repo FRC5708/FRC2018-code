@@ -35,12 +35,12 @@ void MyAutoCommand::EarlyInitialize() {
 	
 	// 48 in == width of portal, which robot will sit up against
 	switch (robotPosition) {
-	case 'L': location = { 48 + robotWidth/2, robotLength/2 }; break;
-	case 'R': location = { fieldWidth - 48 - robotWidth/2, robotLength/2 }; break;
+	case 'L': location = { -(132 + robotWidth/2), robotLength/2 }; break;
+	case 'R': location = { 132 + robotWidth/2, robotLength/2 }; break;
 
 	case 'C': 
 	default:
-		location = { fieldWidth/2, robotLength/2 }; 
+		location = { 0, robotLength/2 }; 
 	}
 	
 	for (auto i = modeList.begin(); i != modeList.end(); ++i) {
