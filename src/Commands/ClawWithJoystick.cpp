@@ -6,10 +6,6 @@ ClawWithJoystick::ClawWithJoystick()
 	Requires(&Robot::claw);
 }
 
-void DriveWithJoystick::SetControlScheme(joystickMode control_scheme){
-	Robot::joyMode=control_scheme;
-}
-
 // Called repeatedly when this Command is scheduled to run
 void ClawWithJoystick::Execute() {
 	switch (Robot::joyMode){

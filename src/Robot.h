@@ -77,7 +77,7 @@ private:
 	frc::SendableChooser<AutonMode> secondary_objective_select;
 	frc::SendableChooser<joystickMode> control_scheme_select;
   
-	frc::Command* driveCommand;g
+	frc::Command* driveCommand;
 	frc::Command* clawCommand;
   
 	joystickMode control_scheme;

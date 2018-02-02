@@ -92,7 +92,7 @@ void Robot::TeleopInit(){
     driveCommand = new DriveWithJoystick();
     clawCommand = new ClawWithJoystick();
 
-    ((DriveWithJoystick*) driveCommand)->SetControlScheme((control_scheme));
+    Robot::joyMode = control_scheme;
   
     driveCommand->Start();
     clawCommand->Start();
