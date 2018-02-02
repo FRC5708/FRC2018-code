@@ -54,8 +54,10 @@ void MyAutoCommand::EarlyInitialize() {
 		mode = scorePositions[0] == 'L' ? AutonMode::leftSwitch : AutonMode::rightSwitch;
 	}
 	
-	
-	if (robotPosition == 'C') {
+	if (mode == AutonMode::crossLine) {
+		AddSequential(new DriveDistance(11*12));
+	}
+	else if (robotPosition == 'C') {
 		// switch
 		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
 			double pos_mult = 1;
@@ -65,11 +67,7 @@ void MyAutoCommand::EarlyInitialize() {
 			MoveToPoint({ location.x, 10*12 });
 			// place cube
 		}
-		
-	}
-	
-	//AddSequential(new DriveDistance(11*12));
-		
+	}	
 }
 
 bool MyAutoCommand::modePossible(AutonMode mode) {
