@@ -19,7 +19,7 @@
 void MyAutoCommand::MoveToPoint(Point to) {
 	double x = to.x - location.x;
 	double y = to.y - location.y;
-	AddSequential(new TurnAngle(tan(y / x)));
+	AddSequential(new TurnAngle(tan(y / x) * 180 / M_PI));
 	AddSequential(new DriveDistance(sqrt(x*x + y*y)));
 	
 	location = to;
@@ -50,18 +50,26 @@ void MyAutoCommand::EarlyInitialize() {
 			break;
 		}
 	}
-	
-	switch (mode) {
-	case AutonMode::crossLine:
-		AddSequential(new DriveDistance(11*12));
-		break;
-	case AutonMode::leftSwitch: 
-		//MoveToPoint({ , 140 - robotLength/2 })
-		
-		// et cetera.
-		
-	default: break;
+	if (mode == AutonMode::eitherSwitch) {
+		mode = scorePositions[0] == 'L' ? AutonMode::leftSwitch : AutonMode::rightSwitch;
 	}
+	
+	
+	if (robotPosition == 'C') {
+		// switch
+		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
+			double pos_mult = 1;
+			if (mode == AutonMode::leftSwitch) pos_mult = -1;
+			
+			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
+			MoveToPoint({ location.x, 10*12 });
+			// place cube
+		}
+		
+	}
+	
+	//AddSequential(new DriveDistance(11*12));
+		
 }
 
 bool MyAutoCommand::modePossible(AutonMode mode) {
