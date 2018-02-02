@@ -19,7 +19,7 @@
 void MyAutoCommand::MoveToPoint(Point to) {
 	double x = to.x - location.x;
 	double y = to.y - location.y;
-	AddSequential(new TurnAngle(tan(x / y)));
+	AddSequential(new TurnAngle(tan(y / x)));
 	AddSequential(new DriveDistance(sqrt(x*x + y*y)));
 	
 	location = to;
