@@ -19,7 +19,7 @@
 void MyAutoCommand::MoveToPoint(Point to) {
 	double x = to.x - location.x;
 	double y = to.y - location.y;
-	AddSequential(new TurnAngle(tan(y / x) * 180 / M_PI));
+	AddSequential(new TurnAngle(atan(y / x) * 180 / M_PI));
 	AddSequential(new DriveDistance(sqrt(x*x + y*y)));
 	
 	location = to;
@@ -27,7 +27,7 @@ void MyAutoCommand::MoveToPoint(Point to) {
 
 // Called just before this Command runs the first time
 void MyAutoCommand::Initialize() {
-
+	Robot::gyro->Reset();
 }
 
 void MyAutoCommand::EarlyInitialize() {

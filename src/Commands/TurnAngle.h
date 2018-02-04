@@ -26,7 +26,7 @@ public:
 	private:
 		TurnAnglePIDSource source;
 		TurnAnglePIDOutput output;
-		frc::PIDController pid{0.1, 0.005, 0, source, output};
+		frc::PIDController pid{0.01, 0.0005, 0, source, output};
 };
 
 #endif  // TurnAngle_H

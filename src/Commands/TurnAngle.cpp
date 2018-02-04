@@ -2,7 +2,7 @@
 
 TurnAngle::TurnAngle(double angle) {
 	Requires(&Robot::drivetrain);
-	pid.SetAbsoluteTolerance(1); // one degree
+	pid.SetAbsoluteTolerance(3); // one degree
 	pid.SetSetpoint(angle);
 }
 
