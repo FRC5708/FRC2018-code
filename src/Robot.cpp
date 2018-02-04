@@ -19,7 +19,9 @@ void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string
 	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
 	chooser->AddObject("Switch (left)", AutonMode::leftSwitch);
 	chooser->AddObject("Switch (right)", AutonMode::rightSwitch);
-	chooser->AddObject("Scale", AutonMode::eitherScale);
+	chooser->AddObject("Scale (either)", AutonMode::eitherScale);
+	chooser->AddObject("Scale (left)", AutonMode::leftScale);
+	chooser->AddObject("Scale (right)", AutonMode::rightScale);
 	frc::SmartDashboard::PutData(name, chooser);
 }
 void Robot::RobotInit() {
