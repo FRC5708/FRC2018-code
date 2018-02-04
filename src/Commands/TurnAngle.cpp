@@ -2,7 +2,7 @@
 
 TurnAngle::TurnAngle(double angle) {
 	Requires(&Robot::drivetrain);
-	pid.SetAbsoluteTolerance(0.01);
+	pid.SetAbsoluteTolerance(1); // one degree
 	pid.SetSetpoint(angle);
 }
 
@@ -11,6 +11,7 @@ void TurnAngle::Initialize() {
 	//Robot::gyro->Reset();
 	pid.Reset();
 	pid.Enable();
+	pid.SetOutputRange(-0.5, 0.5);
 }
 
 // Make this return true when this Command no longer needs to run execute()
