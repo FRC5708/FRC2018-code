@@ -8,7 +8,7 @@ TurnAngle::TurnAngle(double angle) {
 
 // Called just before this Command runs the first time
 void TurnAngle::Initialize() {
-	Robot::gyro->Reset();
+	//Robot::gyro->Reset();
 	pid.Reset();
 	pid.Enable();
 }
