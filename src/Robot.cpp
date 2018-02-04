@@ -54,6 +54,8 @@ void Robot::AutonomousInit(){
     // https://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
     
+    // for testing
+    gameData = "LLL";
 
     char location = (char) location_select.GetSelected();
     AutonMode primary_objective = (AutonMode) primary_objective_select.GetSelected();
