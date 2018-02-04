@@ -57,17 +57,36 @@ void MyAutoCommand::EarlyInitialize() {
 	if (mode == AutonMode::crossLine) {
 		AddSequential(new DriveDistance(11*12));
 	}
-	else if (robotPosition == 'C') {
-		// switch
-		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
-			double pos_mult = 1;
-			if (mode == AutonMode::leftSwitch) pos_mult = -1;
-			
-			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
-			MoveToPoint({ location.x, 10*12 });
-			// place cube
-		}
-	}	
+	// switch
+	/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
+			|| (robotPosition == 'L' && mode == AutonMode::leftSwitch)
+			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {*/
+	else if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
+
+		double pos_mult = 1;
+		if (mode == AutonMode::leftSwitch) pos_mult = -1;
+
+		MoveToPoint({ location.x, 1.5*12.0 });
+		MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
+		MoveToPoint({ location.x, 10*12 });
+		// place cube
+
+	}
+	// behind switch
+	/*
+	else if ((robotPosition == 'L' && mode == AutonMode::leftSwitch)
+			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {
+		
+		double pos_mult = 1;
+		if (mode == AutonMode::leftSwitch) pos_mult = -1;
+		
+		MoveToPoint({ location.x, 19.5*12.0 });
+		MoveToPoint({ 10.5*12.0 * pos_mult, location.y });
+		MoveToPoint({ location.x, 196 + robotLength/2 });
+		// place cube
+	}*/
+	
+	
 }
 
 bool MyAutoCommand::modePossible(AutonMode mode) {
