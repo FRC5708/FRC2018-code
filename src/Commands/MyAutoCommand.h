@@ -60,7 +60,7 @@ private:
 	AutonMode mode = AutonMode::nothing;
 	
 
-	// In inches. Position of center of robot from bottom-left of field. Bottom = alliance wall side. 
+	// In inches. Position of center of robot from bottom-center of field. Bottom = alliance wall side. left=negative. 
 	// Only used in beginning for route calculation.
 	Point location = {0, 0};
 	

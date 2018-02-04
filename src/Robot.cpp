@@ -18,11 +18,13 @@ Compressor* compressor;
 
 void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string name) {
 
-	chooser->AddDefault("Cross the line", AutonMode::crossLine);
+	chooser->AddDefault(name + ": Cross line", AutonMode::crossLine);
 	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
 	chooser->AddObject("Switch (left)", AutonMode::leftSwitch);
 	chooser->AddObject("Switch (right)", AutonMode::rightSwitch);
-	chooser->AddObject("Scale", AutonMode::eitherScale);
+	chooser->AddObject("Scale (either)", AutonMode::eitherScale);
+	chooser->AddObject("Scale (left)", AutonMode::leftScale);
+	chooser->AddObject("Scale (right)", AutonMode::rightScale);
 	frc::SmartDashboard::PutData(name, chooser);
 }
 void Robot::RobotInit() {
@@ -60,6 +62,8 @@ void Robot::AutonomousInit(){
     // https://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
     
+    // for testing
+    gameData = "LLL";
 
     char location = (char) location_select.GetSelected();
     AutonMode primary_objective = (AutonMode) primary_objective_select.GetSelected();
