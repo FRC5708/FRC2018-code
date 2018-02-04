@@ -15,7 +15,7 @@ Gyro* Robot::gyro;
 
 void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string name) {
 
-	chooser->AddDefault("Cross the line", AutonMode::crossLine);
+	chooser->AddDefault(name + ": Cross line", AutonMode::crossLine);
 	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
 	chooser->AddObject("Switch (left)", AutonMode::leftSwitch);
 	chooser->AddObject("Switch (right)", AutonMode::rightSwitch);
