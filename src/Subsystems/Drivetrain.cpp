@@ -10,9 +10,6 @@ Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
 	
 	leftEncoder->SetDistancePerPulse(1.0/360.0);
 	rightEncoder->SetDistancePerPulse(1.0/360.0);
-
-	FRMotor->SetInverted(true);
-	BRMotor->SetInverted(true);
 }
 
 double Drivetrain::Limit(double number) {
@@ -28,8 +25,8 @@ double Drivetrain::Limit(double number) {
 void Drivetrain::Drive(double left, double right) {
 	FLMotor->Set(left);
 	BLMotor->Set(left);
-	FRMotor->Set(right);
-	BRMotor->Set(right);
+	FRMotor->Set(-right);
+	BRMotor->Set(-right);
 }
 
 void Drivetrain::DrivePolar(double moveValue, double rotateValue) {

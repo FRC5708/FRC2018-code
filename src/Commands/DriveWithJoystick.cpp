@@ -13,8 +13,8 @@ void DriveWithJoystick::Execute() {
 
 	switch (Robot::joyMode){
 		case SINGLE_JOY: {
-			turn = -Robot::joystick->GetZ();
-			power = -Robot::joystick->GetY();
+			turn = -Robot::joystick->GetX();
+			power = Robot::joystick->GetY();
 			break;
 		}
 		case XBOX: {
@@ -24,9 +24,9 @@ void DriveWithJoystick::Execute() {
 		}
 	}
 	//Robot::drivetrain.DrivePolar(power, turn);
-	double v = (1-abs(turn)) * (power) + power;
-	double w = (1-abs(power)) * (turn) + turn;
-	double r = (v+w) /2;
+	double v = (1-fabs(turn)) * (power) + power;
+	double w = (1-fabs(power)) * (turn) + turn;
+	double r = (v+w)/2;
 	double l = (v-w)/2;
 	Robot::drivetrain.Drive(l, r);
 }

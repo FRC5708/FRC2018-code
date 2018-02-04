@@ -44,8 +44,8 @@ void Robot::RobotInit() {
 	setupObjectiveChooser(&primary_objective_select, "Primary Objective");
 	setupObjectiveChooser(&secondary_objective_select, "Secondary Objective");
 
-	control_scheme_select.AddDefault("Xbox", XBOX);
-	control_scheme_select.AddObject("Joystick", SINGLE_JOY);
+	control_scheme_select.AddDefault("Joystick", SINGLE_JOY);
+	control_scheme_select.AddObject("Xbox", XBOX);
 	frc::SmartDashboard::PutData("Control Scheme", &control_scheme_select);
 }
 
