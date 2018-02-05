@@ -8,8 +8,8 @@
 
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
 	
-	leftEncoder->SetDistancePerPulse(1.0/360.0);
-	rightEncoder->SetDistancePerPulse(1.0/360.0);
+	leftEncoder->SetDistancePerPulse(1.0/1440.0);
+	rightEncoder->SetDistancePerPulse(1.0/1440.0);
 }
 
 double Drivetrain::Limit(double number) {
