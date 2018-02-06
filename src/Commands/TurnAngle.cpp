@@ -2,8 +2,13 @@
 
 TurnAngle::TurnAngle(double angle) {
 	Requires(&Robot::drivetrain);
+	
+	angle = -(trunc(angle / 360) * 360);
+	source.gyroCorrection = -(trunc(Robot::gyro->GetAngle() / 360) * 360);
+	
 	pid.SetAbsoluteTolerance(3); // one degree
 	pid.SetSetpoint(angle);
+	
 }
 
 // Called just before this Command runs the first time
@@ -26,7 +31,7 @@ void TurnAngle::End() {
 }
 
 double TurnAngle::TurnAnglePIDSource::PIDGet() {
-	return Robot::gyro->GetAngle();
+	return Robot::gyro->GetAngle() + gyroCorrection;
 }
 
 void TurnAngle::TurnAnglePIDOutput::PIDWrite(double d) {
