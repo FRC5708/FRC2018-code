@@ -12,7 +12,7 @@
 class DriveDistance : public frc::Command {
 public:
 	double inchesToDrive;
-	double startingAngle;
+	double startingAngle = 0;
 	
 	DriveDistance(double inchesToDrive): inchesToDrive(inchesToDrive) {};
 	void Initialize() override;

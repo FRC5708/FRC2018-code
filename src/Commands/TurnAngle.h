@@ -15,6 +15,8 @@ public:
 		public:
 			virtual ~TurnAnglePIDSource() = default;
 			double PIDGet() override;
+			
+			double gyroCorrection = 0; // multiple of 360 degrees
 		};
 
 	class TurnAnglePIDOutput : public frc::PIDOutput {
@@ -27,6 +29,8 @@ public:
 		TurnAnglePIDSource source;
 		TurnAnglePIDOutput output;
 		frc::PIDController pid{0.1, 0.001, 0, source, output};
+		
+		
 };
 
 #endif  // TurnAngle_H

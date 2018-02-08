@@ -21,7 +21,7 @@ void MyAutoCommand::MoveToPoint(Point to) {
 	double y = to.y - location.y;
 	AddSequential(new TurnAngle(atan(y / x) * 180 / M_PI));
 	AddSequential(new DriveDistance(sqrt(x*x + y*y)));
-	
+
 	location = to;
 }
 
@@ -32,7 +32,7 @@ void MyAutoCommand::Initialize() {
 
 void MyAutoCommand::EarlyInitialize() {
 	Point location(0, 0);
-	
+
 	// 48 in == width of portal, which robot will sit up against
 	switch (robotPosition) {
 	case 'L': location = { -(132 + robotWidth/2), robotLength/2 }; break;
@@ -42,9 +42,9 @@ void MyAutoCommand::EarlyInitialize() {
 	default:
 		location = { 0, robotLength/2 }; 
 	}
-	
+
 	for (auto i = modeList.begin(); i != modeList.end(); ++i) {
-		
+
 		if (modePossible(*i)) {
 			mode = *i;
 			break;
@@ -53,40 +53,69 @@ void MyAutoCommand::EarlyInitialize() {
 	if (mode == AutonMode::eitherSwitch) {
 		mode = scorePositions[0] == 'L' ? AutonMode::leftSwitch : AutonMode::rightSwitch;
 	}
-	
-	if (mode == AutonMode::crossLine) {
+	if (mode == AutonMode::eitherScale) {
+		mode = scorePositions[1] == 'L' ? AutonMode::leftScale : AutonMode::rightScale;
+	}
+
+
+	if (mode == AutonMode::nothing) return;
+
+	else if (mode == AutonMode::crossLine) {
 		AddSequential(new DriveDistance(11*12));
 	}
-	// switch
-	/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
+	else {
+		MoveToPoint({ location.x, 1.5*12.0 }); // move forward so wall is not hit while turning
+
+		// switch
+		/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
 			|| (robotPosition == 'L' && mode == AutonMode::leftSwitch)
 			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {*/
-	else if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
+		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
 
-		double pos_mult = 1;
-		if (mode == AutonMode::leftSwitch) pos_mult = -1;
+			double pos_mult = 1;
+			if (mode == AutonMode::leftSwitch) pos_mult = -1;
 
-		MoveToPoint({ location.x, 1.5*12.0 });
-		MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
-		MoveToPoint({ location.x, 10*12 });
-		// place cube
+			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
+			MoveToPoint({ location.x, 10*12 });
+			// place cube
 
+		}
+		// scale
+		else if (mode == AutonMode::leftScale || mode == AutonMode::rightScale) {
+			double pos_mult = 1;
+			if (mode == AutonMode::leftScale) pos_mult = -1;
+
+			if (robotPosition == 'C') {
+				MoveToPoint({ 9*12*pos_mult, 100 }); // to side of arcade
+			}
+			
+			 if ((robotPosition == 'L' && mode == AutonMode::rightScale)
+			  || (robotPosition == 'R' && mode == AutonMode::leftScale)) {
+			 
+				// cross arcade horizontally
+				MoveToPoint({ location.x, 228 }); 
+				MoveToPoint({ 9*12*pos_mult, location.y });
+			 }
+			 
+			 MoveToPoint({ location.x, 27*12 }); //next to scale
+			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });	
+		}
 	}
 	// behind switch
 	/*
 	else if ((robotPosition == 'L' && mode == AutonMode::leftSwitch)
 			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {
-		
+
 		double pos_mult = 1;
 		if (mode == AutonMode::leftSwitch) pos_mult = -1;
-		
+
 		MoveToPoint({ location.x, 19.5*12.0 });
 		MoveToPoint({ 10.5*12.0 * pos_mult, location.y });
 		MoveToPoint({ location.x, 196 + robotLength/2 });
 		// place cube
 	}*/
-	
-	
+
+
 }
 
 bool MyAutoCommand::modePossible(AutonMode mode) {
@@ -95,22 +124,22 @@ bool MyAutoCommand::modePossible(AutonMode mode) {
 		return scorePositions[0] == 'L';
 	case AutonMode::rightSwitch:
 		return scorePositions[0] == 'R';
-		
+
 	case AutonMode::leftScale:
 		return scorePositions[1] == 'L';
 	case AutonMode::rightScale:
 		return scorePositions[1] == 'R';
-			
+
 	case AutonMode::eitherScale:
 	case AutonMode::eitherSwitch:
 	case AutonMode::crossLine:
 	case AutonMode::nothing:
-		 return true;
-		 
+		return true;
+
 	default:
 		return false;
 	}
-	
+
 }
 
 // Called repeatedly when this Command is scheduled to run
