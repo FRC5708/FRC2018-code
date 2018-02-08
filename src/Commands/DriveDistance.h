@@ -20,4 +20,6 @@ public:
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+	
+	double powerRampupCounter = 0;
 };

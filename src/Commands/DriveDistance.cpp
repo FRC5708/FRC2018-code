@@ -5,10 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+
+constexpr double powerRampupSpeed = 0.5; // seconds
+constexpr double powerLimit = 0.5;
+constexpr double ticksPerSecond = 50;
+constexpr double powerRampdownDist = 6; // inches
+constexpr double minPower = 0.1;
+
 #include <Commands/DriveDistance.h>
 #include "Robot.h"
 #include "RobotMap.h"
 #include <iostream>
+#include <math.h>
 
 
 // Called just before this Command runs the first time
@@ -20,9 +28,15 @@ void DriveDistance::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveDistance::Execute() {
+	powerRampupCounter += powerRampupSpeed/ticksPerSecond;
+	
+	double power = std::min(powerLimit, powerRampupCounter * powerLimit);
+	power = std::min(power, Robot::drivetrain.GetDistance() / powerRampdownDist);
+	power = std::max(power, minPower);
+	
+	
 	double turningValue = (Robot::gyro->GetAngle() - startingAngle) * 0.05;
-	std::cout << turningValue << std::endl;
-	Robot::drivetrain.DrivePolar(0.5, turningValue);
+	Robot::drivetrain.DrivePolar(power, turningValue);
 }
 
 // Make this return true when this Command no longer needs to run execute()
