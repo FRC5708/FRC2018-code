@@ -8,6 +8,7 @@
 #include "Robot.h"
 #include "WPILib.h"
 Drivetrain Robot::drivetrain;
+Arm Robot::arm;
 Claw Robot::claw;
 OI Robot::oi;
 Joystick* Robot::joystick;

@@ -8,7 +8,7 @@ class Arm {
 public:
 	Arm();
 	virtual ~Arm();
-	
+	void Move(double);
 	frc::SpeedController* motor1;
 	frc::SpeedController* motor2;
 	
