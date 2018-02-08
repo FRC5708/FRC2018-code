@@ -34,6 +34,7 @@ void DriveDistance::Execute() {
 	power = std::min(power, Robot::drivetrain.GetDistance() / powerRampdownDist);
 	power = std::max(power, minPower);
 	
+	if (inchesToDrive < 0) power = -power;
 	
 	double turningValue = (Robot::gyro->GetAngle() - startingAngle) * 0.05;
 	Robot::drivetrain.DrivePolar(power, turningValue);
