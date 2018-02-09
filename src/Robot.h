@@ -13,6 +13,7 @@
 #include <RobotMap.h>
 #include <Joystick.h>
 #include <AnalogGyro.h>
+#include <Commands/AutoCommand.h>
 #include "WPILib.h"
 
 
@@ -20,7 +21,6 @@
 #include <Subsystems/Claw.h>
 #include <Commands/DriveWithJoystick.h>
 #include <Commands/ClawWithJoystick.h>
-#include "Commands/MyAutoCommand.h"
 #include "Subsystems/Arm.h"
 
 class Robot : public frc::TimedRobot {
@@ -72,7 +72,7 @@ public:
 private:
 	// Have it null by default so that if testing teleop it
 	// doesn't have undefined behavior and potentially crash.
-	std::unique_ptr<MyAutoCommand> m_autonomousCommand = nullptr;
+	std::unique_ptr<AutoCommand> m_autonomousCommand = nullptr;
 	frc::SendableChooser<char> location_select;
 	frc::SendableChooser<AutonMode> primary_objective_select;
 	frc::SendableChooser<AutonMode> secondary_objective_select;

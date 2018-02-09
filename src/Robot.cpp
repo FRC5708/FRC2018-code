@@ -79,7 +79,7 @@ void Robot::AutonomousInit() {
     AutonMode secondary_objective = (AutonMode) secondary_objective_select.GetSelected();
     
 
-    m_autonomousCommand = std::unique_ptr<MyAutoCommand>(new MyAutoCommand(
+    m_autonomousCommand = std::unique_ptr<AutoCommand>(new AutoCommand(
                           location, gameData, { primary_objective, secondary_objective }));
     
     m_autonomousCommand->Start();

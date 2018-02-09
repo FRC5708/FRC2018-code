@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "MyAutoCommand.h"
+#include <Commands/AutoCommand.h>
 #include <Commands/CommandGroup.h>
 #include <math.h>
 #include <iostream>
@@ -17,7 +17,7 @@
 
 
 
-void MyAutoCommand::MoveToPoint(Point to) {
+void AutoCommand::MoveToPoint(Point to) {
 	double x = to.x - location.x;
 	double y = to.y - location.y;
 	AddSequential(new TurnAngle(atan(y / x) * 180 / M_PI));
@@ -28,11 +28,11 @@ void MyAutoCommand::MoveToPoint(Point to) {
 }
 
 // Called just before this Command runs the first time
-void MyAutoCommand::Initialize() {
+void AutoCommand::Initialize() {
 	Robot::gyro->Reset();
 }
 
-void MyAutoCommand::SetupRoute() {
+void AutoCommand::SetupRoute() {
 
 	// 48 in == width of portal, which robot will sit up against
 	switch (robotPosition) {
@@ -120,7 +120,7 @@ void MyAutoCommand::SetupRoute() {
 
 }
 
-bool MyAutoCommand::modePossible(AutonMode mode) {
+bool AutoCommand::modePossible(AutonMode mode) {
 	switch (mode) {
 	case AutonMode::leftSwitch:
 		return scorePositions[0] == 'L';
@@ -148,13 +148,13 @@ bool MyAutoCommand::modePossible(AutonMode mode) {
 //void MyAutoCommand::Execute() {}
 
 // Make this return true when this Command no longer needs to run execute()
-bool MyAutoCommand::IsFinished() {
+bool AutoCommand::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void MyAutoCommand::End() {}
+void AutoCommand::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void MyAutoCommand::Interrupted() {}
+void AutoCommand::Interrupted() {}
