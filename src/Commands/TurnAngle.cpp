@@ -3,8 +3,8 @@
 TurnAngle::TurnAngle(double angle) {
 	Requires(&Robot::drivetrain);
 	
-	angle = angle - (trunc(angle / 360) * 360);
-	source.gyroCorrection = -(trunc(Robot::gyro->GetAngle() / 360) * 360);
+	//angle = angle - (trunc(angle / 360) * 360);
+	//source.gyroCorrection = -(trunc(Robot::gyro->GetAngle() / 360) * 360);
 	
 	pid.SetAbsoluteTolerance(3); // one degree
 	pid.SetSetpoint(angle);

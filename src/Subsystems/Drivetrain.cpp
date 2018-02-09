@@ -8,8 +8,8 @@
 
 Drivetrain::Drivetrain() : frc::Subsystem("Drivetrain") {
 	
-	leftEncoder->SetDistancePerPulse(1.0/1440.0);
-	rightEncoder->SetDistancePerPulse(1.0/1440.0);
+	leftEncoder->SetDistancePerPulse(1.0/360.0);
+	rightEncoder->SetDistancePerPulse(1.0/360.0);
 }
 
 double Drivetrain::Limit(double number) {
@@ -61,9 +61,12 @@ void Drivetrain::DrivePolar(double moveValue, double rotateValue) {
 void Drivetrain::ResetDistance(){
 	leftEncoder->Reset();
 	rightEncoder->Reset();
+
+	leftEncoder->SetDistancePerPulse(1.0/360.0);
+	rightEncoder->SetDistancePerPulse(1.0/360.0);
 }
 
-double Drivetrain::GetDistance(){
+double Drivetrain::GetDistance() {
 	return ((leftEncoder->GetDistance()+rightEncoder->GetDistance())/2.0)*WheelCircumference;
 }
 
