@@ -16,6 +16,8 @@ void DriveDistance::Initialize() {
 	//Robot::gyro->Reset();
 	startingAngle = Robot::gyro->GetAngle();
 	Robot::drivetrain.ResetDistance();
+	
+	std::cout << "driving distance: " << inchesToDrive << " inches" << std::endl;
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -27,8 +29,10 @@ void DriveDistance::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveDistance::IsFinished() {
-	// check encoders
-	return Robot::drivetrain.GetDistance() > inchesToDrive;
+	double distance = Robot::drivetrain.GetDistance();
+	
+	if (inchesToDrive > 0) return distance >= inchesToDrive;
+	else return distance <= inchesToDrive;
 }
 
 // Called once after isFinished returns true

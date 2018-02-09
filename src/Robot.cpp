@@ -57,7 +57,15 @@ void Robot::DisabledPeriodic(){
     frc::Scheduler::GetInstance()->Run();
 }
 
-void Robot::AutonomousInit(){
+void Robot::LogSensors() {
+	SmartDashboard::PutNumber("left encoder (revolutions)", drivetrain.leftEncoder->GetDistance());
+	SmartDashboard::PutNumber("right encoder (revolutions)", drivetrain.rightEncoder->GetDistance());
+	
+	SmartDashboard::PutNumber("encoder distance (inches)", drivetrain.GetDistance());
+	SmartDashboard::PutNumber("gyro rotation (degrees)", gyro->GetAngle());
+}
+
+void Robot::AutonomousInit() {
     
     // switch and scale location
     // https://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
@@ -80,6 +88,7 @@ void Robot::AutonomousInit(){
 
 void Robot::AutonomousPeriodic(){
     frc::Scheduler::GetInstance()->Run();
+    LogSensors();
 }
 
 void Robot::TeleopInit(){
@@ -105,6 +114,7 @@ void Robot::TeleopInit(){
 
 void Robot::TeleopPeriodic() {
     frc::Scheduler::GetInstance()->Run();
+    LogSensors();
 }
 
 START_ROBOT_CLASS(Robot);

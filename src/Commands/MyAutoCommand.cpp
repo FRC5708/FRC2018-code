@@ -8,6 +8,7 @@
 #include "MyAutoCommand.h"
 #include <Commands/CommandGroup.h>
 #include <math.h>
+#include <iostream>
 
 #include "Commands/DriveDistance.h"
 #include "Commands/TurnAngle.h"
@@ -31,8 +32,7 @@ void MyAutoCommand::Initialize() {
 	Robot::gyro->Reset();
 }
 
-void MyAutoCommand::EarlyInitialize() {
-	Point location(0, 0);
+void MyAutoCommand::SetupRoute() {
 
 	// 48 in == width of portal, which robot will sit up against
 	switch (robotPosition) {
@@ -57,8 +57,9 @@ void MyAutoCommand::EarlyInitialize() {
 	if (mode == AutonMode::eitherScale) {
 		mode = scorePositions[1] == 'L' ? AutonMode::leftScale : AutonMode::rightScale;
 	}
+	std::cout << "executing autonomous command " << (int) mode << std::endl;
 
-
+	
 	if (mode == AutonMode::nothing) return;
 
 	else if (mode == AutonMode::crossLine) {

@@ -1,4 +1,5 @@
 #include "TurnAngle.h"
+#include <iostream>
 
 TurnAngle::TurnAngle(double angle) {
 	Requires(&Robot::drivetrain);
@@ -6,14 +7,16 @@ TurnAngle::TurnAngle(double angle) {
 	//angle = angle - (trunc(angle / 360) * 360);
 	//source.gyroCorrection = -(trunc(Robot::gyro->GetAngle() / 360) * 360);
 	
-	pid.SetAbsoluteTolerance(3); // one degree
+	
+	pid.SetAbsoluteTolerance(3); // degrees
 	pid.SetSetpoint(angle);
 	
 }
 
 // Called just before this Command runs the first time
 void TurnAngle::Initialize() {
-	//Robot::gyro->Reset();
+	std::cout << "turning to angle: " << pid.GetSetpoint() << std::endl;
+	
 	pid.Reset();
 	pid.Enable();
 	pid.SetOutputRange(-0.5, 0.5);

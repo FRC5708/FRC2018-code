@@ -21,7 +21,7 @@
 #include <Commands/DriveWithJoystick.h>
 #include <Commands/ClawWithJoystick.h>
 #include "Commands/MyAutoCommand.h"
-#include "Subsystems/Arm.h";
+#include "Subsystems/Arm.h"
 
 class Robot : public frc::TimedRobot {
 public:
@@ -82,6 +82,8 @@ private:
 	frc::Command* clawCommand;
   
 	joystickMode control_scheme;
+	
+	void LogSensors();
 };
 
 #endif
