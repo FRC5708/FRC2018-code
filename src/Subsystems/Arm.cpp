@@ -1,10 +1,10 @@
 
 #include <Subsystems/Arm.h>
-#include <Victor.h>
+#include <Talon.h>
 #include "../RobotMap.h"
 
-Arm::Arm(): motor1(new frc::Victor(ArmMotorChannel1)), 
-		    motor2(new frc::Victor(ArmMotorChannel2)),
+Arm::Arm(): motor1(new frc::Talon(ArmMotorChannel1)),
+		    motor2(new frc::Talon(ArmMotorChannel2)),
 		    encoder(ArmEncoderChannel[0], ArmEncoderChannel[1]) {
 
 	encoder.SetDistancePerPulse(1.0/1440.0);

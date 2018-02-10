@@ -16,7 +16,7 @@ void DriveWithJoystick::Execute() {
 		case SINGLE_JOY: {
 			turn = Robot::joystick->GetX();
 			power = Robot::joystick->GetY();
-			arm_power = ((Robot::joystick->GetRawButtonPressed(5) ? 1 : 0) + (Robot::joystick->GetRawButtonPressed(6) ? -1 : 0));
+			arm_power = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
 
 
 			break;

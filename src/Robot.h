@@ -21,7 +21,7 @@
 #include <Commands/DriveWithJoystick.h>
 #include <Commands/ClawWithJoystick.h>
 #include "Commands/MyAutoCommand.h"
-#include "Subsystems/Arm.h";
+#include "Subsystems/Arm.h"
 
 class Robot : public frc::TimedRobot {
 public:
