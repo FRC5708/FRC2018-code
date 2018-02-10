@@ -29,6 +29,7 @@ bool TurnAngle::IsFinished() {
 
 // Called once after isFinished returns true
 void TurnAngle::End() {
+	std::cout << "ended turn" << std::endl;
 	pid.Disable();
 	Robot::drivetrain.Drive(0,0);
 }
@@ -38,5 +39,7 @@ double TurnAngle::TurnAnglePIDSource::PIDGet() {
 }
 
 void TurnAngle::TurnAnglePIDOutput::PIDWrite(double d) {
-	Robot::drivetrain.Drive(d, -d);
+	//if (fabs(d) < 0.2) d = (d > 0 ? 0.2 : -0.2);
+	SmartDashboard::PutNumber("turning power", d);
+	Robot::drivetrain.Drive(-d, d);
 }

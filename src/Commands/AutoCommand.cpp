@@ -23,7 +23,7 @@ void AutoCommand::MoveToPoint(Point to) {
 	double x = to.x - location.x;
 	double y = to.y - location.y;
 	AddSequential(new TurnAngle(atan(x / y) * 180 / M_PI));
-	AddSequential(new frc::WaitCommand(1));
+	//AddSequential(new frc::WaitCommand(0.2));
 	AddSequential(new DriveDistance(sqrt(x*x + y*y)));
 
 	location = to;

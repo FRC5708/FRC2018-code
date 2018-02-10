@@ -6,11 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 
-constexpr double powerRampupSpeed = 0.5; // seconds
+constexpr double powerRampupSpeed = 0.4; // seconds
 constexpr double powerLimit = 0.5;
 constexpr double ticksPerSecond = 50;
 constexpr double powerRampdownDist = 6; // inches
-constexpr double minPower = 0.1;
+constexpr double minPower = 0.2;
 
 #include <Commands/DriveDistance.h>
 #include "Robot.h"
@@ -32,14 +32,16 @@ void DriveDistance::Initialize() {
 void DriveDistance::Execute() {
 	powerRampupCounter += powerRampupSpeed/ticksPerSecond;
 	
-	double power = std::min(powerLimit, powerRampupCounter * powerLimit);
-	power = std::min(power, Robot::drivetrain.GetDistance() / powerRampdownDist);
+	double power = std::min(powerLimit, powerRampupCounter * (powerLimit - minPower) + minPower);
+	power = std::min(power, (inchesToDrive - Robot::drivetrain.GetDistance()) / powerRampdownDist);
 	power = std::max(power, minPower);
 	
 	if (inchesToDrive < 0) power = -power;
 	
-	double turningValue = (Robot::gyro->GetAngle() - startingAngle) * 0.05;
+	double turningValue = -(Robot::gyro->GetAngle() - startingAngle) * 0.05;
 	Robot::drivetrain.DrivePolar(power, turningValue);
+
+	SmartDashboard::PutNumber("driveDistance power", power);
 }
 
 // Make this return true when this Command no longer needs to run execute()
