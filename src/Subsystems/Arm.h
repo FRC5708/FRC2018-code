@@ -3,8 +3,9 @@
 
 #include <SpeedController.h>
 #include <Encoder.h>
+#include <Commands/Subsystem.h>
 
-class Arm {
+class Arm: public Subsystem {
 public:
 	Arm();
 	virtual ~Arm();
