@@ -19,16 +19,14 @@ public:
 	void ResetDistance();
 	double GetDistance();
 
-	
-private:
-
-	SpeedController* FLMotor = new frc::Victor(FLMotorChannel);
-	SpeedController* BLMotor = new frc::Victor(BLMotorChannel);
-	SpeedController* FRMotor = new frc::Victor(FRMotorChannel);
-	SpeedController* BRMotor = new frc::Victor(BRMotorChannel);
-
 	Encoder* leftEncoder = new frc::Encoder(LeftEncoderChannel[0],LeftEncoderChannel[1], false);
 	Encoder* rightEncoder = new frc::Encoder(RightEncoderChannel[0],RightEncoderChannel[1], true);
+private:
+
+	SpeedController* FLMotor = new frc::Spark(FLMotorChannel);
+	SpeedController* BLMotor = new frc::Spark(BLMotorChannel);
+	SpeedController* FRMotor = new frc::Spark(FRMotorChannel);
+	SpeedController* BRMotor = new frc::Spark(BRMotorChannel);
 };
 
 

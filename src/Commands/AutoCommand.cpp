@@ -5,9 +5,10 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "MyAutoCommand.h"
+#include <Commands/AutoCommand.h>
 #include <Commands/CommandGroup.h>
 #include <math.h>
+#include <iostream>
 
 #include "Commands/DriveDistance.h"
 #include "Commands/TurnAngle.h"
@@ -16,10 +17,12 @@
 
 
 
-void MyAutoCommand::MoveToPoint(Point to) {
+void AutoCommand::MoveToPoint(Point to) {
+	std::cout << "adding point: (" << to.x << ", " << to.y << ")" << std::endl;
+	
 	double x = to.x - location.x;
 	double y = to.y - location.y;
-	AddSequential(new TurnAngle(atan(y / x) * 180 / M_PI));
+	AddSequential(new TurnAngle(atan(x / y) * 180 / M_PI));
 	AddSequential(new frc::WaitCommand(1));
 	AddSequential(new DriveDistance(sqrt(x*x + y*y)));
 
@@ -27,12 +30,11 @@ void MyAutoCommand::MoveToPoint(Point to) {
 }
 
 // Called just before this Command runs the first time
-void MyAutoCommand::Initialize() {
+void AutoCommand::Initialize() {
 	Robot::gyro->Reset();
 }
 
-void MyAutoCommand::EarlyInitialize() {
-	Point location(0, 0);
+void AutoCommand::SetupRoute() {
 
 	// 48 in == width of portal, which robot will sit up against
 	switch (robotPosition) {
@@ -52,20 +54,21 @@ void MyAutoCommand::EarlyInitialize() {
 		}
 	}
 	if (mode == AutonMode::eitherSwitch) {
-		mode = scorePositions[0] == 'L' ? AutonMode::leftSwitch : AutonMode::rightSwitch;
+		mode = (scorePositions[0] == 'L' ? AutonMode::leftSwitch : AutonMode::rightSwitch);
 	}
 	if (mode == AutonMode::eitherScale) {
-		mode = scorePositions[1] == 'L' ? AutonMode::leftScale : AutonMode::rightScale;
+		mode = (scorePositions[1] == 'L' ? AutonMode::leftScale : AutonMode::rightScale);
 	}
+	std::cout << "executing autonomous command " << (int) mode << std::endl;
 
-
+	 
 	if (mode == AutonMode::nothing) return;
 
 	else if (mode == AutonMode::crossLine) {
 		AddSequential(new DriveDistance(11*12));
 	}
 	else {
-		MoveToPoint({ location.x, 1.5*12.0 }); // move forward so wall is not hit while turning
+		MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 
 		// switch
 		/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
@@ -99,7 +102,7 @@ void MyAutoCommand::EarlyInitialize() {
 			 }
 			 
 			 MoveToPoint({ location.x, 27*12 }); //next to scale
-			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });	
+			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
 		}
 	}
 	// behind switch
@@ -119,7 +122,7 @@ void MyAutoCommand::EarlyInitialize() {
 
 }
 
-bool MyAutoCommand::modePossible(AutonMode mode) {
+bool AutoCommand::modePossible(AutonMode mode) {
 	switch (mode) {
 	case AutonMode::leftSwitch:
 		return scorePositions[0] == 'L';
@@ -147,13 +150,13 @@ bool MyAutoCommand::modePossible(AutonMode mode) {
 //void MyAutoCommand::Execute() {}
 
 // Make this return true when this Command no longer needs to run execute()
-bool MyAutoCommand::IsFinished() {
+bool AutoCommand::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void MyAutoCommand::End() {}
+void AutoCommand::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void MyAutoCommand::Interrupted() {}
+void AutoCommand::Interrupted() {}

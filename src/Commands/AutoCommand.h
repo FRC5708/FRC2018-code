@@ -26,7 +26,7 @@
 		eitherScale
 	};
 
-class MyAutoCommand : public frc::CommandGroup {
+class AutoCommand : public frc::CommandGroup {
 public:
 	
 
@@ -37,11 +37,11 @@ public:
 	std::vector<AutonMode> modeList;
 	
 	
-	MyAutoCommand(char robotPosition, std::string scorePositions, std::vector<AutonMode> modes): 
-		robotPosition(robotPosition), scorePositions(scorePositions), modeList(modes) { EarlyInitialize(); };
+	AutoCommand(char robotPosition, std::string scorePositions, std::vector<AutonMode> modes): 
+		robotPosition(robotPosition), scorePositions(scorePositions), modeList(modes) { SetupRoute(); };
 	
 	void Initialize() override;
-	void EarlyInitialize();
+	void SetupRoute();
 	//void Execute() override;
 	bool IsFinished() override;
 	void End() override;
