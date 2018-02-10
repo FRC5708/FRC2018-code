@@ -19,7 +19,9 @@ Compressor* compressor;
 
 void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string name) {
 
-	chooser->AddDefault(name + ": Cross line", AutonMode::crossLine);
+	// space in beginning for alphabetical ordering
+	chooser->AddDefault(" " + name + "default (do nothing)", AutonMode::nothing);
+	chooser->AddObject("Cross line", AutonMode::crossLine);
 	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
 	chooser->AddObject("Switch (left)", AutonMode::leftSwitch);
 	chooser->AddObject("Switch (right)", AutonMode::rightSwitch);
