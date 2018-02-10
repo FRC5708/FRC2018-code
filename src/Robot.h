@@ -13,20 +13,21 @@
 #include <RobotMap.h>
 #include <Joystick.h>
 #include <AnalogGyro.h>
+#include <Commands/ArmWithJoystick.h>
 #include "WPILib.h"
 
 
 #include <Subsystems/Drivetrain.h>
 #include <Subsystems/Claw.h>
 #include <Commands/DriveWithJoystick.h>
-#include <Commands/ClawWithJoystick.h>
 #include "Commands/MyAutoCommand.h"
-
+#include "Subsystems/Arm.h"
 
 class Robot : public frc::TimedRobot {
 public:
 	static Drivetrain drivetrain;
 	static Claw claw;
+	static Arm arm;
 	static OI oi;
 	static Joystick* joystick;
 	static Gyro* gyro;

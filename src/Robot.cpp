@@ -8,6 +8,7 @@
 #include "Robot.h"
 #include "WPILib.h"
 Drivetrain Robot::drivetrain;
+Arm Robot::arm;
 Claw Robot::claw;
 OI Robot::oi;
 Joystick* Robot::joystick;
@@ -94,7 +95,7 @@ void Robot::TeleopInit(){
         m_autonomousCommand = nullptr;
     }
     driveCommand = new DriveWithJoystick();
-    clawCommand = new ClawWithJoystick();
+    clawCommand = new ArmWithJoystick();
 
     Robot::joyMode = control_scheme;
   
