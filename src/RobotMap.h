@@ -46,7 +46,7 @@ constexpr double WheelCircumference = 6 * M_PI;
 // in inches. 
 constexpr double fieldWidth = 360;
 //change these
-constexpr double robotLength = 60, robotWidth = 40;
+constexpr double robotLength = 31.9, robotWidth = 27.5;
 
 
 enum joystickMode {SINGLE_JOY, XBOX};
