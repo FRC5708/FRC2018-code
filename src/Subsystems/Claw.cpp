@@ -1,7 +1,7 @@
 #include "Claw.h"
 #include "../RobotMap.h"
 
-Claw::Claw() : Subsystem("ExampleSubsystem") {
+Claw::Claw() : Subsystem("Claw") {
 
 }
 

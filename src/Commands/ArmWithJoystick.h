@@ -7,9 +7,9 @@
 #include <RobotMap.h>
 #include <vector>
 
-class ClawWithJoystick : public frc::Command {
+class ArmWithJoystick : public frc::Command {
 public:
-	ClawWithJoystick();
+	ArmWithJoystick();
 	void Initialize(){};
 	void Execute();
 	bool IsFinished();

@@ -14,13 +14,13 @@
 #include <Joystick.h>
 #include <AnalogGyro.h>
 #include <Commands/AutoCommand.h>
+#include <Commands/ArmWithJoystick.h>
 #include "WPILib.h"
 
 
 #include <Subsystems/Drivetrain.h>
 #include <Subsystems/Claw.h>
 #include <Commands/DriveWithJoystick.h>
-#include <Commands/ClawWithJoystick.h>
 #include "Subsystems/Arm.h"
 
 class Robot : public frc::TimedRobot {
