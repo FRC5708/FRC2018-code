@@ -101,7 +101,7 @@ void AutoCommand::SetupRoute() {
 				MoveToPoint({ 9*12*pos_mult, location.y });
 			 }
 			 
-			 MoveToPoint({ location.x, 27*12 }); //next to scale
+			 MoveToPoint({ location.x, 299.65 + 2*12 }); //next to scale
 			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
 		}
 	}
