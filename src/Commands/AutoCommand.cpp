@@ -18,6 +18,8 @@
 
 
 void AutoCommand::MoveToPoint(Point to) {
+	std::cout << "adding point: (" << to.x << ", " << to.y << ")" << std::endl;
+	
 	double x = to.x - location.x;
 	double y = to.y - location.y;
 	AddSequential(new TurnAngle(atan(y / x) * 180 / M_PI));
@@ -52,21 +54,21 @@ void AutoCommand::SetupRoute() {
 		}
 	}
 	if (mode == AutonMode::eitherSwitch) {
-		mode = scorePositions[0] == 'L' ? AutonMode::leftSwitch : AutonMode::rightSwitch;
+		mode = (scorePositions[0] == 'L' ? AutonMode::leftSwitch : AutonMode::rightSwitch);
 	}
 	if (mode == AutonMode::eitherScale) {
-		mode = scorePositions[1] == 'L' ? AutonMode::leftScale : AutonMode::rightScale;
+		mode = (scorePositions[1] == 'L' ? AutonMode::leftScale : AutonMode::rightScale);
 	}
 	std::cout << "executing autonomous command " << (int) mode << std::endl;
 
-	
+	 
 	if (mode == AutonMode::nothing) return;
 
 	else if (mode == AutonMode::crossLine) {
 		AddSequential(new DriveDistance(11*12));
 	}
 	else {
-		MoveToPoint({ location.x, 1.5*12.0 }); // move forward so wall is not hit while turning
+		MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 
 		// switch
 		/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
@@ -100,7 +102,7 @@ void AutoCommand::SetupRoute() {
 			 }
 			 
 			 MoveToPoint({ location.x, 27*12 }); //next to scale
-			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });	
+			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
 		}
 	}
 	// behind switch
