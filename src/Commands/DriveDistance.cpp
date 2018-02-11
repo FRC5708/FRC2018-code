@@ -24,9 +24,9 @@ void DriveDistance::Initialize() {
 	//Robot::gyro->Reset();
 	startingAngle = Robot::gyro->GetAngle();
 	Robot::drivetrain.ResetDistance();
-	
 
-	turnPid.SetOutputRange(0.2, -0.2);
+
+	turnPid.SetOutputRange(-0.2, 0.2);
 	turnPid.SetSetpoint(startingAngle);
 	turnPid.Enable();
 
@@ -35,20 +35,22 @@ void DriveDistance::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveDistance::Execute() {
-	
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveDistance::IsFinished() {
 	double distance = Robot::drivetrain.GetDistance();
-	
+
 	if (inchesToDrive > 0) return distance >= inchesToDrive;
 	else return distance <= inchesToDrive;
 }
 
 // Called once after isFinished returns true
 void DriveDistance::End() {
+	turnPid.Disable();
 	Robot::drivetrain.Drive(0, 0);
+	std::cout << "ended DriveStraight" << std::endl;
 }
 
 // Called when another command which requires one or more of the same
@@ -60,21 +62,22 @@ double DriveDistance::PIDGet() {
 }
 
 void DriveDistance::PIDWrite(double turningValue) {
-	powerRampupCounter += powerRampupSpeed/ticksPerSecond;
-		
-		double power = std::min(powerLimit, powerRampupCounter * (powerLimit - minPower) + minPower);
-		
-		double remainingTime = (inchesToDrive - Robot::drivetrain.GetDistance()) / Robot::drivetrain.GetRate();
-		double rampdownPower = remainingTime / powerRampdownTime  * (powerLimit - minPower) + minPower;
-		power = std::min(power, rampdownPower);
-		
-		power = std::max(power, minPower);
-		
-		if (inchesToDrive < 0) power = -power;
-		
-		Robot::drivetrain.DrivePolar(power, -turningValue);
+	//powerRampupCounter += powerRampupSpeed/ticksPerSecond;
+	powerRampupCounter = 1000;
+	double power = std::min(powerLimit, powerRampupCounter * (powerLimit - minPower) + minPower);
 
-		SmartDashboard::PutNumber("DriveDistance power", power);
+	double remainingTime = (inchesToDrive - Robot::drivetrain.GetDistance()) / Robot::drivetrain.GetRate();
+	double rampdownPower = remainingTime / powerRampdownTime  * (powerLimit - minPower) + minPower;
+	power = std::min(power, rampdownPower);
+
+	power = std::max(power, minPower);
+
+	if (inchesToDrive < 0) power = -power;
+
+
+	Robot::drivetrain.DrivePolar(power, turningValue);
+
+	SmartDashboard::PutNumber("DriveDistance power", power);
 }
 
 
