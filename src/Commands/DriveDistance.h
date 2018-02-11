@@ -9,6 +9,7 @@
 
 #include <Commands/Command.h>
 #include <PIDController.h>
+#include <PIDOutput.h>
 
 class DriveDistance : public frc::Command, frc::PIDSource, frc::PIDOutput {
 public:
@@ -30,5 +31,5 @@ private:
 
 	double turningValue = 0;
 
-	frc::PIDController turnPid{ 0.05, 0.002, this, this };
+	frc::PIDController turnPid{ 0.05, 0.002, 0, this, this };
 };
