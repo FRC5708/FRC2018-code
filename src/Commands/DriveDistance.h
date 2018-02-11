@@ -31,5 +31,5 @@ private:
 
 	double turningValue = 0;
 
-	frc::PIDController turnPid{ 0.05, 0.002, 0, this, this };
+	frc::PIDController turnPid{ 0.05, 0, 0, this, this };
 };

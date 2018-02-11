@@ -28,6 +28,7 @@ void DriveDistance::Initialize() {
 
 	turnPid.SetOutputRange(0.2, -0.2);
 	turnPid.SetSetpoint(startingAngle);
+	turnPid.Enable();
 
 	std::cout << "driving distance: " << inchesToDrive << " inches" << std::endl;
 }
@@ -71,7 +72,7 @@ void DriveDistance::PIDWrite(double turningValue) {
 		
 		if (inchesToDrive < 0) power = -power;
 		
-		Robot::drivetrain.DrivePolar(power, turningValue);
+		Robot::drivetrain.DrivePolar(power, -turningValue);
 
 		SmartDashboard::PutNumber("DriveDistance power", power);
 }
