@@ -25,6 +25,10 @@ void DriveDistance::Initialize() {
 	startingAngle = Robot::gyro->GetAngle();
 	Robot::drivetrain.ResetDistance();
 	
+
+	turnPid.SetOutputRange(0.2, -0.2);
+	turnPid.SetSetpoint(startingAngle);
+
 	std::cout << "driving distance: " << inchesToDrive << " inches" << std::endl;
 }
 
@@ -42,7 +46,6 @@ void DriveDistance::Execute() {
 	
 	if (inchesToDrive < 0) power = -power;
 	
-	double turningValue = -(Robot::gyro->GetAngle() - startingAngle) * 0.05;
 	Robot::drivetrain.DrivePolar(power, turningValue);
 
 	SmartDashboard::PutNumber("driveDistance power", power);
@@ -64,3 +67,8 @@ void DriveDistance::End() {
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void DriveDistance::Interrupted() { End(); }
+
+double DriveDistance::PIDGet() {
+	return Robot::gyro.GetAngle();
+}
+void
