@@ -22,7 +22,7 @@ public:
 	void Interrupted() override;
 	
 	double PIDGet() override;
-	void PIDWrite() override;
+	void PIDWrite(double turningValue) override;
 
 private:
 	double powerRampupCounter = 0;
