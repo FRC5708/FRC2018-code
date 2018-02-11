@@ -77,6 +77,8 @@ private:
 	frc::SendableChooser<AutonMode> primary_objective_select;
 	frc::SendableChooser<AutonMode> secondary_objective_select;
 	frc::SendableChooser<joystickMode> control_scheme_select;
+
+	frc::SendableChooser<char> switch_scale_select;
   
 	frc::Command* driveCommand;
 	frc::Command* clawCommand;

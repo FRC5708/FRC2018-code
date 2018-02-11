@@ -52,6 +52,9 @@ void Robot::RobotInit() {
 	control_scheme_select.AddDefault("Joystick", SINGLE_JOY);
 	control_scheme_select.AddObject("Xbox", XBOX);
 	frc::SmartDashboard::PutData("Control Scheme", &control_scheme_select);
+
+	switch_scale_select.AddDefault("Left", 'L');
+	switch_scale_select.AddDefault("Right", 'L');
 }
 
 
