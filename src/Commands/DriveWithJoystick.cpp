@@ -7,14 +7,16 @@ DriveWithJoystick::DriveWithJoystick()
 }
 
 // from 0 to inputChangePosition in joystick, power output is 0 to outputChangePosition. This makes the robot easier to control at low speeds.
-double powerTransform(double input) {
+double powerTransform(double input, double minPowerOutput, double inputDeadZone) {
 	constexpr double inputChangePosition = 0.75;
 	constexpr double outputChangePosition = 0.5;
 
 	double output = 0;
-	
-	if (fabs(input) <= inputChangePosition) {
-		output = input / inputChangePosition * outputChangePosition;
+	if (fabs(input) <= inputDeadZone) {
+		output = 0;
+	}
+	else if (fabs(input) <= inputChangePosition) {
+		output = (input / inputChangePosition * (outputChangePosition - minPowerOutput)) + minPowerOutput;
 	}
 	else {
 		output = (fabs(input) - inputChangePosition)
@@ -45,8 +47,8 @@ void DriveWithJoystick::Execute() {
 			break;
 		}
 	}
-	power = powerTransform(power);
-	turn = powerTransform(turn);
+	power = powerTransform(power, 0.2, 0.05);
+	turn = powerTransform(turn, 0, 0);
 
 	//Robot::drivetrain.DrivePolar(power, turn);
 	double v = (1-fabs(turn)) * (power) + power;
