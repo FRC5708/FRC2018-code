@@ -9,8 +9,8 @@
 constexpr double powerRampupSpeed = 0.4; // seconds
 constexpr double powerLimit = 0.5;
 constexpr double ticksPerSecond = 50;
-constexpr double powerRampdownDist = 6; // inches
-constexpr double minPower = 0.2;
+constexpr double powerRampdownTime = 0.3; // seconds remaining IF the robot keeps going the same speed
+constexpr double minPower = 0.3;
 
 #include <Commands/DriveDistance.h>
 #include "Robot.h"
@@ -33,7 +33,11 @@ void DriveDistance::Execute() {
 	powerRampupCounter += powerRampupSpeed/ticksPerSecond;
 	
 	double power = std::min(powerLimit, powerRampupCounter * (powerLimit - minPower) + minPower);
-	power = std::min(power, (inchesToDrive - Robot::drivetrain.GetDistance()) / powerRampdownDist);
+	
+	double remainingTime = (inchesToDrive - Robot::drivetrain.GetDistance()) / Robot::drivetrain.GetRate();
+	double rampdownPower = remainingTime / powerRampdownTime  * (powerLimit - minPower) + minPower;
+	power = std::min(power, rampdownPower);
+	
 	power = std::max(power, minPower);
 	
 	if (inchesToDrive < 0) power = -power;
