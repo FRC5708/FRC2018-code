@@ -74,7 +74,7 @@ void Robot::AutonomousInit() {
     gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
     
     // for testing
-    gameData = "LLL";
+    gameData = "RRR";
 
     char location = (char) location_select.GetSelected();
     AutonMode primary_objective = (AutonMode) primary_objective_select.GetSelected();

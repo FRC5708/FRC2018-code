@@ -7,9 +7,9 @@
 
 
 constexpr double powerRampupSpeed = 0.4; // seconds
-constexpr double powerLimit = 0.5;
+constexpr double powerLimit = 1;
 constexpr double ticksPerSecond = 50;
-constexpr double powerRampdownTime = 0.3; // seconds remaining IF the robot keeps going the same speed
+constexpr double powerRampdownTime = 0.7; // seconds remaining IF the robot keeps going the same speed
 constexpr double minPower = 0.3;
 
 #include <Commands/DriveDistance.h>
