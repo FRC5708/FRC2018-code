@@ -5,14 +5,15 @@
 #include <Encoder.h>
 #include <Commands/Subsystem.h>
 
-class Arm: public Subsystem {
+class Arm: public frc::Subsystem {
 public:
 	Arm();
 	virtual ~Arm();
 	void Move(double);
+	void SetReleasePosition(double);
 	frc::SpeedController* motor1;
 	frc::SpeedController* motor2;
-	
+	frc::Servo* armRelease;
 	frc::Encoder encoder;
 };
 
