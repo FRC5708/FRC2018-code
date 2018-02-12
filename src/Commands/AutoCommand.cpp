@@ -38,8 +38,8 @@ void AutoCommand::SetupRoute() {
 
 	// 48 in == width of portal, which robot will sit up against
 	switch (robotPosition) {
-	case 'L': location = { -(132 + robotWidth/2), robotLength/2 }; break;
-	case 'R': location = { 132 + robotWidth/2, robotLength/2 }; break;
+	case 'L': location = { -(132 - robotWidth/2), robotLength/2 }; break;
+	case 'R': location = { 132 - robotWidth/2, robotLength/2 }; break;
 
 	case 'C': 
 	default:
