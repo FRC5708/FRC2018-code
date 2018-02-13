@@ -16,17 +16,15 @@ double powerTransform(double input, double minPowerOutput, double inputDeadZone)
 		output = 0;
 	}
 	else if (fabs(input) <= inputChangePosition) {
-		output = (input / inputChangePosition * (outputChangePosition - minPowerOutput)) + minPowerOutput;
+		output = (fabs(input) / inputChangePosition * (outputChangePosition - minPowerOutput)) + minPowerOutput;
 	}
 	else {
 		output = (fabs(input) - inputChangePosition)
 				/ (1 - inputChangePosition)
 				* (1 - outputChangePosition)
 				+ outputChangePosition;
-		
-		if (input < 0) output = -output;
 	}
-	
+	if (input < 0) output = -output;
 	return output;
 } 
 
@@ -39,16 +37,17 @@ void DriveWithJoystick::Execute() {
 		case SINGLE_JOY: {
 			turn = -Robot::joystick->GetX();
 			power = Robot::joystick->GetY();
+			turn = powerTransform(turn, 0, 0);
 			break;
 		}
 		case XBOX: {
 			turn = Robot::joystick->GetX();
 			power = Robot::joystick->GetRawAxis(3)-Robot::joystick->GetRawAxis(2);
+			turn = powerTransform(turn, 0, 0.1);
 			break;
 		}
 	}
 	power = powerTransform(power, 0.2, 0.05);
-	turn = powerTransform(turn, 0, 0);
 
 	//Robot::drivetrain.DrivePolar(power, turn);
 	double v = (1-fabs(turn)) * (power) + power;
