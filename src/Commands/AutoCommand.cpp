@@ -69,13 +69,13 @@ void AutoCommand::SetupRoute() {
 		AddSequential(new DriveDistance(11*12));
 	}
 	else {
-		MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 
 		// switch
 		/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
 			|| (robotPosition == 'L' && mode == AutonMode::leftSwitch)
 			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {*/
 		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
+			MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 
 			double pos_mult = 1;
 			if (mode == AutonMode::leftSwitch) pos_mult = -1;
@@ -90,17 +90,18 @@ void AutoCommand::SetupRoute() {
 			double pos_mult = 1;
 			if (mode == AutonMode::leftScale) pos_mult = -1;
 
-			if (robotPosition == 'C') {
-				MoveToPoint({ 9*12*pos_mult, 100 }); // to side of arcade
-			}
-			
-			 if ((robotPosition == 'L' && mode == AutonMode::rightScale)
-			  || (robotPosition == 'R' && mode == AutonMode::leftScale)) {
-			 
+			if ((robotPosition == 'L' && mode == AutonMode::rightScale)
+					|| (robotPosition == 'R' && mode == AutonMode::leftScale)) {
+
 				// cross arcade horizontally
 				MoveToPoint({ location.x, 228 }); 
 				MoveToPoint({ 9*12*pos_mult, location.y });
-			 }
+			}
+			
+			if (robotPosition == 'C') {
+				MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
+				MoveToPoint({ 9*12*pos_mult, 100 }); // to side of arcade
+			}
 			 
 			 MoveToPoint({ location.x, 299.65 + 2*12 }); //next to scale
 			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
