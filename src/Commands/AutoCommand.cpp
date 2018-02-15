@@ -12,6 +12,7 @@
 
 #include "Commands/DriveDistance.h"
 #include "Commands/TurnAngle.h"
+#include "Commands/MoveArmTo.h"
 #include "RobotMap.h"
 
 
