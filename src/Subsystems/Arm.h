@@ -10,10 +10,8 @@ public:
 	Arm();
 	virtual ~Arm();
 	void Move(double);
-	void SetReleasePosition(double);
 	frc::SpeedController* motor1;
 	frc::SpeedController* motor2;
-	frc::Servo* armRelease;
 	frc::Encoder encoder;
 };
 

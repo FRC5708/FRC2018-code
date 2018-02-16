@@ -14,6 +14,8 @@ void ArmWithJoystick::Execute() {
 				Robot::claw.Open();
 			}else if (Robot::joystick->GetRawButton(3)){
 				Robot::claw.Close();
+			}else if (Robot::joystick->GetRawButton(8)){
+				Robot::hookRelease.realeaseHookArm();
 			}else{
 				Robot::claw.Stop();
 			}

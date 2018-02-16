@@ -9,6 +9,7 @@
 #include "WPILib.h"
 Drivetrain Robot::drivetrain;
 Arm Robot::arm;
+WinchHookRelease Robot::hookRelease;
 Claw Robot::claw;
 OI Robot::oi;
 Joystick* Robot::joystick;
