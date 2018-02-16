@@ -6,6 +6,7 @@
 #include <Encoder.h>
 #include <Commands/Subsystem.h>
 
+
 class Arm: public Subsystem, PIDOutput {
 public:
 	Arm();
@@ -16,7 +17,6 @@ public:
 	
 	frc::SpeedController* motor1;
 	frc::SpeedController* motor2;
-	
 	frc::Encoder encoder;
 	
 private:
