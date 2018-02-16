@@ -109,6 +109,8 @@ void Robot::TeleopInit(){
     if (m_autonomousCommand != nullptr) {
         m_autonomousCommand->Cancel();
         m_autonomousCommand = nullptr;
+        
+        arm.CancelMoveTo();
     }
     driveCommand = new DriveWithJoystick();
     clawCommand = new ArmWithJoystick();
