@@ -15,6 +15,7 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted(){};
+	bool wrist_is_up=0;
 };
 
 #endif  // ClawWithJoystick_H
