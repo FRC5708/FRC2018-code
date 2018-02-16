@@ -20,14 +20,18 @@
 
 #include <Subsystems/Drivetrain.h>
 #include <Subsystems/Claw.h>
+#include <Subsystems/WinchHookRelease.h>
 #include <Commands/DriveWithJoystick.h>
 #include "Subsystems/Arm.h"
+#include "Subsystems/Wrist.h"
 
 class Robot : public frc::TimedRobot {
 public:
 	static Drivetrain drivetrain;
 	static Claw claw;
 	static Arm arm;
+	static Wrist wrist;
+	static WinchHookRelease hookRelease;
 	static OI oi;
 	static Joystick* joystick;
 	static Gyro* gyro;
