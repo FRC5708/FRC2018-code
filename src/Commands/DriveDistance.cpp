@@ -6,11 +6,11 @@
 /*----------------------------------------------------------------------------*/
 
 
-constexpr double powerRampupSpeed = 0.4; // seconds
+constexpr double powerRampupSpeed = 0.1; // seconds
 constexpr double powerLimit = 0.5;
 constexpr double ticksPerSecond = 50;
-constexpr double powerRampdownDist = 6; // inches
-constexpr double minPower = 0.2;
+constexpr double powerRampdownTime = 0.3; // seconds remaining IF the robot keeps going the same speed
+constexpr double minPower = 0.3;
 
 #include <Commands/DriveDistance.h>
 #include "Robot.h"
@@ -24,39 +24,61 @@ void DriveDistance::Initialize() {
 	//Robot::gyro->Reset();
 	startingAngle = Robot::gyro->GetAngle();
 	Robot::drivetrain.ResetDistance();
-	
+
+
+	turnPid.SetOutputRange(-0.2, 0.2);
+	turnPid.SetSetpoint(startingAngle);
+	turnPid.Enable();
+
 	std::cout << "driving distance: " << inchesToDrive << " inches" << std::endl;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveDistance::Execute() {
-	powerRampupCounter += powerRampupSpeed/ticksPerSecond;
-	
-	double power = std::min(powerLimit, powerRampupCounter * (powerLimit - minPower) + minPower);
-	power = std::min(power, (inchesToDrive - Robot::drivetrain.GetDistance()) / powerRampdownDist);
-	power = std::max(power, minPower);
-	
-	if (inchesToDrive < 0) power = -power;
-	
-	double turningValue = -(Robot::gyro->GetAngle() - startingAngle) * 0.05;
-	Robot::drivetrain.DrivePolar(power, turningValue);
 
-	SmartDashboard::PutNumber("driveDistance power", power);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveDistance::IsFinished() {
 	double distance = Robot::drivetrain.GetDistance();
-	
+
 	if (inchesToDrive > 0) return distance >= inchesToDrive;
 	else return distance <= inchesToDrive;
 }
 
 // Called once after isFinished returns true
 void DriveDistance::End() {
+	turnPid.Disable();
 	Robot::drivetrain.Drive(0, 0);
+	std::cout << "ended DriveStraight" << std::endl;
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void DriveDistance::Interrupted() { End(); }
+
+double DriveDistance::PIDGet() {
+	return Robot::gyro->GetAngle();
+}
+
+void DriveDistance::PIDWrite(double turningValue) {
+	powerRampupCounter += powerRampupSpeed/ticksPerSecond;
+	double power = std::min(powerLimit, powerRampupCounter * (powerLimit - minPower) + minPower);
+
+	double remainingTime = (inchesToDrive - Robot::drivetrain.GetDistance()) / Robot::drivetrain.GetRate();
+	double rampdownPower = remainingTime / powerRampdownTime  * (powerLimit - minPower) + minPower;
+	power = std::min(power, rampdownPower);
+
+	power = std::max(power, minPower);
+
+	if (inchesToDrive < 0) power = -power;
+
+
+	Robot::drivetrain.DrivePolar(power, turningValue);
+
+	SmartDashboard::PutNumber("DriveDistance power", power);
+}
+
+
+
+
