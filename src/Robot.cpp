@@ -10,6 +10,7 @@
 Drivetrain Robot::drivetrain;
 Arm Robot::arm;
 Claw Robot::claw;
+Wrist Robot::wrist;
 OI Robot::oi;
 Joystick* Robot::joystick;
 Gyro* Robot::gyro;

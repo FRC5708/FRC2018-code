@@ -22,12 +22,14 @@
 #include <Subsystems/Claw.h>
 #include <Commands/DriveWithJoystick.h>
 #include "Subsystems/Arm.h"
+#include "Subsystems/Wrist.h"
 
 class Robot : public frc::TimedRobot {
 public:
 	static Drivetrain drivetrain;
 	static Claw claw;
 	static Arm arm;
+	static Wrist wrist;
 	static OI oi;
 	static Joystick* joystick;
 	static Gyro* gyro;
