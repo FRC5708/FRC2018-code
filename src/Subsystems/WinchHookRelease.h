@@ -2,13 +2,14 @@
 #define WinchHookRelease_H
 
 #include <Commands/Subsystem.h>
+#include <Servo.h>
 
 class WinchHookRelease : public frc::Subsystem {
 public:
 	WinchHookRelease();
-	virtual ~WinchHookRelease();
+	virtual ~WinchHookRelease() {};
 	void realeaseHookArm();
-	frc::Servo* releaseServo;
+	frc::Servo releaseServo;
 
 };
 
