@@ -22,15 +22,15 @@ void ArmWithJoystick::Execute() {
 			break;
 		}
 		case XBOX: {
-			if (Robot::joystick->GetRawButton(4)){
-				Robot::claw.Open();
-			}else if (Robot::joystick->GetRawButton(3)){
-				Robot::claw.Close();
-			}else{
-				Robot::claw.Stop();
-			}
 			break;
 		}
+	}
+	if (Robot::joystick->GetRawButton(4)){
+		Robot::claw.Open();
+	}else if (Robot::joystick->GetRawButton(3)){
+		Robot::claw.Close();
+	}else{
+		Robot::claw.Stop();
 	}
 	
 	double arm_power = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));

@@ -56,6 +56,8 @@ void Robot::RobotInit() {
 
 	switch_scale_select.AddDefault("Left", 'L');
 	switch_scale_select.AddDefault("Right", 'L');
+
+    CameraServer::GetInstance()->StartAutomaticCapture();
 }
 
 
