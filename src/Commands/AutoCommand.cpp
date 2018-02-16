@@ -69,6 +69,7 @@ void AutoCommand::SetupRoute() {
 		AddSequential(new DriveDistance(11*12));
 	}
 	else {
+		AddParallel(new MoveWrist(MoveWrist::Down));
 
 		// switch
 		/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
