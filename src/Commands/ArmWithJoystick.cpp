@@ -33,15 +33,13 @@ void ArmWithJoystick::Execute() {
 		Robot::claw.Stop();
 	}
 	if(Robot::joystick->GetRawButtonPressed(7)){
-		switch (wrist_is_up){
-		case 1:
-			wrist_is_up = 0;
-			Robot::wrist.Open();
-			break;
-		case 0:
-			wrist_is_up=1;
+		if (wrist_is_up) {
 			Robot::wrist.Close();
-			break;
+			wrist_is_up = false;
+		}
+		else {
+			Robot::wrist.Open();
+			wrist_is_up = true;
 		}
 	}
 	double arm_power = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
