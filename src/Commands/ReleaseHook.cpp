@@ -1,4 +1,5 @@
 #include "ReleaseHook.h"
+#include "Robot.h"
 
 ReleaseHook::ReleaseHook() {
 	Requires(&Robot::arm);
@@ -6,7 +7,7 @@ ReleaseHook::ReleaseHook() {
 
 // Called repeatedly when this Command is scheduled to run
 void ReleaseHook::Execute() {
-	Robot::arm.SetReleasePosition(1);
+	//Robot::arm.SetReleasePosition(1);
 }
 
 // Make this return true when this Command no longer needs to run execute()

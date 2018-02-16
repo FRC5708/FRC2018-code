@@ -7,7 +7,7 @@ WinchHookRelease::WinchHookRelease() : Subsystem("ExampleSubsystem"),
 }
 
 void WinchHookRelease::realeaseHookArm(){
-	releaseServo->Set(1);
+	releaseServo.Set(1);
 }
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
