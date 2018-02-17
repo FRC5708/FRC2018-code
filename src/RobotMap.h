@@ -32,7 +32,10 @@ constexpr int BRMotorChannel = 3;
 constexpr int ArmMotorChannel1 = 4;
 constexpr int ArmMotorChannel2 = 5;
 
-constexpr int ArmReleaseChannel = 6;
+constexpr int leftWinchMotorChannel = 6;
+constexpr int rightWinchMotorChannel = 7;
+
+constexpr int ArmReleaseChannel = 8;
 
 constexpr int LeftEncoderChannel[2] = {0,1};
 constexpr int RightEncoderChannel[2] = {2,3};
