@@ -32,14 +32,17 @@ void ArmWithJoystick::Execute() {
 			wrist_is_up = true;
 		}
 	}
-	int dir=((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
-	if(!dir){
-		arm_power=0;
+	double dir = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
+	
+	if (dir != 0) {
+        if(fabs(arm_power) <1){
+            arm_power+=.04*dir; //Ramup/Rampdown
+        }
+		Robot::arm.Move(arm_power);
 	}
-	if(fabs(arm_power) <1){
-		arm_power+=.04*dir; //Ramup/Rampdown
+	else if (!Robot::arm.isHolding) {
+		Robot::arm.Hold(); 
 	}
-	Robot::arm.Move(arm_power);
 }
 
 // Make this return true when this Command no longer needs to run execute()

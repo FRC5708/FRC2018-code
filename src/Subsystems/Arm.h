@@ -18,11 +18,14 @@ public:
 	virtual ~Arm();
 	void Move(double power);
 	void MoveTo(double motorRevolutions);
-	void CancelMoveTo() { positionController.Disable(); };
+	void CancelMoveTo() { positionController.Disable(); isHolding = false; }
+	void Hold() { MoveTo(encoder.GetDistance()); isHolding = true; }
 	
 	frc::SpeedController* motor1;
 	frc::SpeedController* motor2;
 	frc::Encoder encoder;
+	
+	bool isHolding;
 	
 private:
 	PIDController positionController;
