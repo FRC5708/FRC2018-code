@@ -33,13 +33,7 @@ void ArmWithJoystick::Execute() {
 		}
 	}
 	double arm_power = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
-	
-	if (arm_power != 0) {
-		Robot::arm.Move(arm_power);
-	}
-	else if (!Robot::arm.isHolding) {
-		Robot::arm.Hold(); 
-	}
+	Robot::arm.Move(arm_power);
 }
 
 // Make this return true when this Command no longer needs to run execute()
