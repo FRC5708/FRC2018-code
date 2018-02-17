@@ -10,14 +10,8 @@ ArmWithJoystick::ArmWithJoystick()
 void ArmWithJoystick::Execute() {
 	switch (Robot::joyMode){
 		case SINGLE_JOY: {
-			if (Robot::joystick->GetRawButton(4)){
-				Robot::claw.Open();
-			}else if (Robot::joystick->GetRawButton(3)){
-				Robot::claw.Close();
-			}else if (Robot::joystick->GetRawButton(8)){
+			 if (Robot::joystick->GetRawButton(8)) {
 				Robot::hookRelease.realeaseHookArm();
-			}else{
-				Robot::claw.Stop();
 			}
 			break;
 		}
@@ -25,14 +19,17 @@ void ArmWithJoystick::Execute() {
 			break;
 		}
 	}
-	if (Robot::joystick->GetRawButton(4)){
-		Robot::claw.Open();
-	}else if (Robot::joystick->GetRawButton(3)){
-		Robot::claw.Close();
-	}else{
-		Robot::claw.Stop();
+	if (Robot::joystick->GetRawButtonPressed(3)) {
+		if (claw_is_open) {
+			Robot::claw.Close();
+			claw_is_open = false;
+		}
+		else {
+			Robot::claw.Open();
+			claw_is_open = true;
+		}
 	}
-	if(Robot::joystick->GetRawButtonPressed(7)){
+	if (Robot::joystick->GetRawButtonPressed(4)) {
 		if (wrist_is_up) {
 			Robot::wrist.Close();
 			wrist_is_up = false;
