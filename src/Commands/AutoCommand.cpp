@@ -5,14 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include <Commands/AutoCommand.h>
 #include <Commands/CommandGroup.h>
 #include <math.h>
 #include <iostream>
 
 #include "Commands/DriveDistance.h"
 #include "Commands/TurnAngle.h"
-#include "Commands/MoveArmTo.h"
+#include "Commands/ArmAuto.h"
+#include "Commands/AutoCommand.h"
 #include "RobotMap.h"
 
 
@@ -69,12 +69,15 @@ void AutoCommand::SetupRoute() {
 		AddSequential(new DriveDistance(11*12));
 	}
 	else {
+		AddParallel(new MoveWrist(MoveWrist::Down));
 
 		// switch
 		/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
 			|| (robotPosition == 'L' && mode == AutonMode::leftSwitch)
 			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {*/
 		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
+			AddParallel(new MoveArmTo(ArmPosition::Switch));
+			
 			MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 
 			double pos_mult = 1;
@@ -82,16 +85,19 @@ void AutoCommand::SetupRoute() {
 
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
 			MoveToPoint({ location.x, 10*12 });
-			// place cube
+			
+			AddParallel(new MoveClaw(MoveClaw::Open));
 
 		}
 		// scale
 		else if (mode == AutonMode::leftScale || mode == AutonMode::rightScale) {
+			AddParallel(new MoveArmTo(ArmPosition::Scale));
+			
 			double pos_mult = 1;
 			if (mode == AutonMode::leftScale) pos_mult = -1;
 
 			if ((robotPosition == 'L' && mode == AutonMode::rightScale)
-					|| (robotPosition == 'R' && mode == AutonMode::leftScale)) {
+			|| (robotPosition == 'R' && mode == AutonMode::leftScale)) {
 
 				// cross arcade horizontally
 				MoveToPoint({ location.x, 228 }); 
@@ -105,6 +111,8 @@ void AutoCommand::SetupRoute() {
 			 
 			 MoveToPoint({ location.x, 299.65 + 2*12 }); //next to scale
 			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
+			 
+			 AddParallel(new MoveClaw(MoveClaw::Open));
 		}
 	}
 	// behind switch
