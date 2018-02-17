@@ -10,6 +10,7 @@
 Drivetrain Robot::drivetrain;
 Arm Robot::arm;
 WinchHookRelease Robot::hookRelease;
+Winch Robot::winch;
 Claw Robot::claw;
 Wrist Robot::wrist;
 OI Robot::oi;
