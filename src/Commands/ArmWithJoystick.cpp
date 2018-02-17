@@ -8,16 +8,9 @@ ArmWithJoystick::ArmWithJoystick()
 
 // Called repeatedly when this Command is scheduled to run
 void ArmWithJoystick::Execute() {
-	switch (Robot::joyMode){
-		case SINGLE_JOY: {
-			 if (Robot::joystick->GetRawButton(8)) {
-				Robot::hookRelease.realeaseHookArm();
-			}
-			break;
-		}
-		case XBOX: {
-			break;
-		}
+	
+	if (Robot::joystick->GetRawButton(5)) {
+		Robot::hookRelease.realeaseHookArm();
 	}
 	if (Robot::joystick->GetRawButtonPressed(3)) {
 		if (claw_is_open) {

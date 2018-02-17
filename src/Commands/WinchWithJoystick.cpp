@@ -9,24 +9,15 @@ WinchWithJoystick::WinchWithJoystick() {
 
 // Called repeatedly when this Command is scheduled to run
 void WinchWithJoystick::Execute() {
-	switch (Robot::joyMode){
-			case SINGLE_JOY: {
-				if (Robot::joystick->GetRawButton(9)){
-					Robot::winch.setMotors(0.5);
-				}else{
-					Robot::winch.setMotors(0);
-				}
-				break;
-			}
-			case XBOX: {
-				if (Robot::joystick->GetRawButton(9)){
-					Robot::winch.setMotors(0.5);
-				}else{
-					Robot::winch.setMotors(0);
-				}
-				break;
-			}
-		}
+	
+	
+	if (Robot::joystick->GetRawButton(6)) {
+		Robot::winch.setMotors(1);
+	} else {
+		Robot::winch.setMotors(0);
+	}
+
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
