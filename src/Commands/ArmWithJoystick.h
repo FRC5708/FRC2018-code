@@ -17,6 +17,7 @@ public:
 	void Interrupted(){};
 	bool wrist_is_up = false;
 	bool claw_is_open = false;
+	bool holding_arm = false;
 	double arm_power=0.0;
 };
 

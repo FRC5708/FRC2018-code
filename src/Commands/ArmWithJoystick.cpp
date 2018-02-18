@@ -32,18 +32,21 @@ void ArmWithJoystick::Execute() {
 			wrist_is_up = true;
 		}
 	}
-	double dir = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
+	if (Robot::joystick->GetRawButtonPressed(1)) {
+		holding_arm = !holding_arm;
+	}
+	double armDir = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
 	
-	if (dir != 0) {
+	if (armDir != 0) {
         if(fabs(arm_power) < 1){
-            arm_power+=.04*dir; //Ramup/Rampdown
+            arm_power+=.04*armDir; //Ramup/Rampdown
         }
 		Robot::arm.Move(arm_power);
 	}
 	else {
 		arm_power = 0;
-		if (!Robot::arm.isHolding) {
-			Robot::arm.Hold(); 
+		if (holding_arm && !Robot::arm.isHolding) {
+			Robot::arm.StartHold();
 		}
 	}
 }
