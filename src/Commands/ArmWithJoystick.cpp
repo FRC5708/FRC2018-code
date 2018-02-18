@@ -35,13 +35,16 @@ void ArmWithJoystick::Execute() {
 	double dir = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
 	
 	if (dir != 0) {
-        if(fabs(arm_power) <1){
+        if(fabs(arm_power) < 1){
             arm_power+=.04*dir; //Ramup/Rampdown
         }
 		Robot::arm.Move(arm_power);
 	}
-	else if (!Robot::arm.isHolding) {
-		Robot::arm.Hold(); 
+	else {
+		arm_power = 0;
+		if (!Robot::arm.isHolding) {
+			Robot::arm.Hold(); 
+		}
 	}
 }
 
