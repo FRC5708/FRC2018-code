@@ -32,7 +32,13 @@ void ArmWithJoystick::Execute() {
 			wrist_is_up = true;
 		}
 	}
-	double arm_power = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
+	int dir=((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
+	if(!dir){
+		arm_power=0;
+	}
+	if(fabs(arm_power) <1){
+		arm_power+=.04*dir; //Ramup/Rampdown
+	}
 	Robot::arm.Move(arm_power);
 }
 
