@@ -7,6 +7,11 @@
 #include <Commands/Subsystem.h>
 
 
+/* Using the arm on this branch may damage motor controllers. Stall current of 
+ * MiniCIM is 89A, max continuous current of most motor controllers is 60A. 
+ * Holding the arm still "stalls" the motor. Jaguar shuts off if it is over 
+ * current, Spark does not. Not completely sure how big of an issue this is.
+*/
 class Arm: public Subsystem, PIDOutput {
 public:
 	Arm();
