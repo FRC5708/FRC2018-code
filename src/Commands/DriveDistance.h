@@ -28,6 +28,7 @@ public:
 private:
 	double powerRampupCounter = 0;
 	double startingAngle = 0;
+	double startingDistance = 0;
 
 	double turningValue = 0;
 

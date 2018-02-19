@@ -13,39 +13,37 @@
 #include "Commands/TurnAngle.h"
 #include "Commands/ArmAuto.h"
 #include "Commands/AutoCommand.h"
+#include "Commands/MoveToPoint.h"
 #include "RobotMap.h"
 
 
 
 
-void AutoCommand::MoveToPoint(Point to) {
+void AutoCommand::AddPoint(Point to) {
 	std::cout << "adding point: (" << to.x << ", " << to.y << ")" << std::endl;
-	
-	double x = to.x - location.x;
-	double y = to.y - location.y;
-	AddSequential(new TurnAngle(atan(x / y) * 180 / M_PI));
-	//AddSequential(new frc::WaitCommand(0.2));
-	AddSequential(new DriveDistance(sqrt(x*x + y*y)));
-
-	location = to;
+	AddSequential(new MoveToPoint(&currentLocation.location, to));
+	plottingLocation = to;
 }
 
 // Called just before this Command runs the first time
 void AutoCommand::Initialize() {
 	Robot::gyro->Reset();
+	Robot::drivetrain.ResetDistance();
 }
 
 void AutoCommand::SetupRoute() {
 
 	// 48 in == width of portal, which robot will sit up against
 	switch (robotPosition) {
-	case 'L': location = { -(132 - robotWidth/2), robotLength/2 }; break;
-	case 'R': location = { 132 - robotWidth/2, robotLength/2 }; break;
+	case 'L': plottingLocation = { -(132 - robotWidth/2), robotLength/2 }; break;
+	case 'R': plottingLocation = { 132 - robotWidth/2, robotLength/2 }; break;
 
 	case 'C': 
 	default:
-		location = { 0, robotLength/2 }; 
+		plottingLocation = { 0, robotLength/2 };
 	}
+	currentLocation.location = plottingLocation;
+	
 
 	for (auto i = modeList.begin(); i != modeList.end(); ++i) {
 
@@ -78,13 +76,13 @@ void AutoCommand::SetupRoute() {
 		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
 			AddParallel(new MoveArmTo(ArmPosition::Switch));
 			
-			MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
+			AddPoint({ plottingLocation.x, plottingLocation.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 
 			double pos_mult = 1;
 			if (mode == AutonMode::leftSwitch) pos_mult = -1;
 
-			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
-			MoveToPoint({ location.x, 10*12 });
+			AddPoint({ 4.5*12.0 * pos_mult, 6*12 });
+			AddPoint({ plottingLocation.x, 10*12 });
 			
 			AddParallel(new MoveClaw(MoveClaw::Open));
 
@@ -100,17 +98,17 @@ void AutoCommand::SetupRoute() {
 			|| (robotPosition == 'R' && mode == AutonMode::leftScale)) {
 
 				// cross arcade horizontally
-				MoveToPoint({ location.x, 228 }); 
-				MoveToPoint({ 9*12*pos_mult, location.y });
+				AddPoint({ plottingLocation.x, 228 }); 
+				AddPoint({ 9*12*pos_mult, plottingLocation.y });
 			}
 			
 			if (robotPosition == 'C') {
-				MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
-				MoveToPoint({ 9*12*pos_mult, 100 }); // to side of arcade
+				AddPoint({ plottingLocation.x, plottingLocation.y + 1.5*12.0 }); // move forward so wall is not hit while turning
+				AddPoint({ 9*12*pos_mult, 100 }); // to side of arcade
 			}
 			 
-			 MoveToPoint({ location.x, 299.65 + 2*12 }); //next to scale
-			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
+			 AddPoint({ plottingLocation.x, 299.65 + 2*12 }); //next to scale
+			 AddPoint({ (7.5*12.0 + robotLength/2) * pos_mult, plottingLocation.y });
 			 
 			 AddParallel(new MoveClaw(MoveClaw::Open));
 		}
@@ -157,7 +155,22 @@ bool AutoCommand::modePossible(AutonMode mode) {
 }
 
 // Called repeatedly when this Command is scheduled to run
-//void MyAutoCommand::Execute() {}
+void AutoCommand::Execute() {
+	CommandGroup::Execute();
+	
+	currentLocation.update();
+}
+
+void AutoCommand::LocationTracker::update() {
+	double totalDistance = Robot::drivetrain.GetDistance();
+	double distance = totalDistance - prevDistance;
+	double angle = Robot::gyro->GetAngle();
+	
+	location.x += sin(angle) * distance;
+	location.y += cos(angle) * distance;
+	
+	prevDistance = totalDistance;
+}
 
 // Make this return true when this Command no longer needs to run execute()
 bool AutoCommand::IsFinished() {

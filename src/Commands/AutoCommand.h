@@ -25,7 +25,13 @@
 		rightScale,
 		eitherScale
 	};
+	struct Point {
+		double x;
+		double y;
 
+		Point(double x, double y): x(x), y(y) {};
+	};
+	
 class AutoCommand : public frc::CommandGroup {
 public:
 	
@@ -46,15 +52,21 @@ public:
 	bool IsFinished() override;
 	void End() override;
 	void Interrupted() override;
+	void Execute() override;
 	
-	struct Point {
-			double x;
-			double y;
-			
-			Point(double x, double y): x(x), y(y) {};
-		};
 	
 private:
+	
+	class LocationTracker {
+	public:		
+		// actual location calculated by reckoning
+		Point location = {0, 0};
+		void update();
+	private:
+		double prevDistance;
+	};
+	
+	LocationTracker currentLocation;
 	
 	bool modePossible(AutonMode mode);
 	AutonMode mode = AutonMode::nothing;
@@ -62,9 +74,9 @@ private:
 
 	// In inches. Position of center of robot from bottom-center of field. Bottom = alliance wall side. left=negative. 
 	// Only used in beginning for route calculation.
-	Point location = {0, 0};
+	Point plottingLocation = {0, 0};
 	
-	void MoveToPoint(Point to);
+	void AddPoint(Point to);
 };
 
 

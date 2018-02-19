@@ -21,9 +21,8 @@ constexpr double minPower = 0.3;
 
 // Called just before this Command runs the first time
 void DriveDistance::Initialize() {
-	//Robot::gyro->Reset();
 	startingAngle = Robot::gyro->GetAngle();
-	Robot::drivetrain.ResetDistance();
+	startingDistance = Robot::drivetrain.GetDistance();
 
 
 	turnPid.SetOutputRange(-0.2, 0.2);
@@ -40,7 +39,7 @@ void DriveDistance::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveDistance::IsFinished() {
-	double distance = Robot::drivetrain.GetDistance();
+	double distance = Robot::drivetrain.GetDistance() - startingDistance;
 
 	if (inchesToDrive > 0) return distance >= inchesToDrive;
 	else return distance <= inchesToDrive;
@@ -65,7 +64,7 @@ void DriveDistance::PIDWrite(double turningValue) {
 	powerRampupCounter += powerRampupSpeed/ticksPerSecond;
 	double power = std::min(powerLimit, powerRampupCounter * (powerLimit - minPower) + minPower);
 
-	double remainingTime = (inchesToDrive - Robot::drivetrain.GetDistance()) / Robot::drivetrain.GetRate();
+	double remainingTime = (inchesToDrive - (Robot::drivetrain.GetDistance() - startingDistance)) / Robot::drivetrain.GetRate();
 	double rampdownPower = remainingTime / powerRampdownTime  * (powerLimit - minPower) + minPower;
 	power = std::min(power, rampdownPower);
 
