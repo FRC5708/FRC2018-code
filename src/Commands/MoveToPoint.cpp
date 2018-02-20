@@ -16,6 +16,7 @@ void MoveToPoint::Initialize() {
 		double x = to.x - location->x;
 		double y = to.y - location->y;
 		turnCommand = new TurnAngle(atan(x / y) * 180 / M_PI);
+		AddSequential(turnCommand);
 		
 }
 
