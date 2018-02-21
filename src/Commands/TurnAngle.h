@@ -10,6 +10,8 @@ public:
 	void Initialize();
 	bool IsFinished();
 	void End();
+	
+	double angle;
 
 	class TurnAnglePIDSource : public frc::PIDSource {
 		public:

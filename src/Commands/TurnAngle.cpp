@@ -1,21 +1,16 @@
 #include "TurnAngle.h"
 #include <iostream>
 
-TurnAngle::TurnAngle(double angle) {
+TurnAngle::TurnAngle(double angle): angle(angle) {
 	Requires(&Robot::drivetrain);
-	
-	//angle = angle - (trunc(angle / 360) * 360);
-	//source.gyroCorrection = -(trunc(Robot::gyro->GetAngle() / 360) * 360);
-	
-	
-	pid.SetAbsoluteTolerance(1); // degrees
-	pid.SetSetpoint(angle);
-	
 }
 
 // Called just before this Command runs the first time
 void TurnAngle::Initialize() {
-	std::cout << "turning to angle: " << pid.GetSetpoint() << std::endl;
+	std::cout << "turning to angle: " << angle << std::endl;
+	
+	pid.SetAbsoluteTolerance(1); // degrees
+	pid.SetSetpoint(angle);
 	
 	pid.Reset();
 	pid.Enable();

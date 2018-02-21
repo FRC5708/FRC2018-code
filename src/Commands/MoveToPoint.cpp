@@ -3,6 +3,10 @@
 
 
 MoveToPoint::MoveToPoint(Point* location, Point to): location(location), to(to) {
+	turnCommand = new TurnAngle(0);
+	AddSequential(turnCommand);
+	driveCommand = new DriveDistance(0);
+	AddSequential(driveCommand);
 }
 
 MoveToPoint::~MoveToPoint() {
@@ -15,9 +19,7 @@ void MoveToPoint::Initialize() {
 		
 		double x = to.x - location->x;
 		double y = to.y - location->y;
-		turnCommand = new TurnAngle(atan(x / y) * 180 / M_PI);
-		AddSequential(turnCommand);
-		
+		turnCommand->angle = (atan(x / y) * 180 / M_PI);
 }
 
 void MoveToPoint::Execute() {
@@ -25,8 +27,8 @@ void MoveToPoint::Execute() {
 		if (turnCommand->IsFinished()) {
 			double x = to.x - location->x;
 			double y = to.y - location->y;
-			driveCommand = new DriveDistance(sqrt(x*x + y*y));
-			AddSequential(driveCommand);
+			driveCommand->inchesToDrive = sqrt(x*x + y*y);
+			
 			turnCommand = nullptr;
 		}
 	}
