@@ -7,6 +7,8 @@
 
 #include "Robot.h"
 #include "WPILib.h"
+#include "SelfControl.h"
+
 Drivetrain Robot::drivetrain;
 Arm Robot::arm;
 WinchHookRelease Robot::hookRelease;
@@ -65,6 +67,8 @@ void Robot::RobotInit() {
 
 void Robot::DisabledPeriodic(){
     frc::Scheduler::GetInstance()->Run();
+    
+    if (joystick->GetRawButtonPressed(8)) SelfControl::Enable();
 }
 
 void Robot::LogSensors() {
@@ -127,6 +131,10 @@ void Robot::TeleopInit(){
 void Robot::TeleopPeriodic() {
     frc::Scheduler::GetInstance()->Run();
     LogSensors();
+}
+
+Robot::~Robot() {
+	SelfControl::Close();
 }
 
 START_ROBOT_CLASS(Robot);

@@ -74,6 +74,8 @@ public:
 	void TeleopPeriodic() override;
 
 	void TestPeriodic() override {};
+	
+	virtual ~Robot() override;
 
 private:
 	// Have it null by default so that if testing teleop it
