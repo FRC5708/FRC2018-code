@@ -67,6 +67,9 @@ void Robot::RobotInit() {
 
 void Robot::DisabledPeriodic(){
     frc::Scheduler::GetInstance()->Run();
+    static int counter = 0;
+    ++counter;
+    if (counter % 50 == 0) SelfControl::Enable();
     
     if (joystick->GetRawButtonPressed(8)) SelfControl::Enable();
 }
