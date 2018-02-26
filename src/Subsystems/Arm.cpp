@@ -20,8 +20,12 @@ Arm::~Arm() {
 }
 
 void Arm::MoveTo(double to) {
-	positionController.SetSetpoint(to);
-	positionController.Enable();
+	// disables method if encoder is backwards
+	if (encoder.GetDistance() > -0.1) {
+
+		positionController.SetSetpoint(to);
+		positionController.Enable();
+	}
 }
 
 void Arm::Move(double power) {
