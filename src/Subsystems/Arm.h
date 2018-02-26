@@ -21,6 +21,8 @@ public:
 	void CancelMoveTo() { positionController.Disable(); isHolding = false; }
 	void StartHold() { MoveTo(encoder.GetDistance()); isHolding = true; }
 	
+	void Periodic() override;
+	
 	frc::SpeedController* motor1;
 	frc::SpeedController* motor2;
 	frc::Encoder encoder;
@@ -29,6 +31,8 @@ public:
 	
 private:
 	PIDController positionController;
+	
+	double minPower = -1; // for gentle lowering
 	
 protected:
 	void PIDWrite(double power) override { Move(power); };

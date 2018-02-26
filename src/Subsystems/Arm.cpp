@@ -12,11 +12,28 @@ Arm::Arm(): Subsystem("Arm"),
 			positionController(3, 0, 0, &encoder, this) {
 
 	encoder.SetDistancePerPulse(1.0/360.0);
-	
 }
 
 Arm::~Arm() {
-	// TODO Auto-generated destructor stub
+	
+}
+
+// arm length: 40 in
+// lowering start: 12 in above starting point
+// chain ratio: 1:4
+
+constexpr double gentleLoweringStart = 4*12/(40*2*M_PI);
+constexpr double gentleLoweringRate = -0.1;
+constexpr double loweringPowerMult = 0.5;
+void Arm::Periodic() {
+	
+	// TODO: make sure Encoder::GetRate returns a signed value
+	double rate = encoder.GetRate();
+	if (encoder.GetDistance() < gentleLoweringStart && rate < gentleLoweringRate) {
+		
+		minPower = loweringPowerMult * -(rate - gentleLoweringRate);
+	}
+	else minPower = -1;
 }
 
 void Arm::MoveTo(double to) {
@@ -29,6 +46,7 @@ void Arm::MoveTo(double to) {
 }
 
 void Arm::Move(double power) {
+	power = std::max(power, minPower);
 	motor1->Set(power);
 	motor2->Set(power);
 
