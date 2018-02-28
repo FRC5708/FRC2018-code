@@ -55,6 +55,7 @@ public:
 		};
 	
 private:
+	frc::CommandGroup sequentialCommands;
 	
 	bool modePossible(AutonMode mode);
 	AutonMode mode = AutonMode::nothing;

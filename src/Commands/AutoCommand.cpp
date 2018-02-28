@@ -23,9 +23,9 @@ void AutoCommand::MoveToPoint(Point to) {
 	
 	double x = to.x - location.x;
 	double y = to.y - location.y;
-	AddSequential(new TurnAngle(atan(x / y) * 180 / M_PI));
+	sequentialCommands.AddSequential(new TurnAngle(atan(x / y) * 180 / M_PI));
 	//AddSequential(new frc::WaitCommand(0.2));
-	AddSequential(new DriveDistance(sqrt(x*x + y*y)));
+	sequentialCommands.AddSequential(new DriveDistance(sqrt(x*x + y*y)));
 
 	location = to;
 }
@@ -69,6 +69,7 @@ void AutoCommand::SetupRoute() {
 		AddSequential(new DriveDistance(11*12));
 	}
 	else {
+		
 		AddParallel(new MoveWrist(MoveWrist::Down));
 
 		// switch
@@ -86,12 +87,12 @@ void AutoCommand::SetupRoute() {
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
 			MoveToPoint({ location.x, 10*12 });
 			
-			AddParallel(new MoveClaw(MoveClaw::Open));
+			sequentialCommands.AddParallel(new MoveClaw(MoveClaw::Open));
 
 		}
 		// scale
 		else if (mode == AutonMode::leftScale || mode == AutonMode::rightScale) {
-			AddParallel(new MoveArmTo(ArmPosition::Scale));
+			CommandGroup* armMoveCommands = new CommandGroup();
 			
 			double pos_mult = 1;
 			if (mode == AutonMode::leftScale) pos_mult = -1;
@@ -102,6 +103,12 @@ void AutoCommand::SetupRoute() {
 				// cross arcade horizontally
 				MoveToPoint({ location.x, 228 }); 
 				MoveToPoint({ 9*12*pos_mult, location.y });
+				
+				// rough time estimates
+				armMoveCommands->AddSequential(new WaitCommand(8.0));
+			}
+			else {
+				armMoveCommands->AddSequential(new WaitCommand(5.0));
 			}
 			
 			if (robotPosition == 'C') {
@@ -112,7 +119,10 @@ void AutoCommand::SetupRoute() {
 			 MoveToPoint({ location.x, 299.65 + 2*12 }); //next to scale
 			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
 			 
-			 AddParallel(new MoveClaw(MoveClaw::Open));
+			armMoveCommands->AddSequential(new MoveArmTo(ArmPosition::Scale));
+			AddParallel(armMoveCommands);
+			
+			sequentialCommands.AddSequential(new MoveClaw(MoveClaw::Open));
 		}
 	}
 	// behind switch
@@ -129,7 +139,7 @@ void AutoCommand::SetupRoute() {
 		// place cube
 	}*/
 
-
+	this->AddParallel(sequentialCommands);
 }
 
 bool AutoCommand::modePossible(AutonMode mode) {
