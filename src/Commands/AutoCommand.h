@@ -56,6 +56,12 @@ public:
 	
 	
 private:
+	// Note: AddSequential(xyz) forces the *next* command to wait until xyz is finished. 
+	// Also, CommandGroups are only considered "finished" if all commands inside are 
+	// finished, no matter if they are parallel or sequential.
+	
+	// This group is used so the claw is only opened after the arm has moved
+	frc::CommandGroup* drivingCommands = new frc::CommandGroup();
 	
 	class LocationTracker {
 	public:		

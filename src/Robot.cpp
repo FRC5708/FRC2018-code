@@ -7,6 +7,8 @@
 
 #include "Robot.h"
 #include "WPILib.h"
+#include <PowerDistributionPanel.h>
+
 Drivetrain Robot::drivetrain;
 Arm Robot::arm;
 WinchHookRelease Robot::hookRelease;
@@ -73,6 +75,8 @@ void Robot::LogSensors() {
 	
 	SmartDashboard::PutNumber("encoder distance (inches)", drivetrain.GetDistance());
 	SmartDashboard::PutNumber("gyro rotation (degrees)", gyro->GetAngle());
+	
+	SmartDashboard::PutNumber("Total Current", PowerDistributionPanel(0).GetTotalCurrent());
 }
 
 void Robot::AutonomousInit() {

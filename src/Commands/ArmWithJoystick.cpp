@@ -1,5 +1,6 @@
 #include <Commands/ArmWithJoystick.h>
 #include "../Robot.h"
+#include <iostream>
 
 ArmWithJoystick::ArmWithJoystick()
 	: frc::Command("ClawWithJoystick"){
@@ -32,21 +33,51 @@ void ArmWithJoystick::Execute() {
 			wrist_is_up = true;
 		}
 	}
-	if (Robot::joystick->GetRawButtonPressed(1)) {
-		holding_arm = !holding_arm;
-	}
-	double armDir = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
 	
-	if (armDir != 0) {
-        if(fabs(arm_power) < 1){
-            arm_power+=.04*armDir; //Ramup/Rampdown
-        }
-		Robot::arm.Move(arm_power);
+	if (Robot::joyMode == SINGLE_JOY) {
+		double armDir = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
+		
+		if (Robot::joystick->GetRawButtonPressed(1)) {
+			holding_arm = !holding_arm;
+			std::cout << "set holding_arm to: " << holding_arm << std::endl;
+		}
+		if (armDir != 0) {
+			Robot::arm.CancelMoveTo();
+
+			if(fabs(arm_power) < 1){
+				arm_power+=.04*armDir; //Ramup/Rampdown
+			}
+			Robot::arm.Move(arm_power);
+		}
+		else {
+			arm_power = 0;
+			if (holding_arm && !Robot::arm.isHolding) {
+				Robot::arm.StartHold();
+			}
+			else if (!holding_arm) {
+				Robot::arm.CancelMoveTo();
+			}
+		}
 	}
 	else {
-		arm_power = 0;
-		if (holding_arm && !Robot::arm.isHolding) {
-			Robot::arm.StartHold();
+		// right joystick button
+		if(Robot::joystick->GetRawButton(10)) {
+			if (!Robot::arm.isHolding) {
+				Robot::arm.StartHold();
+			}
+		}
+		else {
+			Robot::arm.CancelMoveTo();
+			
+			// should be right joystick X
+			double rawPower = Robot::joystick->GetRawAxis(4);
+			
+			// "dead zone" correction
+			double correctedPower = (abs(rawPower) - 0.1) * (1/1.1);
+			if (correctedPower < 0) correctedPower = 0;
+			if (rawPower < 0) correctedPower = -correctedPower;
+			
+			Robot::arm.Move(correctedPower);
 		}
 	}
 }

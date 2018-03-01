@@ -20,6 +20,9 @@ public:
 	void MoveTo(double motorRevolutions);
 	void CancelMoveTo() { positionController.Disable(); isHolding = false; }
 	void StartHold() { MoveTo(encoder.GetDistance()); isHolding = true; }
+	bool OnTarget() { return positionController.OnTarget(); }
+	
+	void Periodic() override;
 	
 	frc::SpeedController* motor1;
 	frc::SpeedController* motor2;
@@ -27,8 +30,13 @@ public:
 	
 	bool isHolding = false;
 	
+	static constexpr double CHAIN_RATIO = 4;
+	static constexpr double LENGTH = 40; // inches
+	
 private:
 	PIDController positionController;
+	
+	double minPower = -1; // for gentle lowering
 	
 protected:
 	void PIDWrite(double power) override { Move(power); };
