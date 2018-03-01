@@ -23,9 +23,9 @@ void AutoCommand::MoveToPoint(Point to) {
 	
 	double x = to.x - location.x;
 	double y = to.y - location.y;
-	sequentialCommands.AddSequential(new TurnAngle(atan(x / y) * 180 / M_PI));
+	drivingCommands->AddSequential(new TurnAngle(atan(x / y) * 180 / M_PI));
 	//AddSequential(new frc::WaitCommand(0.2));
-	sequentialCommands.AddSequential(new DriveDistance(sqrt(x*x + y*y)));
+	drivingCommands->AddSequential(new DriveDistance(sqrt(x*x + y*y)));
 
 	location = to;
 }
@@ -77,7 +77,7 @@ void AutoCommand::SetupRoute() {
 			|| (robotPosition == 'L' && mode == AutonMode::leftSwitch)
 			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {*/
 		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
-			AddParallel(new MoveArmTo(ArmPosition::Switch));
+			
 			
 			MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 
@@ -85,14 +85,15 @@ void AutoCommand::SetupRoute() {
 			if (mode == AutonMode::leftSwitch) pos_mult = -1;
 
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
+			drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
 			MoveToPoint({ location.x, 10*12 });
-			
-			sequentialCommands.AddParallel(new MoveClaw(MoveClaw::Open));
 
 		}
 		// scale
 		else if (mode == AutonMode::leftScale || mode == AutonMode::rightScale) {
-			CommandGroup* armMoveCommands = new CommandGroup();
+			
+			// after the main "drive down field to scale" command starts, time to wait to raise arm. Roughly estimated.
+			double waitTime;
 			
 			double pos_mult = 1;
 			if (mode == AutonMode::leftScale) pos_mult = -1;
@@ -104,42 +105,44 @@ void AutoCommand::SetupRoute() {
 				MoveToPoint({ location.x, 228 }); 
 				MoveToPoint({ 9*12*pos_mult, location.y });
 				
-				// rough time estimates
-				armMoveCommands->AddSequential(new WaitCommand(8.0));
-			}
-			else {
-				armMoveCommands->AddSequential(new WaitCommand(5.0));
-			}
-			
-			if (robotPosition == 'C') {
+				waitTime = 0;
+			}			
+			else if (robotPosition == 'C') {
 				MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 				MoveToPoint({ 9*12*pos_mult, 100 }); // to side of arcade
+				
+				waitTime = 2;
 			}
-			 
-			 MoveToPoint({ location.x, 299.65 + 2*12 }); //next to scale
-			 MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
-			 
-			armMoveCommands->AddSequential(new MoveArmTo(ArmPosition::Scale));
-			AddParallel(armMoveCommands);
+			else {
+				waitTime = 4;
+			}
 			
-			sequentialCommands.AddSequential(new MoveClaw(MoveClaw::Open));
+			CommandGroup* armMoveCommands = new CommandGroup();
+			armMoveCommands->AddSequential(new WaitCommand(waitTime));
+			armMoveCommands->AddSequential(new MoveArmTo(ArmPosition::Scale));
+			drivingCommands->AddParallel(armMoveCommands);
+			
+			MoveToPoint({ location.x, 299.65 + 2*12 }); //next to scale
+			MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
 		}
+		
+		// behind switch
+			/*
+			else if ((robotPosition == 'L' && mode == AutonMode::leftSwitch)
+					|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {
+
+				double pos_mult = 1;
+				if (mode == AutonMode::leftSwitch) pos_mult = -1;
+
+				MoveToPoint({ location.x, 19.5*12.0 });
+				MoveToPoint({ 10.5*12.0 * pos_mult, location.y });
+				MoveToPoint({ location.x, 196 + robotLength/2 });
+				// place cube
+			}*/
+			
+		AddSequential(drivingCommands);
+		AddSequential(new MoveClaw(MoveClaw::Open));
 	}
-	// behind switch
-	/*
-	else if ((robotPosition == 'L' && mode == AutonMode::leftSwitch)
-			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {
-
-		double pos_mult = 1;
-		if (mode == AutonMode::leftSwitch) pos_mult = -1;
-
-		MoveToPoint({ location.x, 19.5*12.0 });
-		MoveToPoint({ 10.5*12.0 * pos_mult, location.y });
-		MoveToPoint({ location.x, 196 + robotLength/2 });
-		// place cube
-	}*/
-
-	this->AddParallel(sequentialCommands);
 }
 
 bool AutoCommand::modePossible(AutonMode mode) {

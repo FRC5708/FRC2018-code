@@ -3,12 +3,14 @@
 
 #include <Commands/Command.h>
 #include "Robot.h"
+#include "Arm.h"
 
 
 struct ArmPosition {
-	// place holders
-	static constexpr double Scale = 1;
-	static constexpr double Switch = 1;
+	// straight up
+	static constexpr double Scale = Arm::CHAIN_RATIO * 0.5;
+	// two feet up
+	static constexpr double Switch = Arm::CHAIN_RATIO*24/(Arm::LENGTH*2*M_PI); 
 };
 
 class MoveArmTo : public frc::Command {
@@ -16,10 +18,10 @@ public:
 	double to;
 	MoveArmTo(double to): to(to) {};
 	void Initialize() override { Robot::arm.MoveTo(to); }
-	bool IsFinished() override { return true; }
+	bool IsFinished() override { return Robot::arm.OnTarget(); }
 };
 
-class MoveClaw : public frc::Command {
+class MoveClaw : public frc::InstantCommand {
 public:
 	enum ClawPosition {
 		Open,
@@ -29,9 +31,8 @@ public:
 	ClawPosition to;
 	MoveClaw(ClawPosition to): to(to) {};
 	void Initialize() override { (to == Open) ? Robot::claw.Open() : Robot::claw.Close(); };
-	bool IsFinished() override { return true; }
 };
-class MoveWrist : public frc::Command {
+class MoveWrist : public frc::InstantCommand {
 public:
 	enum WristPosition {
 		Up,
@@ -41,7 +42,6 @@ public:
 	WristPosition to;
 	MoveWrist(WristPosition to): to(to) {};
 	void Initialize() override { (to == Up) ? Robot::wrist.Open() : Robot::wrist.Close(); };
-	bool IsFinished() override { return true; }
 };
 
 

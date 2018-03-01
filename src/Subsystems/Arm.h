@@ -20,6 +20,7 @@ public:
 	void MoveTo(double motorRevolutions);
 	void CancelMoveTo() { positionController.Disable(); isHolding = false; }
 	void StartHold() { MoveTo(encoder.GetDistance()); isHolding = true; }
+	bool OnTarget() { return positionController.OnTarget(); }
 	
 	void Periodic() override;
 	
@@ -28,6 +29,9 @@ public:
 	frc::Encoder encoder;
 	
 	bool isHolding = false;
+	
+	static constexpr double CHAIN_RATIO = 4;
+	static constexpr double LENGTH = 40; // inches
 	
 private:
 	PIDController positionController;
