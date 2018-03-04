@@ -30,13 +30,13 @@ public:
 	
 	bool isHolding = false;
 	
-	static constexpr double CHAIN_RATIO = 4;
-	static constexpr double LENGTH = 40; // inches
+	static constexpr double CHAIN_RATIO = 4.0;
+	static constexpr double LENGTH = 40.0; // inches
 	
 private:
 	PIDController positionController;
 	
-	double minPower = -1; // for gentle lowering
+	double minPower = -1.0; // for gentle lowering
 	
 protected:
 	void PIDWrite(double power) override { Move(power); };

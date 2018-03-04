@@ -8,7 +8,7 @@
 
 constexpr double powerRampupSpeed = 0.1; // seconds
 constexpr double powerLimit = 0.5;
-constexpr double ticksPerSecond = 50;
+constexpr double ticksPerSecond = 50.0;
 constexpr double powerRampdownTime = 0.3; // seconds remaining IF the robot keeps going the same speed
 constexpr double minPower = 0.3;
 

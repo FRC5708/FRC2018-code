@@ -20,8 +20,8 @@ double powerTransform(double input, double minPowerOutput, double inputDeadZone)
 	}
 	else {
 		output = (fabs(input) - inputChangePosition)
-				/ (1 - inputChangePosition)
-				* (1 - outputChangePosition)
+				/ (1.0 - inputChangePosition)
+				* (1.0 - outputChangePosition)
 				+ outputChangePosition;
 	}
 	if (input < 0) output = -output;

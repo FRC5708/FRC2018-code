@@ -20,7 +20,7 @@ Arm::~Arm() {
 
 // lowering start: 12 in above resting point
 
-constexpr double gentleLoweringStart = Arm::CHAIN_RATIO*12/(Arm::LENGTH*2*M_PI);
+constexpr double gentleLoweringStart = Arm::CHAIN_RATIO*12.0/(Arm::LENGTH*2.0*M_PI);
 constexpr double gentleLoweringRate = -0.1;
 constexpr double loweringPowerMult = 0.5;
 void Arm::Periodic() {
@@ -31,7 +31,7 @@ void Arm::Periodic() {
 		
 		minPower = loweringPowerMult * -(rate - gentleLoweringRate);
 	}
-	else minPower = -1;
+	else minPower = -1.0;
 }
 
 void Arm::MoveTo(double to) {

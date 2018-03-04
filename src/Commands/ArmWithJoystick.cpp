@@ -35,7 +35,7 @@ void ArmWithJoystick::Execute() {
 	}
 	
 	if (Robot::joyMode == SINGLE_JOY) {
-		double armDir = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
+		double armDir = ((Robot::joystick->GetRawButton(5) ? 1.0 : 0.0) + (Robot::joystick->GetRawButton(6) ? -1.0 : 0.0));
 		
 		if (Robot::joystick->GetRawButtonPressed(1)) {
 			holding_arm = !holding_arm;

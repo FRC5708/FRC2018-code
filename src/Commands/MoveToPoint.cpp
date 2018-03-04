@@ -19,7 +19,7 @@ void MoveToPoint::Initialize() {
 		
 		double x = to.x - location->x;
 		double y = to.y - location->y;
-		turnCommand->angle = (atan(x / y) * 180 / M_PI);
+		turnCommand->angle = (atan(x / y) * 180.0 / M_PI);
 }
 
 void MoveToPoint::Execute() {

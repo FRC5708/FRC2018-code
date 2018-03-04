@@ -51,7 +51,7 @@ constexpr int WristSolenoidChannel[2] = {2,3};
 
 constexpr int gyroChannel = 1;
 
-constexpr double WheelCircumference = 6 * M_PI;
+constexpr double WheelCircumference = 6.0 * M_PI;
 
 // in inches. 
 constexpr double fieldWidth = 360;

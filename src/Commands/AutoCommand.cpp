@@ -35,12 +35,12 @@ void AutoCommand::SetupRoute() {
 
 	// 48 in == width of portal, which robot will sit up against
 	switch (robotPosition) {
-	case 'L': plottingLocation = { -(132 - robotWidth/2), robotLength/2 }; break;
-	case 'R': plottingLocation = { 132 - robotWidth/2, robotLength/2 }; break;
+	case 'L': plottingLocation = { -(132.0 - robotWidth/2.0), robotLength/2.0 }; break;
+	case 'R': plottingLocation = { 132.0 - robotWidth/2.0, robotLength/2.0 }; break;
 
 	case 'C': 
 	default:
-		plottingLocation = { 0, robotLength/2 };
+		plottingLocation = { 0, robotLength/2.0 };
 	}
 	currentLocation.location = plottingLocation;
 	
@@ -92,7 +92,7 @@ void AutoCommand::SetupRoute() {
 			// after the main "drive down field to scale" command starts, time to wait to raise arm. Roughly estimated.
 			double waitTime;
 			
-			double pos_mult = 1;
+			double pos_mult = 1.0;
 			if (mode == AutonMode::leftScale) pos_mult = -1;
 
 			if ((robotPosition == 'L' && mode == AutonMode::rightScale)
@@ -100,13 +100,13 @@ void AutoCommand::SetupRoute() {
 
 				// cross arcade horizontally
                 AddPoint({ plottingLocation.x, 228 });
-                AddPoint({ 9*12*pos_mult, plottingLocation.y });
+                AddPoint({ 9.0*12.0*pos_mult, plottingLocation.y });
 				
 				waitTime = 0;
 			}			
 			else if (robotPosition == 'C') {
                 AddPoint({ plottingLocation.x, plottingLocation.y + 1.5*12.0 }); // move forward so wall is not hit while turning
-                AddPoint({ 9*12*pos_mult, 100 }); // to side of arcade
+                AddPoint({ 9.0*12.0*pos_mult, 100 }); // to side of arcade
 				
 				waitTime = 2;
 			}
@@ -119,8 +119,8 @@ void AutoCommand::SetupRoute() {
 			armMoveCommands->AddSequential(new MoveArmTo(ArmPosition::Scale));
 			drivingCommands->AddParallel(armMoveCommands);
 			
-            AddPoint({ plottingLocation.x, 299.65 + 2*12 }); //next to scale
-            AddPoint({ (7.5*12.0 + robotLength/2) * pos_mult, plottingLocation.y });
+            AddPoint({ plottingLocation.x, 299.65 + 2.0*12.0 }); //next to scale
+            AddPoint({ (7.5*12.0 + robotLength/2.0) * pos_mult, plottingLocation.y });
 		}
 		
 		// behind switch
@@ -133,7 +133,7 @@ void AutoCommand::SetupRoute() {
 
 				MoveToPoint({ location.x, 19.5*12.0 });
 				MoveToPoint({ 10.5*12.0 * pos_mult, location.y });
-				MoveToPoint({ location.x, 196 + robotLength/2 });
+				MoveToPoint({ location.x, 196.0 + robotLength/2.0 });
 				// place cube
 			}*/
 			
