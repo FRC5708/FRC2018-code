@@ -1,7 +1,7 @@
 #ifndef WinchWithJoystick_H
 #define WinchWithJoystick_H
 
-#include <commands/Command.h>
+#include <Commands/Command.h>
 
 class WinchWithJoystick : public frc::Command {
 public:
