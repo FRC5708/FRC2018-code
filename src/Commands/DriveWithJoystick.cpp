@@ -52,8 +52,8 @@ void DriveWithJoystick::Execute() {
 	//Robot::drivetrain.DrivePolar(power, turn);
 	double v = (1-fabs(turn)) * (power) + power;
 	double w = (1-fabs(power)) * (turn) + turn;
-	double r = (v+w)/2;
-	double l = (v-w)/2;
+	double r = (v+w)/2.0;
+	double l = (v-w)/2.0;
 	Robot::drivetrain.Drive(l, r);
 }
 

@@ -73,7 +73,7 @@ void ArmWithJoystick::Execute() {
 			double rawPower = Robot::joystick->GetRawAxis(4);
 			
 			// "dead zone" correction
-			double correctedPower = (abs(rawPower) - 0.1) * (1/1.1);
+			double correctedPower = (abs(rawPower) - 0.1) * (1.0/1.1);
 			if (correctedPower < 0) correctedPower = 0;
 			if (rawPower < 0) correctedPower = -correctedPower;
 			
