@@ -7,7 +7,8 @@
 
 class Claw : public frc::Subsystem {
 private:
-	DoubleSolenoid* clawSolenoid = new DoubleSolenoid(ClawSolenoidChannel[0],ClawSolenoidChannel[1]);
+	DoubleSolenoid* solenoid1 = new DoubleSolenoid(ClawSolenoid1Channel[0],ClawSolenoid1Channel[1]);
+	DoubleSolenoid* solenoid2 = new DoubleSolenoid(ClawSolenoid2Channel[0],ClawSolenoid2Channel[1]);
 
 public:
 	Claw();

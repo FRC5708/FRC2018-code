@@ -46,7 +46,8 @@ constexpr int RightEncoderChannel[2] = {2,3};
 
 constexpr int ArmEncoderChannel[2] = {4,5};
 
-constexpr int ClawSolenoidChannel[2] = {0,1};
+constexpr int ClawSolenoid1Channel[2] = {0,1};
+constexpr int ClawSolenoid2Channel[2] = {4,5};
 constexpr int WristSolenoidChannel[2] = {2,3};
 
 constexpr int gyroChannel = 1;
