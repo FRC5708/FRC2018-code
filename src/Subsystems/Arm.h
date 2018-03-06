@@ -32,7 +32,7 @@ public:
 private:
 	PIDController positionController;
 	
-	double minPower = -1; // for gentle lowering
+	//double minPower = -1; // for gentle lowering
 	
 protected:
 	void PIDWrite(double power) override { Move(power); };
