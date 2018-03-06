@@ -20,7 +20,6 @@ public:
 	void MoveTo(double motorRevolutions);
 	void CancelMoveTo() { positionController.Disable(); isHolding = false; }
 	void StartHold() { MoveTo(encoder.GetDistance()); isHolding = true; }
-	bool OnTarget() { return positionController.OnTarget(); }
 	
 	void Periodic() override;
 	
@@ -36,7 +35,7 @@ public:
 private:
 	PIDController positionController;
 	
-	double minPower = -1.0; // for gentle lowering
+	//double minPower = -1; // for gentle lowering
 	
 protected:
 	void PIDWrite(double power) override { Move(power); };
