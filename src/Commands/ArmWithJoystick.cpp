@@ -70,14 +70,14 @@ void ArmWithJoystick::Execute() {
 			Robot::arm.CancelMoveTo();
 			
 			// should be right joystick X
-			double rawPower = Robot::joystick->GetRawAxis(4);
+			double rawPower = Robot::joystick->GetRawAxis(5);
 			
 			// "dead zone" correction
 			double correctedPower = (fabs(rawPower) - 0.1) * (1.0/1.1);
 			if (correctedPower < 0) correctedPower = 0;
 			if (rawPower < 0) correctedPower = -correctedPower;
 			
-			Robot::arm.Move(correctedPower);
+			Robot::arm.Move(-correctedPower);
 		}
 	}
 }
