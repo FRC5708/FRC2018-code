@@ -5,11 +5,11 @@ Wrist::Wrist() : Subsystem("Wrist") {
 
 }
 
-void Wrist::Open(){
+void Wrist::Up(){
 	wristSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
 }
 
-void Wrist::Close(){
+void Wrist::Down(){
 	wristSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
 }
 

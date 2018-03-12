@@ -30,12 +30,12 @@ void Arm::Periodic() {
 
 		for (int i = 0; i != (sizeof(wristUpReq) / sizeof(*wristUpReq)); ++i) {
 			if (distance > wristUpReq[i][0] && distance < wristUpReq[i][1]) {
-				Robot::wrist.Open();
+				Robot::wrist.Up();
 			}
 		}
 		for (int i = 0; i != (sizeof(wristDownReq) / sizeof(*wristDownReq)); ++i) {
 			if (distance > wristDownReq[i][0] && distance < wristDownReq[i][1]) {
-				Robot::wrist.Close();
+				Robot::wrist.Down();
 			}
 		}
 	}

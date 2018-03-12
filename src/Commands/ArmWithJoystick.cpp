@@ -25,11 +25,11 @@ void ArmWithJoystick::Execute() {
 	}
 	if (Robot::joystick->GetRawButtonPressed(4)) {
 		if (wrist_is_up) {
-			Robot::wrist.Close();
+			Robot::wrist.Down();
 			wrist_is_up = false;
 		}
 		else {
-			Robot::wrist.Open();
+			Robot::wrist.Up();
 			wrist_is_up = true;
 		}
 	}

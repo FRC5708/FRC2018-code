@@ -40,7 +40,7 @@ public:
 	
 	WristPosition to;
 	MoveWrist(WristPosition to): to(to) {};
-	void Initialize() override { (to == Up) ? Robot::wrist.Open() : Robot::wrist.Close(); };
+	void Initialize() override { (to == Up) ? Robot::wrist.Up() : Robot::wrist.Down(); };
 	bool IsFinished() override { return true; }
 };
 
