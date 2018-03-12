@@ -85,6 +85,7 @@ private:
 	frc::SendableChooser<joystickMode> control_scheme_select;
 
 	frc::SendableChooser<char> switch_scale_select;
+	frc::SendableChooser<bool> wrist_helper_select;
   
 	frc::Command* driveCommand;
 	frc::Command* clawCommand;
@@ -92,6 +93,7 @@ private:
 	joystickMode control_scheme;
 	
 	void LogSensors();
+	void CheckDashboardOptions();
 };
 
 #endif

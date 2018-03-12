@@ -25,16 +25,18 @@ constexpr Range wristUpReq[] = {};
 constexpr Range wristDownReq[] = {};
 
 void Arm::Periodic() {
-	double distance = encoder.GetDistance();
-	
-	for (int i = 0; i != (sizeof(wristUpReq) / sizeof(*wristUpReq)); ++i) {
-		if (distance > wristUpReq[i][0] && distance < wristUpReq[i][1]) {
-			Robot::wrist.Open();
+	if (wristHelping) {
+		double distance = encoder.GetDistance();
+
+		for (int i = 0; i != (sizeof(wristUpReq) / sizeof(*wristUpReq)); ++i) {
+			if (distance > wristUpReq[i][0] && distance < wristUpReq[i][1]) {
+				Robot::wrist.Open();
+			}
 		}
-	}
-	for (int i = 0; i != (sizeof(wristDownReq) / sizeof(*wristDownReq)); ++i) {
-		if (distance > wristDownReq[i][0] && distance < wristDownReq[i][1]) {
-			Robot::wrist.Close();
+		for (int i = 0; i != (sizeof(wristDownReq) / sizeof(*wristDownReq)); ++i) {
+			if (distance > wristDownReq[i][0] && distance < wristDownReq[i][1]) {
+				Robot::wrist.Close();
+			}
 		}
 	}
 }

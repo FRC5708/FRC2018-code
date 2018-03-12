@@ -29,6 +29,8 @@ public:
 	
 	bool isHolding = false;
 	
+	bool wristHelping = true;
+	
 private:
 	PIDController positionController;
 	

@@ -60,13 +60,20 @@ void Robot::RobotInit() {
 
 	switch_scale_select.AddDefault("Left", 'L');
 	switch_scale_select.AddDefault("Right", 'L');
+	
+	wrist_helper_select.AddDefault("Keep grabber within frame", true);
+	wrist_helper_select.AddObject("Disable functionality", false);
 
     CameraServer::GetInstance()->StartAutomaticCapture();
 }
 
+void Robot::CheckDashboardOptions() {
+	arm.wristHelping = wrist_helper_select.GetSelected();
+}
 
 void Robot::DisabledPeriodic(){
     frc::Scheduler::GetInstance()->Run();
+    LogSensors();
 }
 
 void Robot::LogSensors() {
@@ -103,6 +110,7 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic(){
     frc::Scheduler::GetInstance()->Run();
     LogSensors();
+    CheckDashboardOptions();
 }
 
 void Robot::TeleopInit(){
@@ -131,6 +139,7 @@ void Robot::TeleopInit(){
 void Robot::TeleopPeriodic() {
     frc::Scheduler::GetInstance()->Run();
     LogSensors();
+    CheckDashboardOptions();
 }
 
 START_ROBOT_CLASS(Robot);
