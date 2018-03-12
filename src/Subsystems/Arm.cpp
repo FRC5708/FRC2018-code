@@ -2,6 +2,7 @@
 #include <Talon.h>
 #include <SmartDashboard/SmartDashboard.h>
 #include "../RobotMap.h"
+#include "Robot.h"
 
 
 
@@ -18,24 +19,24 @@ Arm::~Arm() {
 	
 }
 
-// arm length: 40 in
-// lowering start: 12 in above starting point
-// chain ratio: 1:4
-/*
-constexpr double gentleLoweringStart = 4*12/(40*2*M_PI);
-constexpr double gentleLoweringRate = -0.1;
-constexpr double loweringPowerMult = 0.5;
-*/
+typedef double Range[2];
+// TODO: add these
+constexpr Range wristUpReq[] = {};
+constexpr Range wristDownReq[] = {};
+
 void Arm::Periodic() {
-	/*
-	// TODO: make sure Encoder::GetRate returns a signed value
-	double rate = encoder.GetRate();
-	if (encoder.GetDistance() < gentleLoweringStart && rate < gentleLoweringRate) {
-		
-		minPower = loweringPowerMult * -(rate - gentleLoweringRate);
+	double distance = encoder.GetDistance();
+	
+	for (int i = 0; i != (sizeof(wristUpReq) / sizeof(*wristUpReq)); ++i) {
+		if (distance > wristUpReq[i][0] && distance < wristUpReq[i][1]) {
+			Robot::wrist.Open();
+		}
 	}
-	else minPower = -1;
-	*/
+	for (int i = 0; i != (sizeof(wristDownReq) / sizeof(*wristDownReq)); ++i) {
+		if (distance > wristDownReq[i][0] && distance < wristDownReq[i][1]) {
+			Robot::wrist.Close();
+		}
+	}
 }
 
 void Arm::MoveTo(double to) {
