@@ -3,12 +3,12 @@
 
 #include <Commands/Command.h>
 #include "Robot.h"
-#include "Arm.h"
+#include "Subsystems/Arm.h"
 
 
 struct ArmPosition {
-	// straight up
-	static constexpr double Scale = Arm::CHAIN_RATIO * 0.5;
+	// placeholder
+	static constexpr double Scale = Arm::CHAIN_RATIO * 0.4;
 	// two feet up
 	static constexpr double Switch = Arm::CHAIN_RATIO*24/(Arm::LENGTH*2*M_PI); 
 };

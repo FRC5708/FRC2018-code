@@ -18,14 +18,25 @@
 
 
 
-void AutoCommand::MoveToPoint(Point to) {
+void AutoCommand::MoveToPoint(Point to, bool backwards) {
 	std::cout << "adding point: (" << to.x << ", " << to.y << ")" << std::endl;
 	
 	double x = to.x - location.x;
 	double y = to.y - location.y;
-	drivingCommands->AddSequential(new TurnAngle(atan(x / y) * 180 / M_PI));
+	
+	double angle = atan(x / y) * 180 / M_PI;
+	double distance = sqrt(x*x + y*y);
+	
+	if (backwards) {
+		angle = angle + 180;
+		if (angle >= 360) angle -= 360;
+		
+		distance = -distance;
+	}
+	
+	drivingCommands->AddSequential(new TurnAngle(angle));
 	//AddSequential(new frc::WaitCommand(0.2));
-	drivingCommands->AddSequential(new DriveDistance(sqrt(x*x + y*y)));
+	drivingCommands->AddSequential(new DriveDistance(distance));
 
 	location = to;
 }
@@ -39,12 +50,12 @@ void AutoCommand::SetupRoute() {
 
 	// 48 in == width of portal, which robot will sit up against
 	switch (robotPosition) {
-	case 'L': location = { -(132 - robotWidth/2), robotLength/2 }; break;
-	case 'R': location = { 132 - robotWidth/2, robotLength/2 }; break;
+	case 'L': location = { -(132 - robotWidth/2.0), robotLength/2.0 }; break;
+	case 'R': location = { 132 - robotWidth/2.0, robotLength/2.0 }; break;
 
 	case 'C': 
 	default:
-		location = { 0, robotLength/2 }; 
+		location = { 0, robotLength/2.0 }; 
 	}
 
 	for (auto i = modeList.begin(); i != modeList.end(); ++i) {
@@ -123,7 +134,8 @@ void AutoCommand::SetupRoute() {
 			drivingCommands->AddParallel(armMoveCommands);
 			
 			MoveToPoint({ location.x, 299.65 + 2*12 }); //next to scale
-			MoveToPoint({ (7.5*12.0 + robotLength/2) * pos_mult, location.y });
+			MoveToPoint({ (7.5*12.0 + robotLength/2.0) * pos_mult, location.y }, true);
+			
 		}
 		
 		// behind switch
