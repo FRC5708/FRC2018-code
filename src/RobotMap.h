@@ -25,9 +25,6 @@
 // constexpr int kRangeFinderModule = 1;
 
 
-// buttons on xbox:
-// 1=A, 2=B, 3=X, 4=Y, 5=left bumper, 6=right bumper, 7=Back, 8=Start, 9=left joystick, 10=right joystick
-
 constexpr int FLMotorChannel = 0;
 constexpr int BLMotorChannel = 1;
 constexpr int FRMotorChannel = 2;
@@ -46,7 +43,8 @@ constexpr int RightEncoderChannel[2] = {2,3};
 
 constexpr int ArmEncoderChannel[2] = {4,5};
 
-constexpr int ClawSolenoidChannel[2] = {0,1};
+constexpr int ClawSolenoid1Channel[2] = {0,1};
+constexpr int ClawSolenoid2Channel[2] = {4,5};
 constexpr int WristSolenoidChannel[2] = {2,3};
 
 constexpr int gyroChannel = 1;

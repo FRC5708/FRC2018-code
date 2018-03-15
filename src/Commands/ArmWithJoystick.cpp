@@ -1,6 +1,7 @@
 #include <Commands/ArmWithJoystick.h>
 #include "../Robot.h"
 #include <iostream>
+#include <ControlMap.h>
 
 ArmWithJoystick::ArmWithJoystick()
 	: frc::Command("ClawWithJoystick"){
@@ -10,10 +11,10 @@ ArmWithJoystick::ArmWithJoystick()
 // Called repeatedly when this Command is scheduled to run
 void ArmWithJoystick::Execute() {
 	
-	if (Robot::joystick->GetRawButton(5)) {
+	if (Robot::joystick->GetRawButton(HOOK_RELEASE)) {
 		Robot::hookRelease.realeaseHookArm();
 	}
-	if (Robot::joystick->GetRawButtonPressed(3)) {
+	if (Robot::joystick->GetRawButtonPressed(CLAW_TOGGLE)) {
 		if (claw_is_open) {
 			Robot::claw.Close();
 			claw_is_open = false;
@@ -23,7 +24,7 @@ void ArmWithJoystick::Execute() {
 			claw_is_open = true;
 		}
 	}
-	if (Robot::joystick->GetRawButtonPressed(4)) {
+	if (Robot::joystick->GetRawButtonPressed(WRIST_TOGGLE)) {
 		if (wrist_is_up) {
 			Robot::wrist.Close();
 			wrist_is_up = false;
@@ -35,9 +36,10 @@ void ArmWithJoystick::Execute() {
 	}
 	
 	if (Robot::joyMode == SINGLE_JOY) {
-		double armDir = ((Robot::joystick->GetRawButton(5) ? 1 : 0) + (Robot::joystick->GetRawButton(6) ? -1 : 0));
+		double armDir = ((Robot::joystick->GetRawButton(JOY_ARM_UP) ? 1 : 0) + 
+				(Robot::joystick->GetRawButton(JOY_ARM_DOWN) ? -1 : 0));
 		
-		if (Robot::joystick->GetRawButtonPressed(1)) {
+		if (Robot::joystick->GetRawButtonPressed(JOY_ARM_HOLD)) {
 			holding_arm = !holding_arm;
 			std::cout << "set holding_arm to: " << holding_arm << std::endl;
 		}
@@ -61,7 +63,7 @@ void ArmWithJoystick::Execute() {
 	}
 	else {
 		// right joystick button
-		if(Robot::joystick->GetRawButton(10)) {
+		if(Robot::joystick->GetRawButton(XBOX_ARM_HOLD)) {
 			if (!Robot::arm.isHolding) {
 				Robot::arm.StartHold();
 			}
@@ -70,14 +72,14 @@ void ArmWithJoystick::Execute() {
 			Robot::arm.CancelMoveTo();
 			
 			// should be right joystick X
-			double rawPower = Robot::joystick->GetRawAxis(4);
+			double rawPower = Robot::joystick->GetRawAxis(XBOX_ARM_AXIS);
 			
 			// "dead zone" correction
-			double correctedPower = (abs(rawPower) - 0.1) * (1/1.1);
+			double correctedPower = (fabs(rawPower) - 0.1) * (1.0/1.1);
 			if (correctedPower < 0) correctedPower = 0;
 			if (rawPower < 0) correctedPower = -correctedPower;
 			
-			Robot::arm.Move(correctedPower);
+			Robot::arm.Move(-correctedPower);
 		}
 	}
 }

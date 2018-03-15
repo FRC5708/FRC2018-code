@@ -18,13 +18,22 @@ Arm::~Arm() {
 	
 }
 
+<<<<<<< HEAD
 // lowering start: 12 in above resting point
 
 constexpr double gentleLoweringStart = Arm::CHAIN_RATIO*12/(Arm::LENGTH*2*M_PI);
+=======
+// arm length: 40 in
+// lowering start: 12 in above starting point
+// chain ratio: 1:4
+/*
+constexpr double gentleLoweringStart = 4*12/(40*2*M_PI);
+>>>>>>> e52f129918d1231ae8691896f1030003a9a3b778
 constexpr double gentleLoweringRate = -0.1;
 constexpr double loweringPowerMult = 0.5;
+*/
 void Arm::Periodic() {
-	
+	/*
 	// TODO: make sure Encoder::GetRate returns a signed value
 	double rate = encoder.GetRate();
 	if (encoder.GetDistance() < gentleLoweringStart && rate < gentleLoweringRate) {
@@ -32,6 +41,7 @@ void Arm::Periodic() {
 		minPower = loweringPowerMult * -(rate - gentleLoweringRate);
 	}
 	else minPower = -1;
+	*/
 }
 
 void Arm::MoveTo(double to) {
@@ -44,7 +54,7 @@ void Arm::MoveTo(double to) {
 }
 
 void Arm::Move(double power) {
-	power = std::max(power, minPower);
+	//power = std::max(power, minPower);
 	motor1->Set(power);
 	motor2->Set(power);
 
