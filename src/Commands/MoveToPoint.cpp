@@ -24,6 +24,7 @@ void MoveToPoint::Initialize() {
 		if (backwards) {
 			angle += 180;
 			if (angle >= 360) angle -= 360;
+			if (angle > 180) angle -= 360;
 		}
 		
 		turnCommand->angle = angle;
