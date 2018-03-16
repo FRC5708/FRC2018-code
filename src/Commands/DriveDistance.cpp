@@ -6,8 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 
-constexpr double powerRampupSpeed = 0.1; // seconds
-constexpr double powerLimit = 0.5;
+constexpr double powerRampupSpeed = 0.3; // seconds
+constexpr double powerLimit = 0.6;
 constexpr double ticksPerSecond = 50;
 constexpr double powerRampdownTime = 0.3; // seconds remaining IF the robot keeps going the same speed
 constexpr double minPower = 0.3;
@@ -62,12 +62,12 @@ double DriveDistance::PIDGet() {
 }
 
 void DriveDistance::PIDWrite(double turningValue) {
-	powerRampupCounter += powerRampupSpeed/ticksPerSecond;
+	powerRampupCounter += 1/(powerRampupSpeed*ticksPerSecond);
 	double power = std::min(powerLimit, powerRampupCounter * (powerLimit - minPower) + minPower);
 
 	double remainingTime = (inchesToDrive - Robot::drivetrain.GetDistance()) / Robot::drivetrain.GetRate();
-	double rampdownPower = remainingTime / powerRampdownTime  * (powerLimit - minPower) + minPower;
-	power = std::min(power, rampdownPower);
+	//double rampdownPower = remainingTime / powerRampdownTime  * (powerLimit - minPower) + minPower;
+	//power = std::min(power, rampdownPower);
 
 	power = std::max(power, minPower);
 
