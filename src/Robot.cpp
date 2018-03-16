@@ -25,8 +25,8 @@ Compressor* compressor;
 void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string name) {
 
 	// space in beginning for alphabetical ordering
-	chooser->AddDefault(" " + name + "default (do nothing)", AutonMode::nothing);
-	chooser->AddObject("Cross line", AutonMode::crossLine);
+	chooser->AddDefault(" " + name + " default: Cross line", AutonMode::crossLine);
+	chooser->AddObject("do nothing", AutonMode::nothing);
 	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
 	chooser->AddObject("Switch (left)", AutonMode::leftSwitch);
 	chooser->AddObject("Switch (right)", AutonMode::rightSwitch);
@@ -36,6 +36,7 @@ void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string
 	frc::SmartDashboard::PutData(name, chooser);
 }
 void Robot::RobotInit() {
+
 
 	Robot::joystick = new Joystick(0);
 	Robot::gyro = new ADXRS450_Gyro();
@@ -51,15 +52,15 @@ void Robot::RobotInit() {
 	compressor = new Compressor(0);
 	compressor->SetClosedLoopControl(true);
   
-	setupObjectiveChooser(&primary_objective_select, "Primary Objective");
-	setupObjectiveChooser(&secondary_objective_select, "Secondary Objective");
+	setupObjectiveChooser(&primary_objective_select, "Primary Obj.");
+	setupObjectiveChooser(&secondary_objective_select, "Secondary Obj.");
 
-	control_scheme_select.AddDefault("Joystick", SINGLE_JOY);
-	control_scheme_select.AddObject("Xbox", XBOX);
+	control_scheme_select.AddDefault("Xbox", XBOX);
+	control_scheme_select.AddObject("Joystick", SINGLE_JOY);
 	frc::SmartDashboard::PutData("Control Scheme", &control_scheme_select);
 
 	switch_scale_select.AddDefault("Left", 'L');
-	switch_scale_select.AddDefault("Right", 'L');
+	switch_scale_select.AddObject("Right", 'L');
 	
 	wrist_helper_select.AddDefault("Keep grabber within frame", true);
 	wrist_helper_select.AddObject("Disable functionality", false);

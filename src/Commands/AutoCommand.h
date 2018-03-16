@@ -13,9 +13,8 @@
 
 // caller specifies prioritized list
 	enum struct AutonMode {
-		nothing,
 		crossLine,
-		
+		nothing,
 		
 		leftSwitch,
 		eitherSwitch,
