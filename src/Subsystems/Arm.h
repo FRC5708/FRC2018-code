@@ -33,6 +33,8 @@ public:
 	static constexpr double CHAIN_RATIO = 4;
 	static constexpr double LENGTH = 40; // inches
 	
+	bool wristHelping = true;
+	
 private:
 	PIDController positionController;
 	

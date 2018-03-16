@@ -12,8 +12,8 @@ private:
 public:
 	Wrist();
 	void InitDefaultCommand(){};
-	void Open();
-	void Close();
+	void Up();
+	void Down();
 	void Stop();
 };
 

@@ -2,6 +2,7 @@
 #include <Talon.h>
 #include <SmartDashboard/SmartDashboard.h>
 #include "../RobotMap.h"
+#include "Robot.h"
 
 
 
@@ -18,9 +19,26 @@ Arm::~Arm() {
 	
 }
 
+typedef double Range[2];
+// TODO: add these
+constexpr Range wristUpReq[] = {};
+constexpr Range wristDownReq[] = {};
 
 void Arm::Periodic() {
-	
+	if (wristHelping) {
+		double distance = encoder.GetDistance();
+
+		for (int i = 0; i != (sizeof(wristUpReq) / sizeof(*wristUpReq)); ++i) {
+			if (distance > wristUpReq[i][0] && distance < wristUpReq[i][1]) {
+				Robot::wrist.Up();
+			}
+		}
+		for (int i = 0; i != (sizeof(wristDownReq) / sizeof(*wristDownReq)); ++i) {
+			if (distance > wristDownReq[i][0] && distance < wristDownReq[i][1]) {
+				Robot::wrist.Down();
+			}
+		}
+	}
 }
 
 void Arm::MoveTo(double to) {
