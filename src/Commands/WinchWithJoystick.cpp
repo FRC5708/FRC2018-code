@@ -1,5 +1,6 @@
 #include "WinchWithJoystick.h"
 #include "../Robot.h"
+#include <ControlMap.h>
 
 WinchWithJoystick::WinchWithJoystick() {
 	// Use Requires() here to declare subsystem dependencies
@@ -11,7 +12,7 @@ WinchWithJoystick::WinchWithJoystick() {
 void WinchWithJoystick::Execute() {
 	
 	
-	if (Robot::joystick->GetRawButton(6)) {
+	if (Robot::joystick->GetRawButton(WINCH_RUN)) {
 		Robot::winch.setMotors(1);
 	} else {
 		Robot::winch.setMotors(0);

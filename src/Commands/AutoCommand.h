@@ -82,7 +82,7 @@ private:
 	// Only used in beginning for route calculation.
 	Point plottingLocation = {0, 0};
 	
-	void AddPoint(Point to);
+	void AddPoint(Point to, bool backwards = false);
 };
 
 

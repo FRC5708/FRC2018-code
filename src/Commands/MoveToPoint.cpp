@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-MoveToPoint::MoveToPoint(Point* location, Point to): location(location), to(to) {
+MoveToPoint::MoveToPoint(Point* location, Point to, bool backwards): location(location), to(to), backwards(backwards) {
 	turnCommand = new TurnAngle(0);
 	AddSequential(turnCommand);
 	driveCommand = new DriveDistance(0);
@@ -19,7 +19,14 @@ void MoveToPoint::Initialize() {
 		
 		double x = to.x - location->x;
 		double y = to.y - location->y;
-		turnCommand->angle = (atan(x / y) * 180.0 / M_PI);
+		
+		double angle = atan(x / y) * 180.0 / M_PI;
+		if (backwards) {
+			angle += 180;
+			if (angle >= 360) angle -= 360;
+		}
+		
+		turnCommand->angle = angle;
 }
 
 void MoveToPoint::Execute() {
@@ -27,7 +34,10 @@ void MoveToPoint::Execute() {
 		if (turnCommand->IsFinished()) {
 			double x = to.x - location->x;
 			double y = to.y - location->y;
-			driveCommand->inchesToDrive = sqrt(x*x + y*y);
+			
+			double distance = sqrt(x*x + y*y);
+			if (backwards) distance = -distance;
+			driveCommand->inchesToDrive = distance;
 			
 			turnCommand = nullptr;
 		}

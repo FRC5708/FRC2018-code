@@ -6,13 +6,16 @@ Claw::Claw() : Subsystem("Claw") {
 }
 
 void Claw::Open(){
-	clawSolenoid->Set(frc::DoubleSolenoid::Value::kForward);
+	solenoid1->Set(frc::DoubleSolenoid::Value::kForward);
+	solenoid2->Set(frc::DoubleSolenoid::Value::kForward);
 }
 
 void Claw::Close(){
-	clawSolenoid->Set(frc::DoubleSolenoid::Value::kReverse);
+	solenoid1->Set(frc::DoubleSolenoid::Value::kReverse);
+	solenoid2->Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void Claw::Stop(){
-	clawSolenoid->Set(frc::DoubleSolenoid::Value::kOff);
+	solenoid1->Set(frc::DoubleSolenoid::Value::kOff);
+	solenoid2->Set(frc::DoubleSolenoid::Value::kOff);
 }

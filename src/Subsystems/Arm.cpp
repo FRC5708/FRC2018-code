@@ -12,28 +12,15 @@ Arm::Arm(): Subsystem("Arm"),
 			positionController(3, 0.01, 0, &encoder, this) {
 
 	encoder.SetDistancePerPulse(1.0/360.0);
+	positionController.SetAbsoluteTolerance(0.01);
 }
 
 Arm::~Arm() {
 	
 }
 
-// lowering start: 12 in above resting point
-/*
-constexpr double gentleLoweringStart = Arm::CHAIN_RATIO*12.0/(Arm::LENGTH*2.0*M_PI);
-constexpr double gentleLoweringRate = -0.1;
-constexpr double loweringPowerMult = 0.5;
-*/
 void Arm::Periodic() {
-	/*
-	// TODO: make sure Encoder::GetRate returns a signed value
-	double rate = encoder.GetRate();
-	if (encoder.GetDistance() < gentleLoweringStart && rate < gentleLoweringRate) {
-		
-		minPower = loweringPowerMult * -(rate - gentleLoweringRate);
-	}
-	else minPower = -1.0;
-	*/
+	
 }
 
 void Arm::MoveTo(double to) {

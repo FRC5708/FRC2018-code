@@ -21,6 +21,8 @@ public:
 	void CancelMoveTo() { positionController.Disable(); isHolding = false; }
 	void StartHold() { MoveTo(encoder.GetDistance()); isHolding = true; }
 	
+	bool OnTarget() { return positionController.OnTarget(); }
+	
 	void Periodic() override;
 	
 	frc::SpeedController* motor1;

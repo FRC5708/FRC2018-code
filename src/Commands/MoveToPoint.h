@@ -9,7 +9,7 @@
 
 class MoveToPoint : public frc::CommandGroup {
 public:
-	MoveToPoint(Point* location, Point to);
+	MoveToPoint(Point* location, Point to, bool backwards);
 	virtual ~MoveToPoint();
 	
 	void Initialize() override;
@@ -23,6 +23,7 @@ public:
 private:
 	TurnAngle* turnCommand = nullptr;
 	DriveDistance* driveCommand = nullptr;
+	bool backwards = false;
 };
 
 #endif /* SRC_COMMANDS_MOVETOPOINT_H_ */

@@ -19,9 +19,9 @@
 
 
 
-void AutoCommand::AddPoint(Point to) {
+void AutoCommand::AddPoint(Point to, bool backwards) {
 	std::cout << "adding point: (" << to.x << ", " << to.y << ")" << std::endl;
-	drivingCommands->AddSequential(new MoveToPoint(&currentLocation.location, to));
+	drivingCommands->AddSequential(new MoveToPoint(&currentLocation.location, to, backwards));
 	plottingLocation = to;
 }
 
@@ -120,7 +120,7 @@ void AutoCommand::SetupRoute() {
 			drivingCommands->AddParallel(armMoveCommands);
 			
             AddPoint({ plottingLocation.x, 299.65 + 2.0*12.0 }); //next to scale
-            AddPoint({ (7.5*12.0 + robotLength/2.0) * pos_mult, plottingLocation.y });
+            AddPoint({ (7.5*12.0 + robotLength/2.0) * pos_mult, plottingLocation.y }, true);
 		}
 		
 		// behind switch
