@@ -97,7 +97,8 @@ void AutoCommand::SetupRoute() {
 			if (mode == AutonMode::leftSwitch) pos_mult = -1;
 
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
-			drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
+			//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
+			drivingCommands->AddParallel(new ArmForTime(0.8, 0.2));
 			MoveToPoint({ location.x, 10*12 });
 
 		}
