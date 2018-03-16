@@ -51,7 +51,7 @@ public:
 	double power;
 	double time;
 	
-	int ticks;
+	int ticks = 0;
 	
 	ArmForTime(double power, double time): power(power), time(time) {};
 	

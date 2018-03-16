@@ -98,7 +98,7 @@ void AutoCommand::SetupRoute() {
 
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
 			//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
-			drivingCommands->AddParallel(new ArmForTime(0.8, 0.2));
+			drivingCommands->AddParallel(new ArmForTime(1.0, 0.25));
 			MoveToPoint({ location.x, 10*12 });
 
 		}
