@@ -28,8 +28,9 @@ void AutoCommand::MoveToPoint(Point to, bool backwards) {
 	double distance = sqrt(x*x + y*y);
 	
 	if (backwards) {
-		angle = angle + 180;
+		angle += 180;
 		if (angle >= 360) angle -= 360;
+		if (angle > 180) angle -= 360;
 		
 		distance = -distance;
 	}
