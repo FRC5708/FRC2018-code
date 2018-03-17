@@ -82,7 +82,7 @@ void AutoCommand::SetupRoute() {
 	}
 	else {
 		
-		AddParallel(new MoveWrist(MoveWrist::Down));
+
 
 		// switch
 		/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
@@ -98,13 +98,18 @@ void AutoCommand::SetupRoute() {
 
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
 			//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
-			drivingCommands->AddParallel(new ArmForTime(1.0, 0.25));
+			CommandGroup* armCommands = new CommandGroup();
+
+			armCommands->AddSequential(new ArmForTime(1.0, 0.5));
+			armCommands->AddSequential(new MoveWrist(MoveWrist::Down));
+			drivingCommands->AddParallel(armCommands);
+
 			MoveToPoint({ location.x, 10*12 });
 
 		}
 		// scale
 		else if (mode == AutonMode::leftScale || mode == AutonMode::rightScale) {
-			
+			AddParallel(new MoveWrist(MoveWrist::Down));
 			// after the main "drive down field to scale" command starts, time to wait to raise arm. Roughly estimated.
 			double waitTime;
 			
