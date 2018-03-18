@@ -66,8 +66,9 @@ void DriveDistance::PIDWrite(double turningValue) {
 	double power = std::min(powerLimit, powerRampupCounter * (powerLimit - minPower) + minPower);
 
 	double remainingTime = (inchesToDrive - Robot::drivetrain.GetDistance()) / Robot::drivetrain.GetRate();
-	//double rampdownPower = remainingTime / powerRampdownTime  * (powerLimit - minPower) + minPower;
-	//power = std::min(power, rampdownPower);
+	if (remainingTime < 0) remainingTime = 0;
+	double rampdownPower = remainingTime / powerRampdownTime  * (powerLimit - minPower) + minPower;
+	power = std::min(power, rampdownPower);
 
 	power = std::max(power, minPower);
 
