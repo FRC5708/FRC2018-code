@@ -14,15 +14,12 @@
 #include <Joystick.h>
 #include <AnalogGyro.h>
 #include <Commands/AutoCommand.h>
-#include <Commands/ArmWithJoystick.h>
 #include "WPILib.h"
 
 
 #include <Subsystems/Drivetrain.h>
 #include <Subsystems/Claw.h>
-#include <Subsystems/WinchHookRelease.h>
 #include <Subsystems/Winch.h>
-#include <Commands/DriveWithJoystick.h>
 #include "Subsystems/Arm.h"
 #include "Subsystems/Wrist.h"
 
@@ -32,7 +29,6 @@ public:
 	static Claw claw;
 	static Arm arm;
 	static Wrist wrist;
-	static WinchHookRelease hookRelease;
 	static Winch winch;
 	static OI oi;
 	static Joystick* joystick;
@@ -89,6 +85,7 @@ private:
   
 	frc::Command* driveCommand;
 	frc::Command* clawCommand;
+	frc::Command* winchCommand;
   
 	joystickMode control_scheme;
 	

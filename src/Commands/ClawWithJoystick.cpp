@@ -1,19 +1,16 @@
-#include <Commands/ArmWithJoystick.h>
+#include <Commands/ClawWithJoystick.h>
 #include "../Robot.h"
 #include <iostream>
 #include <ControlMap.h>
 
-ArmWithJoystick::ArmWithJoystick()
+ClawWithJoystick::ClawWithJoystick()
 	: frc::Command("ClawWithJoystick"){
 	Requires(&Robot::claw);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ArmWithJoystick::Execute() {
+void ClawWithJoystick::Execute() {
 	
-	if (Robot::joystick->GetRawButton(HOOK_RELEASE)) {
-		Robot::hookRelease.realeaseHookArm();
-	}
 	if (Robot::joystick->GetRawButtonPressed(CLAW_TOGGLE)) {
 		if (claw_is_open) {
 			Robot::claw.Close();
@@ -24,6 +21,7 @@ void ArmWithJoystick::Execute() {
 			claw_is_open = true;
 		}
 	}
+	/*
 	if (Robot::joystick->GetRawButtonPressed(WRIST_TOGGLE)) {
 		if (wrist_is_up) {
 			Robot::wrist.Down();
@@ -81,15 +79,15 @@ void ArmWithJoystick::Execute() {
 			
 			Robot::arm.Move(-correctedPower);
 		}
-	}
+	}*/
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ArmWithJoystick::IsFinished() {
+bool ClawWithJoystick::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void ArmWithJoystick::End() {
+void ClawWithJoystick::End() {
 
 }

@@ -11,10 +11,13 @@ WinchWithJoystick::WinchWithJoystick() {
 // Called repeatedly when this Command is scheduled to run
 void WinchWithJoystick::Execute() {
 	
-	
-	if (Robot::joystick->GetRawButton(WINCH_RUN)) {
+	if (Robot::joystick->GetRawButton(WINCH_UP)) {
 		Robot::winch.setMotors(1);
-	} else {
+	} 
+	else if (Robot::joystick->GetRawButton(WINCH_DOWN)) {
+		Robot::winch.setMotors(-1);
+	}
+	else {
 		Robot::winch.setMotors(0);
 	}
 

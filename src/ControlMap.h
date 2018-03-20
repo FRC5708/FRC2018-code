@@ -6,6 +6,7 @@
 
 
 constexpr int CLAW_TOGGLE = 3;
+/*
 constexpr int WRIST_TOGGLE = 4;
 
 constexpr int JOY_ARM_UP = 5;
@@ -15,6 +16,11 @@ constexpr int JOY_ARM_HOLD = 1;
 constexpr int XBOX_ARM_AXIS = 5; // right joystick X
 constexpr int XBOX_ARM_HOLD = 10;
 
-constexpr int HOOK_RELEASE = 8;
+constexpr int HOOK_RELEASE = 8;*/
 
-constexpr int WINCH_RUN = 2;
+constexpr int WINCH_UP = 5;
+constexpr int WINCH_DOWN = 6;
+
+constexpr int INTAKE_IN = 1;
+constexpr int INTAKE_OUT = 2;
+

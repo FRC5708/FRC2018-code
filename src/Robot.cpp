@@ -5,13 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+#include <Commands/ClawWithJoystick.h>
 #include "Robot.h"
 #include "WPILib.h"
 #include <PowerDistributionPanel.h>
+#include <Commands/DriveWithJoystick.h>
+#include <Commands/WinchWithJoystick.h>
 
 Drivetrain Robot::drivetrain;
 Arm Robot::arm;
-WinchHookRelease Robot::hookRelease;
 Winch Robot::winch;
 Claw Robot::claw;
 Wrist Robot::wrist;
@@ -129,12 +131,14 @@ void Robot::TeleopInit(){
         arm.CancelMoveTo();
     }
     driveCommand = new DriveWithJoystick();
-    clawCommand = new ArmWithJoystick();
+    clawCommand = new ClawWithJoystick();
+    winchCommand = new WinchWithJoystick();
 
     Robot::joyMode = control_scheme;
   
     driveCommand->Start();
     clawCommand->Start();
+    winchCommand->Start();
 }
 
 void Robot::TeleopPeriodic() {
