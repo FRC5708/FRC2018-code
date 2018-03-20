@@ -10,7 +10,7 @@ struct ArmPosition {
 	// placeholder
 	static constexpr double Scale = Arm::CHAIN_RATIO * 0.4;
 	// two feet up
-	static constexpr double Switch = Arm::CHAIN_RATIO*24/(Arm::LENGTH*2*M_PI); 
+	static constexpr double Switch = 0.2;//Arm::CHAIN_RATIO*24/(Arm::LENGTH*2*M_PI);
 };
 
 class MoveArmTo : public frc::Command {

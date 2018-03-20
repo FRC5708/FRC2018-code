@@ -9,7 +9,7 @@
 Arm::Arm(): Subsystem("Arm"),
 			motor1(new frc::Talon(ArmMotorChannel1)),
 		    motor2(new frc::Talon(ArmMotorChannel2)),
-		    encoder(ArmEncoderChannel[0], ArmEncoderChannel[1], true),
+		    encoder(ArmEncoderChannel[0], ArmEncoderChannel[1], false),
 			positionController(3, 0.01, 0, &encoder, this) {
 
 	encoder.SetDistancePerPulse(1.0/360.0);

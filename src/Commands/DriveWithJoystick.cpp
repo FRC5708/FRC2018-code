@@ -1,6 +1,7 @@
 #include "DriveWithJoystick.h"
 
-
+double currentLeftPower=0.0;
+double currentRightPower=0.0;
 DriveWithJoystick::DriveWithJoystick()
     : frc::Command("DriveWithJoystick"){
 	Requires(&Robot::drivetrain);
@@ -34,7 +35,18 @@ void DriveWithJoystick::Execute() {
 	double w = (1-fabs(power)) * (turn) + turn;
 	double r = (v+w)/2;
 	double l = (v-w)/2;
-	Robot::drivetrain.Drive(l, r);
+
+	if(l>currentLeftPower){
+			currentLeftPower+=.1;
+		}else{
+			currentLeftPower-=.1;
+		}
+		if(r>currentRightPower){
+			currentRightPower+=.1;
+		}else{
+			currentRightPower-=.1;
+		}
+	Robot::drivetrain.Drive(currentLeftPower, currentRightPower);
 }
 
 // Make this return true when this Command no longer needs to run execute()
