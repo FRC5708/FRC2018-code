@@ -13,10 +13,10 @@ void WinchWithJoystick::Execute() {
 	if (Robot::joyMode == joystickMode::SINGLE_JOY) {
 
 		if (Robot::joystick->GetRawButton(JOY_WINCH_UP)) {
-			Robot::winch.SetMotors(1);
+			Robot::winch.SetMotors(.1);
 		} 
 		else if (Robot::joystick->GetRawButton(JOY_WINCH_DOWN)) {
-			Robot::winch.SetMotors(-1);
+			Robot::winch.SetMotors(-.1);
 		}
 		else {
 			Robot::winch.SetMotors(0);
@@ -24,6 +24,7 @@ void WinchWithJoystick::Execute() {
 	}
 	else {
 		double power = inputTransform(Robot::joystick->GetRawAxis(XBOX_WINCH_AXIS), 0.1, 0.05, 0, 0);
+		power/=10.0; //So that we don't break things!
 		if (Robot::joystick->GetRawButton(WINCH_HOLD)) {
 			Robot::winch.StartHold();	
 		}
