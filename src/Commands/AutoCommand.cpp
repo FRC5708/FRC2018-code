@@ -97,7 +97,7 @@ void AutoCommand::SetupRoute() {
 			if (mode == AutonMode::leftSwitch) pos_mult = -1;
 
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
-			drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
+			//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
 			MoveToPoint({ location.x, 10*12 });
 
 		}
@@ -128,11 +128,11 @@ void AutoCommand::SetupRoute() {
 			else {
 				waitTime = 4;
 			}
-			
+			/*
 			CommandGroup* armMoveCommands = new CommandGroup();
 			armMoveCommands->AddSequential(new WaitCommand(waitTime));
 			armMoveCommands->AddSequential(new MoveArmTo(ArmPosition::Scale));
-			drivingCommands->AddParallel(armMoveCommands);
+			drivingCommands->AddParallel(armMoveCommands);*/
 			
 			MoveToPoint({ location.x, 299.65 + 2*12 }); //next to scale
 			MoveToPoint({ (7.5*12.0 + robotLength/2.0) * pos_mult, location.y }, true);
