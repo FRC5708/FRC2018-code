@@ -18,9 +18,9 @@ constexpr int XBOX_ARM_HOLD = 10;
 
 constexpr int HOOK_RELEASE = 8;*/
 
-constexpr int WINCH_UP = 5;
-constexpr int WINCH_DOWN = 6;
+constexpr int WINCH_UP = 1;
+constexpr int WINCH_DOWN = 2;
 
-constexpr int INTAKE_IN = 1;
-constexpr int INTAKE_OUT = 2;
+constexpr int INTAKE_IN = 5;
+constexpr int INTAKE_OUT = 6;
 

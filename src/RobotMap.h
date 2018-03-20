@@ -30,10 +30,12 @@ constexpr int BLMotorChannel = 1;
 constexpr int FRMotorChannel = 2;
 constexpr int BRMotorChannel = 3;
 
-/*
-constexpr int ArmMotorChannel1 = 4;
-constexpr int ArmMotorChannel2 = 5;
-*/
+constexpr int ArmMotorChannel1 = 10;
+constexpr int ArmMotorChannel2 = 10;
+
+constexpr int intakeMotorChannel1 = 4;
+constexpr int intakeMotorChannel2 = 5;
+
 
 constexpr int leftWinchMotorChannel = 6;
 constexpr int rightWinchMotorChannel = 7;

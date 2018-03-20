@@ -21,6 +21,16 @@ void ClawWithJoystick::Execute() {
 			claw_is_open = true;
 		}
 	}
+	
+	if (Robot::joystick->GetRawButton(INTAKE_IN)) {
+		Robot::claw.MoveMotors(1);
+	}
+	else if (Robot::joystick->GetRawButton(INTAKE_OUT)) {
+		Robot::claw.MoveMotors(-1);		
+	}
+	else {
+		Robot::claw.MoveMotors(0);		
+	}
 	/*
 	if (Robot::joystick->GetRawButtonPressed(WRIST_TOGGLE)) {
 		if (wrist_is_up) {
