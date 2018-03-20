@@ -70,10 +70,10 @@ void Drivetrain::ResetDistance(){
 }
 
 double Drivetrain::GetDistance() {
-	return ((leftEncoder->GetDistance()+rightEncoder->GetDistance())/2.0)*WheelCircumference;
+	return (leftEncoder->GetDistance()/*+rightEncoder->GetDistance())/2.0*/)*WheelCircumference;
 }
 double Drivetrain::GetRate() {
-	return ((leftEncoder->GetRate()+rightEncoder->GetRate())/2.0)*WheelCircumference;
+	return (leftEncoder->GetRate()/*+rightEncoder->GetRate())/2.0*/)*WheelCircumference;
 }
 
 
