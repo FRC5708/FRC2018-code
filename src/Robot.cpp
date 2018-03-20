@@ -17,7 +17,6 @@ Arm Robot::arm;
 Winch Robot::winch;
 Claw Robot::claw;
 Wrist Robot::wrist;
-OI Robot::oi;
 Joystick* Robot::joystick;
 Gyro* Robot::gyro;
 joystickMode Robot::joyMode = SINGLE_JOY;

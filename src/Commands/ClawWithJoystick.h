@@ -2,8 +2,8 @@
 #define ClawWithJoystick_H
 
 #include <Commands/Command.h>
-#include <OI.h>
 #include <Joystick.h>
+#include <Misc.h>
 #include <RobotMap.h>
 #include <vector>
 

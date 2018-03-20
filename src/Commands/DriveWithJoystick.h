@@ -8,8 +8,8 @@
 #pragma once
 
 #include <Commands/Command.h>
-#include <OI.h>
 #include <Joystick.h>
+#include <Misc.h>
 #include <RobotMap.h>
 
 #include "../Robot.h"

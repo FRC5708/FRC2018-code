@@ -8,12 +8,12 @@
 #include <SmartDashboard/SmartDashboard.h>
 #include <TimedRobot.h>
 #include <DriverStation.h>
-#include <OI.h>
 #include <Joystick.h>
 #include <RobotMap.h>
 #include <Joystick.h>
 #include <AnalogGyro.h>
 #include <Commands/AutoCommand.h>
+#include <Misc.h>
 #include "WPILib.h"
 
 
@@ -30,7 +30,6 @@ public:
 	static Arm arm;
 	static Wrist wrist;
 	static Winch winch;
-	static OI oi;
 	static Joystick* joystick;
 	static Gyro* gyro;
 	static joystickMode joyMode;

@@ -5,8 +5,9 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "OI.h"
+#pragma once
+#include "WPILib.h"
+#include <Joystick.h>
 
-OI::OI() {
-	// Process operator interface input here.
-}
+double inputTransform(double input, double minPowerOutput, double inputDeadZone, 
+		 double inputChangePosition = 0.75, double outputChangePosition = 0.5);

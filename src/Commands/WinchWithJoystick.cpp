@@ -13,19 +13,26 @@ void WinchWithJoystick::Execute() {
 	if (Robot::joyMode == joystickMode::SINGLE_JOY) {
 
 		if (Robot::joystick->GetRawButton(JOY_WINCH_UP)) {
-			Robot::winch.setMotors(1);
+			Robot::winch.SetMotors(1);
 		} 
 		else if (Robot::joystick->GetRawButton(JOY_WINCH_DOWN)) {
-			Robot::winch.setMotors(-1);
+			Robot::winch.SetMotors(-1);
 		}
 		else {
-			Robot::winch.setMotors(0);
+			Robot::winch.SetMotors(0);
 		}
 	}
 	else {
-		Robot::winch.setMotors(Robot::joystick->GetRawAxis(XBOX_WINCH_AXIS));
+		double power = inputTransform(Robot::joystick->GetRawAxis(XBOX_WINCH_AXIS), 0.1, 0.05, 0, 0);
+		if (Robot::joystick->GetRawButton(WINCH_HOLD)) {
+			Robot::winch.StartHold();	
+		}
+		else {
+			Robot::winch.CancelMoveTo();
+		}
+		
+		if (!Robot::winch.isHolding) Robot::winch.SetMotors(power);
 	}
-
 }
 
 // Make this return true when this Command no longer needs to run execute()

@@ -105,7 +105,7 @@ void AutoCommand::SetupRoute() {
 		else if (mode == AutonMode::leftScale || mode == AutonMode::rightScale) {
 			
 			// after the main "drive down field to scale" command starts, time to wait to raise arm. Roughly estimated.
-			double waitTime;
+			//double waitTime;
 			
 			double pos_mult = 1;
 			if (mode == AutonMode::leftScale) pos_mult = -1;
@@ -117,16 +117,16 @@ void AutoCommand::SetupRoute() {
 				MoveToPoint({ location.x, 228 }); 
 				MoveToPoint({ 9*12*pos_mult, location.y });
 				
-				waitTime = 0;
+				//waitTime = 0;
 			}			
 			else if (robotPosition == 'C') {
 				MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 				MoveToPoint({ 9*12*pos_mult, 100 }); // to side of arcade
 				
-				waitTime = 2;
+				//waitTime = 2;
 			}
 			else {
-				waitTime = 4;
+				//waitTime = 4;
 			}
 			/*
 			CommandGroup* armMoveCommands = new CommandGroup();

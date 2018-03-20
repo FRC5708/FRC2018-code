@@ -21,6 +21,7 @@ constexpr int HOOK_RELEASE = 8;*/
 constexpr int JOY_WINCH_UP = 1;
 constexpr int JOY_WINCH_DOWN = 2;
 constexpr int XBOX_WINCH_AXIS = 5;
+constexpr int WINCH_HOLD = 10;
 
 constexpr int INTAKE_IN = 5;
 constexpr int INTAKE_OUT = 6;
