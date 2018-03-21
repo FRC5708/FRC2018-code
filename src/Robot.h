@@ -89,7 +89,7 @@ private:
 	joystickMode control_scheme;
 	
 	void LogSensors();
-	void CheckDashboardOptions();
+	void AllPeriodic();
 };
 
 #endif

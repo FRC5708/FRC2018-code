@@ -69,13 +69,32 @@ void Robot::RobotInit() {
     CameraServer::GetInstance()->StartAutomaticCapture();
 }
 
-void Robot::CheckDashboardOptions() {
-	arm.wristHelping = wrist_helper_select.GetSelected();
+void Robot::AllPeriodic() {
+    frc::Scheduler::GetInstance()->Run();
+	//arm.wristHelping = wrist_helper_select.GetSelected();
+	LogSensors();
+	
+	
+	constexpr int compressorStopTicks = 50; // one second
+	static int compressorStopCount = 0;
+	static bool compressorStopped = false;
+	
+	if (DriverStation::GetInstance().GetBatteryVoltage() < 10.0 && !compressorStopped) {
+		compressor->Stop();
+		compressorStopCount = 0;
+		compressorStopped = true;
+	}
+	else {
+		++compressorStopCount;
+		if (compressorStopped && compressorStopCount >= compressorStopTicks) {
+			compressor->Start();
+			compressorStopped = false;
+		}
+	}
 }
 
 void Robot::DisabledPeriodic(){
-    frc::Scheduler::GetInstance()->Run();
-    LogSensors();
+    AllPeriodic();
 }
 
 void Robot::LogSensors() {
@@ -109,10 +128,8 @@ void Robot::AutonomousInit() {
     //frc::Scheduler::GetInstance()->AddCommand(&*m_autonomousCommand);
 }
 
-void Robot::AutonomousPeriodic(){
-    frc::Scheduler::GetInstance()->Run();
-    LogSensors();
-    CheckDashboardOptions();
+void Robot::AutonomousPeriodic() {
+    AllPeriodic();
 }
 
 void Robot::TeleopInit(){
@@ -141,9 +158,7 @@ void Robot::TeleopInit(){
 }
 
 void Robot::TeleopPeriodic() {
-    frc::Scheduler::GetInstance()->Run();
-    LogSensors();
-    CheckDashboardOptions();
+    AllPeriodic();
 }
 
 START_ROBOT_CLASS(Robot);
