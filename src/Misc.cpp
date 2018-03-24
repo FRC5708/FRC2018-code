@@ -12,14 +12,14 @@
 // Also provides easy way to implement "dead zone" for output (minPowerOutput) and input.
 double inputTransform(double input, double minPowerOutput, double inputDeadZone, 
 		 double inputChangePosition, double outputChangePosition) {
-	
 
 	double output = 0;
-	double correctedInput = fabs(input) - inputDeadZone;
-	if (correctedInput < 0) correctedInput = 0;
+	double correctedInput = (fabs(input) - inputDeadZone) / (1 - inputDeadZone);
 	
-	
-	if (correctedInput <= inputChangePosition) {
+	if (correctedInput <= 0) {
+		return 0;
+	}
+	else if (correctedInput <= inputChangePosition) {
 		output = (correctedInput / inputChangePosition * (outputChangePosition - minPowerOutput)) + minPowerOutput;
 	}
 	else {
