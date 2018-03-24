@@ -10,7 +10,7 @@ WinchWithJoystick::WinchWithJoystick() {
 
 // Called repeatedly when this Command is scheduled to run
 void WinchWithJoystick::Execute() {
-	if (Robot::joyMode == joystickMode::SINGLE_JOY) {
+	if (Robot::joyMode == JoystickMode::SINGLE_JOY) {
 
 		if (Robot::joystick->GetRawButton(JOY_WINCH_UP)) {
 			Robot::winch.SetMotors(.1);

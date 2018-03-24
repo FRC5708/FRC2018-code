@@ -32,7 +32,7 @@ public:
 	static Winch winch;
 	static Joystick* joystick;
 	static Gyro* gyro;
-	static joystickMode joyMode;
+	static JoystickMode joyMode;
 
 	std::string gameData;
 
@@ -77,7 +77,7 @@ private:
 	frc::SendableChooser<char> location_select;
 	frc::SendableChooser<AutonMode> primary_objective_select;
 	frc::SendableChooser<AutonMode> secondary_objective_select;
-	frc::SendableChooser<joystickMode> control_scheme_select;
+	frc::SendableChooser<JoystickMode> control_scheme_select;
 
 	frc::SendableChooser<char> switch_scale_select;
 	frc::SendableChooser<bool> wrist_helper_select;
@@ -86,7 +86,7 @@ private:
 	frc::Command* clawCommand;
 	frc::Command* winchCommand;
   
-	joystickMode control_scheme;
+	JoystickMode control_scheme;
 	
 	void LogSensors();
 	void AllPeriodic();

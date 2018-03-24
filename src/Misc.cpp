@@ -7,20 +7,23 @@
 
 #include <Misc.h>
 
-// from 0 to inputChangePosition in joystick, power output is 0 to outputChangePosition. This makes the robot easier to control at low speeds.
+// From 0 to inputChangePosition in joystick, power output is 0 to outputChangePosition. 
+// This makes the robot easier to control at low speeds.
+// Also provides easy way to implement "dead zone" for output (minPowerOutput) and input.
 double inputTransform(double input, double minPowerOutput, double inputDeadZone, 
 		 double inputChangePosition, double outputChangePosition) {
 	
 
 	double output = 0;
-	if (fabs(input) <= inputDeadZone) {
-		output = 0;
-	}
-	else if (fabs(input) <= inputChangePosition) {
-		output = (fabs(input) / inputChangePosition * (outputChangePosition - minPowerOutput)) + minPowerOutput;
+	double correctedInput = fabs(input) - inputDeadZone;
+	if (correctedInput < 0) correctedInput = 0;
+	
+	
+	if (correctedInput <= inputChangePosition) {
+		output = (correctedInput / inputChangePosition * (outputChangePosition - minPowerOutput)) + minPowerOutput;
 	}
 	else {
-		output = (fabs(input) - inputChangePosition)
+		output = (correctedInput - inputChangePosition)
 				/ (1 - inputChangePosition)
 				* (1 - outputChangePosition)
 				+ outputChangePosition;

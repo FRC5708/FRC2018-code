@@ -30,6 +30,7 @@ constexpr int BLMotorChannel = 1;
 constexpr int FRMotorChannel = 2;
 constexpr int BRMotorChannel = 3;
 
+// 10 is placeholder that doesn't exist
 constexpr int ArmMotorChannel1 = 10;
 constexpr int ArmMotorChannel2 = 10;
 
@@ -51,8 +52,6 @@ constexpr int ClawSolenoid1Channel[2] = {0,1};
 constexpr int ClawSolenoid2Channel[2] = {4,5};
 constexpr int WristSolenoidChannel[2] = {2,3};
 
-constexpr int gyroChannel = 1;
-
 constexpr double WheelCircumference = 6 * M_PI;
 
 // in inches. 
@@ -61,4 +60,4 @@ constexpr double fieldWidth = 360;
 constexpr double robotLength = 31.9, robotWidth = 27.5;
 
 
-enum joystickMode {SINGLE_JOY, XBOX};
+enum JoystickMode {SINGLE_JOY, XBOX};

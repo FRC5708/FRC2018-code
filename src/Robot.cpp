@@ -19,7 +19,7 @@ Claw Robot::claw;
 Wrist Robot::wrist;
 Joystick* Robot::joystick;
 Gyro* Robot::gyro;
-joystickMode Robot::joyMode = SINGLE_JOY;
+JoystickMode Robot::joyMode = SINGLE_JOY;
 Compressor* compressor;
 
 
@@ -31,9 +31,9 @@ void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string
 	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
 	chooser->AddObject("Switch (left)", AutonMode::leftSwitch);
 	chooser->AddObject("Switch (right)", AutonMode::rightSwitch);
-	chooser->AddObject("Scale (either)", AutonMode::eitherScale);
-	chooser->AddObject("Scale (left)", AutonMode::leftScale);
-	chooser->AddObject("Scale (right)", AutonMode::rightScale);
+	//chooser->AddObject("Scale (either)", AutonMode::eitherScale);
+	//chooser->AddObject("Scale (left)", AutonMode::leftScale);
+	//chooser->AddObject("Scale (right)", AutonMode::rightScale);
 	frc::SmartDashboard::PutData(name, chooser);
 }
 void Robot::RobotInit() {
@@ -73,7 +73,6 @@ void Robot::AllPeriodic() {
     frc::Scheduler::GetInstance()->Run();
 	//arm.wristHelping = wrist_helper_select.GetSelected();
 	LogSensors();
-	
 	
 	constexpr int compressorStopTicks = 50; // one second
 	static int compressorStopCount = 0;
@@ -138,7 +137,7 @@ void Robot::TeleopInit(){
     // continue until interrupted by another command, remove
     // this line or comment it out.
 
-	control_scheme = (joystickMode) control_scheme_select.GetSelected();
+	control_scheme = (JoystickMode) control_scheme_select.GetSelected();
 
     if (m_autonomousCommand != nullptr) {
         m_autonomousCommand->Cancel();
