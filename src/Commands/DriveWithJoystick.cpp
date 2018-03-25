@@ -9,6 +9,13 @@ DriveWithJoystick::DriveWithJoystick()
 
 
 
+void powerRampup(double input, double* outputVar) {
+	if (fabs(input) > fabs(currentLeftPower)) {
+		int sign = (input > 0) ? 1 : -1;
+		*outputVar += 0.1*sign;
+	}
+	if (fabs(input) < fabs(*outputVar)) *outputVar = input;
+}
 // Called repeatedly when this Command is scheduled to run
 void DriveWithJoystick::Execute() {
 	double turn = 0;
@@ -33,19 +40,12 @@ void DriveWithJoystick::Execute() {
 	//Robot::drivetrain.DrivePolar(power, turn);
 	double v = (1-fabs(turn)) * (power) + power;
 	double w = (1-fabs(power)) * (turn) + turn;
-	double r = (v+w)/2;
-	double l = (v-w)/2;
-
-	if(l>currentLeftPower){
-			currentLeftPower+=.1;
-		}else{
-			currentLeftPower-=.1;
-		}
-		if(r>currentRightPower){
-			currentRightPower+=.1;
-		}else{
-			currentRightPower-=.1;
-		}
+	double right = (v+w)/2;
+	double left = (v-w)/2;
+	
+	powerRampup(left, &currentLeftPower);
+	powerRampup(right, &currentRightPower);
+	
 	Robot::drivetrain.Drive(currentLeftPower, currentRightPower);
 }
 
