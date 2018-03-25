@@ -24,9 +24,9 @@ void WinchWithJoystick::Execute() {
 	}
 	else {
 		double power = inputTransform(Robot::joystick->GetRawAxis(XBOX_WINCH_AXIS), 0.1, 0.05, 0, 0);
-		power/=10.0; //So that we don't break things!
+		power/=1.8; //So that we don't break things!
 		if (Robot::joystick->GetRawButton(WINCH_HOLD)) {
-			Robot::winch.StartHold();	
+			if (!Robot::winch.isHolding) Robot::winch.StartHold();	
 		}
 		else {
 			Robot::winch.CancelMoveTo();
