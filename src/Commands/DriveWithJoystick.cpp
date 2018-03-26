@@ -10,7 +10,7 @@ DriveWithJoystick::DriveWithJoystick()
 
 
 void powerRampup(double input, double* outputVar) {
-	if (fabs(input) > fabs(currentLeftPower)) {
+	if (fabs(input) > fabs(*outputVar)) {
 		int sign = (input > 0) ? 1 : -1;
 		*outputVar += 0.1*sign;
 	}
