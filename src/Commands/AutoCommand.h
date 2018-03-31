@@ -60,6 +60,7 @@ private:
 	
 	// This group is used so the claw is only opened after the arm has moved
 	frc::CommandGroup* drivingCommands = new frc::CommandGroup();
+	frc::CommandGroup* shootingCommands = new frc::CommandGroup();
 	
 	bool modePossible(AutonMode mode);
 	AutonMode mode = AutonMode::nothing;

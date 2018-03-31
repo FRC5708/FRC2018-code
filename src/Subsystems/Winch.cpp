@@ -7,7 +7,7 @@ Winch::Winch() : Subsystem("ExampleSubsystem"),
 				 rightMotor(new frc::Spark(rightWinchMotorChannel)), 
 				 encoder(ArmEncoderChannel[0], ArmEncoderChannel[1], true),
 				 positionController(1, 0.01, 0, &encoder, this, 0.02) {
-	encoder.SetDistancePerPulse(1.0/360.0);
+	encoder.SetDistancePerPulse(1.0);
 }
 
 void Winch::SetMotors(double power) {

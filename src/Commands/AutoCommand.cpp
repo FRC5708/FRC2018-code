@@ -12,10 +12,13 @@
 #include "Commands/DriveDistance.h"
 #include "Commands/TurnAngle.h"
 #include "Commands/ArmAuto.h"
+#include "Commands/WinchAuto.h"
+#include "Commands/Clawto.h"
 #include "Commands/AutoCommand.h"
 #include "RobotMap.h"
 
-
+#include <chrono>
+#include <thread>
 
 
 void AutoCommand::MoveToPoint(Point to, bool backwards) {
@@ -79,6 +82,8 @@ void AutoCommand::SetupRoute() {
 
 	else if (mode == AutonMode::crossLine) {
 		AddSequential(new DriveDistance(11*12));
+		shootingCommands->AddSequential(new Clawto());
+
 	}
 	else {
 		
@@ -99,6 +104,12 @@ void AutoCommand::SetupRoute() {
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
 			//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
 			MoveToPoint({ location.x, 10*12 });
+
+			//Experimental nonsense ahead!
+
+			//shootingCommands->AddSequential(new MoveWinchTo());
+
+
 
 		}
 		// scale

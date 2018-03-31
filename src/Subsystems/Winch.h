@@ -10,14 +10,14 @@ class Winch : public frc::Subsystem, PIDOutput {
 public:
 	Winch();
 	void SetMotors(double power);
-	frc::SpeedController* leftMotor;
-	frc::SpeedController* rightMotor;
-	
 	void MoveTo(double motorRevolutions);
 	void CancelMoveTo() { positionController.Disable(); isHolding = false; }
 	void StartHold() { MoveTo(encoder.GetDistance()); isHolding = true; }
 	bool OnTarget() { return positionController.OnTarget(); }
-	
+
+	frc::SpeedController* leftMotor;
+	frc::SpeedController* rightMotor;
+
 	Encoder encoder;
 	PIDController positionController;
 

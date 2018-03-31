@@ -12,6 +12,9 @@
 #include <Commands/DriveWithJoystick.h>
 #include <Commands/WinchWithJoystick.h>
 
+#include <chrono>
+#include <thread>
+
 Drivetrain Robot::drivetrain;
 Arm Robot::arm;
 Winch Robot::winch;
@@ -41,6 +44,11 @@ void Robot::RobotInit() {
 
 	Robot::joystick = new Joystick(0);
 	Robot::gyro = new ADXRS450_Gyro();
+	Robot::gyro->Reset();
+
+	drivetrain.leftEncoder->Reset();
+	drivetrain.rightEncoder->Reset();
+	winch.encoder.Reset();
 
 	//m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	//frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
@@ -101,8 +109,9 @@ void Robot::LogSensors() {
 	SmartDashboard::PutNumber("right encoder (revolutions)", drivetrain.rightEncoder->GetDistance());
 	
 	SmartDashboard::PutNumber("encoder distance (inches)", drivetrain.GetDistance());
-	SmartDashboard::PutNumber("gyro rotation (degrees)", gyro->GetAngle());
-	
+	SmartDashboard::PutNumber("gyro rotation (degrees)", Robot::gyro->GetAngle());
+	SmartDashboard::PutNumber("gyro rotation (rate)", Robot::gyro->GetRate());
+	SmartDashboard::PutNumber("Encoder 4 data(distance)", Robot::winch.encoder.GetDistance());
 	SmartDashboard::PutNumber("Total Current", PowerDistributionPanel(0).GetTotalCurrent());
 }
 
@@ -154,6 +163,10 @@ void Robot::TeleopInit(){
     driveCommand->Start();
     clawCommand->Start();
     winchCommand->Start();
+
+    //Remove when done testing!!!!!
+
+
 }
 
 void Robot::TeleopPeriodic() {
