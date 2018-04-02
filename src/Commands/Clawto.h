@@ -12,12 +12,17 @@ public:
 	Clawto(){};
 	void Initialize() override {
 	Robot::claw.MoveMotors(1.0);
+	Robot::claw.SetMove(START);
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	Robot::claw.MoveMotors(0.0);
+	Robot::claw.SetMove(STOP);
 	}
 	bool IsFinished() override{
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-		return true;}
+		if(Robot::claw.currentMove==STOP){
+			Robot::claw.SetMove(NONE);
+			return true;
+		}
+		return false;}
 };
 
 
