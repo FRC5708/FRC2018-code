@@ -23,8 +23,11 @@ void Claw::Stop(){
 void Claw::SetMove(motorMove moveType){
 	currentMove=moveType;
 	switch(moveType){
-	case START:
+	case FORWARD:
 		MoveMotors(1.0);
+		break;
+	case REVERSE:
+		MoveMotors(-1.0);
 		break;
 	case STOP:
 	case NONE:

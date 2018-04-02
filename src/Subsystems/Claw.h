@@ -6,7 +6,7 @@
 #include "WPILib.h"
 #include <Spark.h>
 
-enum motorMove {START, STOP, NONE};
+enum motorMove {FORWARD, STOP, NONE, REVERSE};
 
 class Claw : public frc::Subsystem {
 private:

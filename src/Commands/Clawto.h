@@ -11,7 +11,7 @@ class Clawto : public frc::Command {
 public:
 	Clawto(){};
 	void Initialize() override {
-	Robot::claw.SetMove(START);
+	Robot::claw.SetMove(FORWARD);
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	Robot::claw.SetMove(STOP);
 	}
