@@ -20,17 +20,16 @@ void Claw::Stop(){
 	solenoid2->Set(frc::DoubleSolenoid::Value::kOff);
 }
 
-void Claw::SetMove(motorMove moveType){
+void Claw::SetMove(MotorMove moveType){
 	currentMove=moveType;
 	switch(moveType){
-	case FORWARD:
+	case MotorMove::FORWARD:
 		MoveMotors(1.0);
 		break;
-	case REVERSE:
+	case MotorMove::REVERSE:
 		MoveMotors(-1.0);
 		break;
-	case STOP:
-	case NONE:
+	case MotorMove::STOP:
 		MoveMotors(0.0);
 	}
 }

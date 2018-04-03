@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #include <Commands/CommandGroup.h>
+#include <Commands/CubeShoot.h>
 #include <math.h>
 #include <iostream>
 
@@ -13,7 +14,6 @@
 #include "Commands/TurnAngle.h"
 #include "Commands/ArmAuto.h"
 #include "Commands/WinchAuto.h"
-#include "Commands/Clawto.h"
 #include "Commands/AutoCommand.h"
 #include "RobotMap.h"
 
@@ -82,8 +82,7 @@ void AutoCommand::SetupRoute() {
 
 	else if (mode == AutonMode::crossLine) {
 		AddSequential(new DriveDistance(11*12));
-		shootingCommands->AddSequential(new Clawto());
-
+		//shootingCommands->AddSequential(new CubeShoot());
 	}
 	else {
 		
@@ -103,14 +102,10 @@ void AutoCommand::SetupRoute() {
 
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
 			//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
-			MoveToPoint({ location.x, 10*12 });
+			MoveToPoint({ location.x, 12*12 - robotLength/2.0 });
 
-			//Experimental nonsense ahead!
-
-			//shootingCommands->AddSequential(new MoveWinchTo());
-
-
-
+			shootingCommands->AddSequential(new CubeShoot());
+			shootingCommands->AddSequential(new MoveClaw(MoveClaw::Open));
 		}
 		// scale
 		else if (mode == AutonMode::leftScale || mode == AutonMode::rightScale) {
@@ -165,7 +160,7 @@ void AutoCommand::SetupRoute() {
 			}*/
 			
 		AddSequential(drivingCommands);
-		AddSequential(new MoveClaw(MoveClaw::Open));
+		AddSequential(shootingCommands);
 	}
 }
 

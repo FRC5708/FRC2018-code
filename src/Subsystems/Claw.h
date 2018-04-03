@@ -6,7 +6,7 @@
 #include "WPILib.h"
 #include <Spark.h>
 
-enum motorMove {FORWARD, STOP, NONE, REVERSE};
+enum struct MotorMove {FORWARD, STOP, REVERSE};
 
 class Claw : public frc::Subsystem {
 private:
@@ -17,14 +17,14 @@ private:
 	SpeedController* motor2 = new Spark(intakeMotorChannel2);
 
 public:
-	motorMove currentMove = NONE;
+	MotorMove currentMove = MotorMove::STOP;
 	Claw();
 	void InitDefaultCommand(){};
 	void Open();
 	void Close();
 	void Stop();
 	void MoveMotors(double power) { motor1->Set(power); motor2->Set(-power); }
-	void SetMove(motorMove);
+	void SetMove(MotorMove);
 };
 
 #endif  // Claw_H
