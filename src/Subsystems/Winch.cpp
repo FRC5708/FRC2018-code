@@ -11,6 +11,7 @@ Winch::Winch() : Subsystem("ExampleSubsystem"),
 }
 
 void Winch::SetMotors(double power) {
+	power = -power;
 	leftMotor->Set(power);
 	rightMotor->Set(-power);
 }
