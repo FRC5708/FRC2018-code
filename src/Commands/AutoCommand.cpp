@@ -94,15 +94,17 @@ void AutoCommand::SetupRoute() {
 			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {*/
 		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch || mode == AutonMode::sideSwitch) {
 			
-			double pos_mult = 1;
-			if (mode == AutonMode::leftSwitch) pos_mult = -1;
-			
 			if (mode == AutonMode::sideSwitch) {
+				double pos_mult = 1;
+				if (robotPosition == 'L') pos_mult = -1;
 				
 				MoveToPoint({location.x, 14*12 }); // center of switch
 				MoveToPoint({(6*12 + robotLength / 2.0) * pos_mult, location.y }, false, 2.0);
 			}
 			else {
+				double pos_mult = 1;
+				if (mode == AutonMode::leftSwitch) pos_mult = -1;
+
 				MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 
 				MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
