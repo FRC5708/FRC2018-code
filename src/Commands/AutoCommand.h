@@ -70,7 +70,7 @@ private:
 	// Only used in beginning for route calculation.
 	Point location = {0, 0};
 	
-	void MoveToPoint(Point to, bool backwards = false);
+	void MoveToPoint(Point to, bool backwards = false, double timeout = INFINITY);
 };
 
 

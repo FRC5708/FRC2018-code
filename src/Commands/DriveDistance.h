@@ -14,8 +14,9 @@
 class DriveDistance : public frc::Command, frc::PIDSource, frc::PIDOutput {
 public:
 	double inchesToDrive;
+	double timeout; // in seconds
 	
-	DriveDistance(double inchesToDrive): inchesToDrive(inchesToDrive) {};
+	DriveDistance(double inchesToDrive, double timeout = INFINITY): inchesToDrive(inchesToDrive), timeout(timeout) {};
 	void Initialize() override;
 	void Execute() override;
 	bool IsFinished() override;
@@ -32,4 +33,6 @@ private:
 	double turningValue = 0;
 
 	frc::PIDController turnPid{ 0.05, 0.001, 0, this, this, 0.02 };
+	
+	std::chrono::steady_clock::time_point startTime;
 };

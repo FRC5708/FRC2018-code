@@ -21,7 +21,7 @@
 #include <thread>
 
 
-void AutoCommand::MoveToPoint(Point to, bool backwards) {
+void AutoCommand::MoveToPoint(Point to, bool backwards, double timeout) {
 	std::cout << "adding point: (" << to.x << ", " << to.y << ")" << std::endl;
 	
 	double x = to.x - location.x;
@@ -40,7 +40,7 @@ void AutoCommand::MoveToPoint(Point to, bool backwards) {
 	
 	drivingCommands->AddSequential(new TurnAngle(angle));
 	//AddSequential(new frc::WaitCommand(0.2));
-	drivingCommands->AddSequential(new DriveDistance(distance));
+	drivingCommands->AddSequential(new DriveDistance(distance, timeout));
 
 	location = to;
 }
@@ -102,7 +102,7 @@ void AutoCommand::SetupRoute() {
 
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
 			//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
-			MoveToPoint({ location.x, 12*12 - robotLength/2.0 });
+			MoveToPoint({ location.x, 12*12 - robotLength/2.0 }, false, 2.0);
 
 			//shootingCommands->AddSequential(new WinchForTime(0.5, -1.0));
 			shootingCommands->AddSequential(new CubeShoot());
