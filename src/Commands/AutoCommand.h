@@ -19,6 +19,7 @@
 		leftSwitch,
 		eitherSwitch,
 		rightSwitch,
+		sideSwitch,
 		
 		leftScale,
 		rightScale,

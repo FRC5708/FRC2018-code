@@ -34,6 +34,7 @@ void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string
 	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
 	chooser->AddObject("Switch (left)", AutonMode::leftSwitch);
 	chooser->AddObject("Switch (right)", AutonMode::rightSwitch);
+	chooser->AddObject("Switch (side)", AutonMode::sideSwitch);
 	//chooser->AddObject("Scale (either)", AutonMode::eitherScale);
 	//chooser->AddObject("Scale (left)", AutonMode::leftScale);
 	//chooser->AddObject("Scale (right)", AutonMode::rightScale);
@@ -63,6 +64,7 @@ void Robot::RobotInit() {
   
 	setupObjectiveChooser(&primary_objective_select, "Primary Obj.");
 	setupObjectiveChooser(&secondary_objective_select, "Secondary Obj.");
+	setupObjectiveChooser(&tertiary_objective_select, "Tertiary Obj.");
 
 	control_scheme_select.AddDefault("Xbox", XBOX);
 	control_scheme_select.AddObject("Joystick", SINGLE_JOY);
@@ -127,10 +129,11 @@ void Robot::AutonomousInit() {
     char location = (char) location_select.GetSelected();
     AutonMode primary_objective = (AutonMode) primary_objective_select.GetSelected();
     AutonMode secondary_objective = (AutonMode) secondary_objective_select.GetSelected();
+    AutonMode tertiary_objective = (AutonMode) secondary_objective_select.GetSelected();
     
 
     m_autonomousCommand = std::unique_ptr<AutoCommand>(new AutoCommand(
-                          location, gameData, { primary_objective, secondary_objective }));
+                          location, gameData, { primary_objective, secondary_objective, tertiary_objective }));
     
     m_autonomousCommand->Start();
     //frc::Scheduler::GetInstance()->AddCommand(&*m_autonomousCommand);

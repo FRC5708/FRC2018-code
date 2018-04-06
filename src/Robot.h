@@ -77,6 +77,7 @@ private:
 	frc::SendableChooser<char> location_select;
 	frc::SendableChooser<AutonMode> primary_objective_select;
 	frc::SendableChooser<AutonMode> secondary_objective_select;
+	frc::SendableChooser<AutonMode> tertiary_objective_select;
 	frc::SendableChooser<JoystickMode> control_scheme_select;
 
 	frc::SendableChooser<char> switch_scale_select;
