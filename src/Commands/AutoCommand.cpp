@@ -102,7 +102,7 @@ void AutoCommand::SetupRoute() {
 
 			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
 			//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
-			MoveToPoint({ location.x, 12*12 - robotLength/2.0 }, false, 2.0);
+			MoveToPoint({ location.x, 12*12 - robotLength/2.0 - 3.0 }, false, 2.0);
 
 			//shootingCommands->AddSequential(new WinchForTime(0.5, -1.0));
 			shootingCommands->AddSequential(new CubeShoot());
