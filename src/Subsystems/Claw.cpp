@@ -24,10 +24,10 @@ void Claw::SetMove(MotorMove moveType){
 	currentMove=moveType;
 	switch(moveType){
 	case MotorMove::FORWARD:
-		MoveMotors(1.0);
+		MoveMotors(-1.0);
 		break;
 	case MotorMove::REVERSE:
-		MoveMotors(-1.0);
+		MoveMotors(1.0);
 		break;
 	case MotorMove::STOP:
 		MoveMotors(0.0);

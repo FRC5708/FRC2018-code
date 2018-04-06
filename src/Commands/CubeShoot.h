@@ -18,14 +18,14 @@ public:
 		if (std::chrono::steady_clock::now() > startTime + std::chrono::milliseconds(500)) {
 			Robot::claw.SetMove(MotorMove::STOP);
 		}
+		else {
+			Robot::claw.SetMove(MotorMove::FORWARD);
+		}
 	}
 	bool IsFinished() override {
-		if(Robot::claw.currentMove == MotorMove::STOP) {
-			return true;
-		}
-		return false;
+		return (Robot::claw.currentMove == MotorMove::STOP);
 	}
-private:
+		private:
 	std::chrono::steady_clock::time_point startTime;
 };
 
