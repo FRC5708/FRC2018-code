@@ -19,3 +19,17 @@ void Claw::Stop(){
 	solenoid1->Set(frc::DoubleSolenoid::Value::kOff);
 	solenoid2->Set(frc::DoubleSolenoid::Value::kOff);
 }
+
+void Claw::SetMove(MotorMove moveType){
+	currentMove=moveType;
+	switch(moveType){
+	case MotorMove::FORWARD:
+		MoveMotors(-1.0);
+		break;
+	case MotorMove::REVERSE:
+		MoveMotors(1.0);
+		break;
+	case MotorMove::STOP:
+		MoveMotors(0.0);
+	}
+}

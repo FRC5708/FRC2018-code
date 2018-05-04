@@ -23,13 +23,13 @@ void ClawWithJoystick::Execute() {
 	}
 	
 	if (Robot::joystick->GetRawButton(INTAKE_IN)) {
-		Robot::claw.MoveMotors(1);
+		Robot::claw.SetMove(MotorMove::REVERSE);
 	}
 	else if (Robot::joystick->GetRawButton(INTAKE_OUT)) {
-		Robot::claw.MoveMotors(-1);		
+		Robot::claw.SetMove(MotorMove::FORWARD);
 	}
 	else {
-		Robot::claw.MoveMotors(0);		
+		Robot::claw.SetMove(MotorMove::STOP);
 	}
 	/*
 	if (Robot::joystick->GetRawButtonPressed(WRIST_TOGGLE)) {

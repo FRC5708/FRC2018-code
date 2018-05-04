@@ -19,6 +19,7 @@
 		leftSwitch,
 		eitherSwitch,
 		rightSwitch,
+		sideSwitch,
 		
 		leftScale,
 		rightScale,
@@ -60,6 +61,7 @@ private:
 	
 	// This group is used so the claw is only opened after the arm has moved
 	frc::CommandGroup* drivingCommands = new frc::CommandGroup();
+	frc::CommandGroup* shootingCommands = new frc::CommandGroup();
 	
 	bool modePossible(AutonMode mode);
 	AutonMode mode = AutonMode::nothing;
@@ -69,7 +71,7 @@ private:
 	// Only used in beginning for route calculation.
 	Point location = {0, 0};
 	
-	void MoveToPoint(Point to, bool backwards = false);
+	void MoveToPoint(Point to, bool backwards = false, double timeout = INFINITY);
 };
 
 

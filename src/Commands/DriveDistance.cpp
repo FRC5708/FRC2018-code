@@ -17,6 +17,7 @@ constexpr double minPower = 0.3;
 #include "RobotMap.h"
 #include <iostream>
 #include <math.h>
+#include <chrono>
 
 
 // Called just before this Command runs the first time
@@ -29,6 +30,8 @@ void DriveDistance::Initialize() {
 	turnPid.SetOutputRange(-0.2, 0.2);
 	turnPid.SetSetpoint(startingAngle);
 	turnPid.Enable();
+	
+	startTime = std::chrono::steady_clock::now();
 
 	std::cout << "driving distance: " << inchesToDrive << " inches" << std::endl;
 }
@@ -40,6 +43,11 @@ void DriveDistance::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool DriveDistance::IsFinished() {
+	if (!std::isinf(timeout) && 
+			std::chrono::steady_clock::now() > startTime + std::chrono::microseconds((int) (timeout * 1000000))) {
+		return true;
+	}
+	
 	double distance = Robot::drivetrain.GetDistance();
 
 	if (inchesToDrive > 0) return distance >= inchesToDrive;

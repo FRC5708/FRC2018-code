@@ -12,6 +12,9 @@
 #include <Commands/DriveWithJoystick.h>
 #include <Commands/WinchWithJoystick.h>
 
+#include <chrono>
+#include <thread>
+
 Drivetrain Robot::drivetrain;
 Arm Robot::arm;
 Winch Robot::winch;
@@ -31,6 +34,7 @@ void setupObjectiveChooser(frc::SendableChooser<AutonMode>* chooser, std::string
 	chooser->AddObject("Switch (either)", AutonMode::eitherSwitch);
 	chooser->AddObject("Switch (left)", AutonMode::leftSwitch);
 	chooser->AddObject("Switch (right)", AutonMode::rightSwitch);
+	chooser->AddObject("Switch (side)", AutonMode::sideSwitch);
 	//chooser->AddObject("Scale (either)", AutonMode::eitherScale);
 	//chooser->AddObject("Scale (left)", AutonMode::leftScale);
 	//chooser->AddObject("Scale (right)", AutonMode::rightScale);
@@ -41,6 +45,11 @@ void Robot::RobotInit() {
 
 	Robot::joystick = new Joystick(0);
 	Robot::gyro = new ADXRS450_Gyro();
+	Robot::gyro->Reset();
+
+	drivetrain.leftEncoder->Reset();
+	drivetrain.rightEncoder->Reset();
+	winch.encoder.Reset();
 
 	//m_chooser.AddDefault("Cross line", { AutonMode::crossLine });
 	//frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
@@ -55,6 +64,7 @@ void Robot::RobotInit() {
   
 	setupObjectiveChooser(&primary_objective_select, "Primary Obj.");
 	setupObjectiveChooser(&secondary_objective_select, "Secondary Obj.");
+	setupObjectiveChooser(&tertiary_objective_select, "Tertiary Obj.");
 
 	control_scheme_select.AddDefault("Xbox", XBOX);
 	control_scheme_select.AddObject("Joystick", SINGLE_JOY);
@@ -101,8 +111,9 @@ void Robot::LogSensors() {
 	SmartDashboard::PutNumber("right encoder (revolutions)", drivetrain.rightEncoder->GetDistance());
 	
 	SmartDashboard::PutNumber("encoder distance (inches)", drivetrain.GetDistance());
-	SmartDashboard::PutNumber("gyro rotation (degrees)", gyro->GetAngle());
-	
+	SmartDashboard::PutNumber("gyro rotation (degrees)", Robot::gyro->GetAngle());
+	SmartDashboard::PutNumber("gyro rotation (rate)", Robot::gyro->GetRate());
+	SmartDashboard::PutNumber("Encoder 4 data(distance)", Robot::winch.encoder.GetDistance());
 	SmartDashboard::PutNumber("Total Current", PowerDistributionPanel(0).GetTotalCurrent());
 }
 
@@ -118,10 +129,11 @@ void Robot::AutonomousInit() {
     char location = (char) location_select.GetSelected();
     AutonMode primary_objective = (AutonMode) primary_objective_select.GetSelected();
     AutonMode secondary_objective = (AutonMode) secondary_objective_select.GetSelected();
+    AutonMode tertiary_objective = (AutonMode) secondary_objective_select.GetSelected();
     
 
     m_autonomousCommand = std::unique_ptr<AutoCommand>(new AutoCommand(
-                          location, gameData, { primary_objective, secondary_objective }));
+                          location, gameData, { primary_objective, secondary_objective, tertiary_objective }));
     
     m_autonomousCommand->Start();
     //frc::Scheduler::GetInstance()->AddCommand(&*m_autonomousCommand);
@@ -154,6 +166,10 @@ void Robot::TeleopInit(){
     driveCommand->Start();
     clawCommand->Start();
     winchCommand->Start();
+
+    //Remove when done testing!!!!!
+
+
 }
 
 void Robot::TeleopPeriodic() {

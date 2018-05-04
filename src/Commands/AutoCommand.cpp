@@ -6,19 +6,22 @@
 /*----------------------------------------------------------------------------*/
 
 #include <Commands/CommandGroup.h>
+#include <Commands/CubeShoot.h>
 #include <math.h>
 #include <iostream>
 
 #include "Commands/DriveDistance.h"
 #include "Commands/TurnAngle.h"
 #include "Commands/ArmAuto.h"
+#include "Commands/WinchAuto.h"
 #include "Commands/AutoCommand.h"
 #include "RobotMap.h"
 
+#include <chrono>
+#include <thread>
 
 
-
-void AutoCommand::MoveToPoint(Point to, bool backwards) {
+void AutoCommand::MoveToPoint(Point to, bool backwards, double timeout) {
 	std::cout << "adding point: (" << to.x << ", " << to.y << ")" << std::endl;
 	
 	double x = to.x - location.x;
@@ -37,7 +40,7 @@ void AutoCommand::MoveToPoint(Point to, bool backwards) {
 	
 	drivingCommands->AddSequential(new TurnAngle(angle));
 	//AddSequential(new frc::WaitCommand(0.2));
-	drivingCommands->AddSequential(new DriveDistance(distance));
+	drivingCommands->AddSequential(new DriveDistance(distance, timeout));
 
 	location = to;
 }
@@ -79,6 +82,7 @@ void AutoCommand::SetupRoute() {
 
 	else if (mode == AutonMode::crossLine) {
 		AddSequential(new DriveDistance(11*12));
+		//shootingCommands->AddSequential(new CubeShoot());
 	}
 	else {
 		
@@ -88,18 +92,29 @@ void AutoCommand::SetupRoute() {
 		/*else if ((robotPosition == 'C' && (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch))
 			|| (robotPosition == 'L' && mode == AutonMode::leftSwitch)
 			|| (robotPosition == 'R' && mode == AutonMode::rightSwitch)) {*/
-		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch) {
+		if (mode == AutonMode::leftSwitch || mode == AutonMode::rightSwitch || mode == AutonMode::sideSwitch) {
 			
-			
-			MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
+			if (mode == AutonMode::sideSwitch) {
+				double pos_mult = 1;
+				if (robotPosition == 'L') pos_mult = -1;
+				
+				MoveToPoint({location.x, 14*12 }); // center of switch
+				MoveToPoint({(6*12 + robotLength / 2.0) * pos_mult, location.y }, false, 2.0);
+			}
+			else {
+				double pos_mult = 1;
+				if (mode == AutonMode::leftSwitch) pos_mult = -1;
 
-			double pos_mult = 1;
-			if (mode == AutonMode::leftSwitch) pos_mult = -1;
+				MoveToPoint({ location.x, location.y + 1.5*12.0 }); // move forward so wall is not hit while turning
 
-			MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
-			//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
-			MoveToPoint({ location.x, 10*12 });
+				MoveToPoint({ 4.5*12.0 * pos_mult, 6*12 });
+				//drivingCommands->AddParallel(new MoveArmTo(ArmPosition::Switch));
+				MoveToPoint({ location.x, 12*12 - robotLength/2.0 - 3.0 }, false, 2.0);
+			}
 
+			//shootingCommands->AddSequential(new WinchForTime(0.5, -1.0));
+			shootingCommands->AddSequential(new CubeShoot());
+			shootingCommands->AddSequential(new MoveClaw(MoveClaw::Open));
 		}
 		// scale
 		else if (mode == AutonMode::leftScale || mode == AutonMode::rightScale) {
@@ -154,7 +169,7 @@ void AutoCommand::SetupRoute() {
 			}*/
 			
 		AddSequential(drivingCommands);
-		AddSequential(new MoveClaw(MoveClaw::Open));
+		AddSequential(shootingCommands);
 	}
 }
 
@@ -169,6 +184,9 @@ bool AutoCommand::modePossible(AutonMode mode) {
 		return scorePositions[1] == 'L';
 	case AutonMode::rightScale:
 		return scorePositions[1] == 'R';
+		
+	case AutonMode::sideSwitch:
+		return scorePositions[0] == robotPosition;
 
 	case AutonMode::eitherScale:
 	case AutonMode::eitherSwitch:
